@@ -1,1 +1,345 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Lara Luise Brenner</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: Arial, sans-serif; font-size: 10pt; color: #000; background: #fff; display: flex; }
+img, video { display:block; max-width:100%; height:auto; }
 
+#sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 220px;
+  height: 100vh;
+  background: #fff;
+  border-right: none;
+  display: flex;
+  flex-direction: column;
+  padding: 24px 16px;
+  z-index: 1000;
+  overflow-y: auto;
+}
+
+#sidebar-header {
+  font: 10pt Arial;
+  line-height: 1.4;
+  margin-bottom: 24px;
+  color: #000;
+}
+
+.tab {
+  font: 10pt Arial;
+  color: #000;
+  background: #fff;
+  border: none;
+  text-align: left;
+  padding: 4px 0;
+  cursor: pointer;
+  user-select: none;
+  display: block;
+  width: 100%;
+  line-height: 1.5;
+}
+.tab:hover { color: #555; }
+.tab.active { color: #0000ff; }
+
+#content {
+  margin-left: 220px;
+  width: calc(100% - 220px);
+}
+
+.sheet {
+  display: block;
+  padding: 24px 40px 80px;
+  min-height: 100vh;
+  border-bottom: none;
+}
+
+p { line-height: 1.6; margin-bottom: 10pt; max-width: 100%; }
+a { color: #000; }
+
+h1 {
+  font-size: 10pt;
+  font-weight: normal;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 16pt;
+}
+
+.note {
+  font-style: italic;
+  margin: 16px 0;
+  max-width: 100%;
+  line-height: 1.6;
+}
+
+  .text-row {
+  display: flex;
+  flex-direction: row;
+  gap: 1vw;
+  margin: 20px 0;
+  width: 100%;
+  align-items: flex-start;
+}
+
+.text-row img {
+  width: 60%;
+  flex: 0 0 60%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+}
+
+.text-col {
+  width: 40%;
+  flex: 0 0 40%;
+  min-width: 0;
+}
+
+.text-col p {
+  max-width: 100%;
+}
+
+.photo-row {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  gap: 1vw;
+  margin: 20px 0;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.photo-row img,
+.photo-row video,
+.comp-wrap {
+  display: block;
+  height: 100%;
+  width: auto;
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+.comp-wrap {
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.comp-wrap video {
+  height: 100%;
+  width: auto;
+  object-fit: contain;
+}
+
+.row-s2-videos { height: 280px; }
+.row-s2-photos { height: 280px; }
+.row-s2-maps { height: 340px; }
+.row-s5-videos { height: 260px; }
+.row-s5-photos { height: 320px; }
+
+.pb {
+  position: absolute;
+  top: 50%;
+  left: 30%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  color: #ff0000;
+  font: 26pt Arial;
+  font-weight: bold;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-shadow: none;
+}
+
+table.events {
+  border-collapse: collapse;
+  font: 10pt Arial;
+  max-width: 820px;
+  margin-bottom: 10pt;
+}
+table.events td {
+  padding: 4px 16px 4px 0;
+  vertical-align: top;
+  font-size: 10pt;
+}
+table.events td:first-child {
+  width: 160px;
+  font-size: 10pt;
+  white-space: nowrap;
+}
+table.events tr.section-head td {
+  font-weight: normal;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 10pt;
+  padding-top: 14px;
+}
+</style>
+</head>
+<body>
+
+<div id="sidebar">
+  <div id="sidebar-header">SPACE TIME TRANSECT<br>Eliott Croubalian and Lara Luise Brenner<br>under Porf. Silvan Linden</div>
+  <button class="tab" onclick="goToSheet('s1')">Erosion</button>
+  <button class="tab" onclick="goToSheet('s2')">Space Time State</button>
+  <button class="tab" onclick="goToSheet('s3')">State + Space = Map</button>
+  <button class="tab" onclick="goToSheet('s4')">Space + Time = Compression</button>
+  <button class="tab" onclick="goToSheet('s5')">Time + State = Sequence</button>
+  <button class="tab" onclick="goToSheet('s6')">Map + Compression + Sequence = Overlay Overload</button>
+  <button class="tab" onclick="goToSheet('s7')">Space Time Transect</button>
+</div>
+
+<div id="content">
+
+<div class="sheet" id="s1">
+<h1>Erosion</h1>
+<div class="photo-row row-s2-videos" style="margin-bottom: none;">
+  <video autoplay loop muted playsinline><source src="01_Amazon.mp4" type="video/mp4"></video>
+  <video autoplay loop muted playsinline><source src="02_Havel.mp4" type="video/mp4"></video>
+  <video autoplay loop muted playsinline><source src="03_panke.mp4" type="video/mp4"></video>
+  <video autoplay loop muted playsinline><source src="04_Spree.mp4" type="video/mp4"></video>
+  <video autoplay loop muted playsinline><source src="05_spreewald.mp4" type="video/mp4"></video>
+  <video autoplay loop muted playsinline><source src="06_ganges.mp4" type="video/mp4"></video>
+</div>
+
+<p class="note">In our research, the Panke River serves as a primary example of a territory in constant transformation. Shaped first by glacial melt, the landscape remains in motion and the river would slowly erode its own path, were it not for our anthropological impact. We observed that human attempts to freeze these meanders in time, in the name of efficiency, often backfire, because the landscape resists static control. This led us to a shift in perspective: we no longer see the territory as a fixed condition, but as an entropic mixture. To map this entropy, we have to understand time as an active physical force, one that produces both decay and accumulation.</p>
+
+  
+<div class="sheet" id="s2">
+<h1>Space Time State</h1>
+<p style="font-size:10pt; font-style: italic; margin-bottom:4px">with Eliott Croubalian &nbsp;</p>
+
+
+<div class="photo-row row-s2-videos" style="margin-bottom: none;">
+  <img src="IMG_6909.jpeg" alt="Field survey Panke">
+  <img src="BF39C335-6EBB-41ED-AF19-46555667780D-2.JPG" alt="Infrastructure">
+  <img src="361A5F8C-AA9B-47CB-9034-93A739BD99F6-3.JPG" alt="Field specimens">
+  <video autoplay loop muted playsinline><source src="THEMES.mp4" type="video/mp4"></video>
+  
+</div>
+
+<p class="note">To make this process legible, we first organized the terrain through a matrix of SPACE, TIME and STATE. This method worked well in pairs: history and geography could produce palimpsests, while history and condition could be traced through datasets and chronological shifts. But when all three axes were combined, the center of the matrix collapsed into a void. The result was what we came to call an “overlay overload,” in which too many layers rendered the drawing unreadable.</p>
+<div class="photo-row row-s2-maps" style="margin-bottom: 20px;">
+  <div class="comp-wrap" onclick="toggleCompVideo(this)">
+    <video>
+      <source src="comp.mp4" type="video/mp4">
+    </video>
+    <div class="pb">PRESS HERE TO PLAY</div>
+  </div>
+  <video autoplay loop muted playsinline><source src="time_maps.mp4" type="video/mp4"></video>
+  <video autoplay loop muted playsinline><source src="info_Maps.mp4" type="video/mp4"></video>
+</div>
+
+<p class="note">To address this problem, we developed the space-time transect. This instrument rests on two conceptual operations. First, we flatten spatial depth: the vertical space of a traditional map is compressed until geography becomes a single horizontal line of distance, <em>x</em>. Then we replace the vertical axis with time, <em>t</em>. In this way, we give up spatial depth in order to gain temporal depth. The result is a map that allows historical events and material conditions to be grasped with an intuitive understanding of what we are already used to from reading space-dimensional maps. We imagine Geological strata, ownership patterns, and hydrological traces along a timeline can then be understood and made accessible.</p>
+
+<img src="TRANSECT.png" alt="Space-Time Transect drawing" style="width:100%; margin: 20px 0;">
+  
+
+
+<p class="note">Midterm status, SS 2026. The project is still very much a work in Progress</p>
+</div>
+
+<div class="sheet" id="s3">
+<h1>State + Space = Map</h1>
+<p style="font-size:10pt; font-style: italic; margin-bottom:16px">resulting in single Layer</p>
+</div>
+
+<div class="sheet" id="s4">
+<h1>Space + Time = Compression</h1>
+<p style="font-size:10pt; font-style: italic; margin-bottom:16px">resulting in Palimpseste</p>
+</div>
+
+<div class="sheet" id="s5">
+<h1>Time + State = Sequence</h1>
+<p style="font-size:10pt; font-style: italic; margin-bottom:16px">resulting in TIMELINE</p>
+</div>
+
+<div class="sheet" id="s6">
+<h1>Overlay Overload</h1>
+<img src="overlay_overload.png">
+</div>
+
+<div class="sheet" id="s7">
+<h1>Space Time Transect</h1>
+<p class="note">To address this problem, we developed the space-time transect. This instrument rests on two conceptual operations. First, we flatten spatial depth: the vertical space of a traditional map is compressed until geography becomes a single horizontal line of distance, <em>x</em>. Then we replace the vertical axis with time, <em>t</em>. In this way, we give up spatial depth in order to gain temporal depth. The result is a map that allows historical events and material conditions to be grasped with an intuitive understanding of what we are already used to from reading space-dimensional maps. We imagine Geological strata, ownership patterns, and hydrological traces along a timeline can then be understood and made accessible.</p>
+
+<img src="TRANSECT.png" alt="Space-Time Transect drawing" style="width:100%; margin: 20px 0;">
+  
+</div>
+
+<div class="sheet" id="s8"> 
+<h1>References</h1>
+<p class="note">accompanying literature:</p>
+  
+<div class="photo-row row-s2-videos" style="margin-bottom: 20px;">
+  <img src="IMG_7728.JPG">
+  <img src="IMG_7726.jpg">
+  <img src="IMG_7725.JPG">
+  <img src="IMG_7723.jpeg">
+  <img src="IMG_7722.JPG">
+  <img src="IMG_7721.JPG">
+  <img src="IMG_7724.JPG">
+</div>
+
+<p>References:</p>
+<p>to be continued</p>
+
+<script>
+const sheetIds = ['s1','s2','s3','s4','s5','s6','s7'];
+
+function goToSheet(id) {
+  document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+}
+
+function toggleCompVideo(wrapper) {
+  const v = wrapper.querySelector('video');
+  const o = wrapper.querySelector('.pb');
+  if (v.paused) {
+    v.play();
+    o.style.display = 'none';
+  } else {
+    v.pause();
+    o.style.display = 'flex';
+  }
+}
+
+const observer = new IntersectionObserver((entries) => {
+  let best = null;
+  entries.forEach(entry => {
+    if (entry.isIntersecting && (!best || entry.intersectionRatio > best.intersectionRatio)) best = entry;
+  });
+  if (best) setActive(best.target.id);
+}, { root: null, threshold: [0.1, 0.3, 0.5] });
+
+document.querySelectorAll('.sheet').forEach(s => observer.observe(s));
+
+function setActive(id) {
+  document.querySelectorAll('.tab').forEach((t, i) => t.classList.toggle('active', sheetIds[i] === id));
+}
+
+setActive('s1');
+
+document.addEventListener('keydown', e => {
+  const visible = [...document.querySelectorAll('.sheet')].reduce((best, s) => {
+    const r = s.getBoundingClientRect();
+    const vis = Math.min(r.bottom, window.innerHeight) - Math.max(r.top, 0);
+    return vis > (best.vis || 0) ? { el: s, vis } : best;
+  }, {});
+  if (!visible.el) return;
+  const i = sheetIds.indexOf(visible.el.id);
+  if (e.key === 'ArrowDown' && i < sheetIds.length - 1) goToSheet(sheetIds[i + 1]);
+  if (e.key === 'ArrowUp' && i > 0) goToSheet(sheetIds[i - 1]);
+});
+</script>
+</body>
+</html>

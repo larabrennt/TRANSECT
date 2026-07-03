@@ -123,7 +123,7 @@ figcaption {
   margin: 20px 0;
   width: 100%;
   max-width: 100%;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .photo-row img,
@@ -148,24 +148,31 @@ figcaption {
 }
 .photo-row figure img,
 .photo-row figure video {
+  flex: 1 1 auto;
   height: auto;
   width: auto;
-  max-height: calc(100% - 20px);
+  min-height: 0;
   object-fit: contain;
 }
 .photo-row figure figcaption {
+  flex: 0 0 auto;
   text-align: center;
+  padding-top: 4px;
 }
 
 .comp-wrap {
   position: relative;
   cursor: pointer;
   overflow: hidden;
+  height: 320px;
+  width: 100%;
+  margin: 20px 0;
 }
 
 .comp-wrap video {
   height: 100%;
   width: auto;
+  margin: 0 auto;
   object-fit: contain;
 }
 
@@ -223,10 +230,10 @@ table.events tr.section-head td {
   <div id="sidebar-header">SPACE TIME TRANSECT<br>Project by <br>Eliott Croubalian and <br>Lara Luise Brenner<br>under Porf. Silvan Linden</div>
   <button class="tab" onclick="goToSheet('s1')">Erosion led to Entropy</button>
   <button class="tab" onclick="goToSheet('s2')">Space Time State</button>
-  <button class="tab" onclick="goToSheet('s3')">  State <br>+ Space <br>= Map</button>
-  <button class="tab" onclick="goToSheet('s4')">  Space <br>+ Time <br>= Compression</button>
-  <button class="tab" onclick="goToSheet('s5')">  Time <br>+ State <br>= Sequence</button>
-  <button class="tab" onclick="goToSheet('s6')">  Map <br>+ Compression <br>+ Sequence <br>= Overlay Overload</button>
+  <button class="tab" onclick="goToSheet('s3')">State <br>+ Space <br>= Map</button>
+  <button class="tab" onclick="goToSheet('s4')">Space <br>+ Time <br>= Compression</button>
+  <button class="tab" onclick="goToSheet('s5')">Time <br>+ State <br>= Sequence</button>
+  <button class="tab" onclick="goToSheet('s6')">Map <br>+ Compression <br>+ Sequence <br>= Overlay Overload</button>
   <button class="tab" onclick="goToSheet('s7')">Space Time Transect</button>
   <button class="tab" onclick="goToSheet('s8')">References</button>
 </div>
@@ -344,10 +351,14 @@ table.events tr.section-head td {
     <figcaption>Pollenanalyse des 7. Jhd. Burg Blankenburg</figcaption>
   </figure>
 </div>
-<p>Das Untersuchungsgebiet zwischen Französisch Buchholz, der Panke-Niederung und Blankenburg nimmt innerhalb der Berliner Quartärgeologie eine Schlüsselrolle ein. Als integraler Bestandteil der Barnim-Platte ist die Landschaft das Resultat hocheffizienter glazialer und glaziofluvialer Prozesse, die nicht nur das Relief vorgaben, sondern durch die spezifische Substratverteilung auch die ökonomischen Dispositions-Expositions-Muster für die spätere slawische und mittelalterliche Besiedlung determinierten. Die morphologische Basis wurde während der Weichsel-Kaltzeit geschaffen. Während die Brandenburg-Phase (W1B) den maximalen Eisvorstoß markiert, wird die nachfolgende Frankfurt-Phase (W1F) im Untersuchungsraum heute als rezessives Stadium bzw. Haltephase während des Eisrückzugs interpretiert. Aktuelle LiDAR-Analysen nach Hardt et al. (2015) belegen, dass die W1F hier nicht durch eine klassische Endmoräne, sondern durch eine Serie von etwa zehn charakteristischen, bogenförmigen Wallformen (Loben-Strukturen) repräsentiert wird. Diese bestehen vorwiegend aus Geschiebemergel, der über glaziofluvialen Sanden abgelagert wurde. In der Geochronologie besteht ein Diskurs zwischen OSL-Datierungen (24.000&ndash;20.000 BP) und SED-Datierungen an Erratika, die ein jüngeres Alter von ca. 19.000 BP nahelegen. Die Panke bildet eine tief in die Grundmoräne eingeschnittene Schmelzwasserrinne, die während der Abschmelzphasen als Entwässerungsbahn fungierte. Sie trennt die heute landwirtschaftlich und siedlungsgeschichtlich bedeutsamen Hochflächen von Blankenburg und Französisch Buchholz und schuf eine ökologische Nische mit hohem Feuchtpotenzial. Die Bodenmatrix bestimmt die historische Landnutzungsintensität: Geschiebemergel ist ein nährstoffreiches, kalkhaltiges Substrat der Grundmoräne und Basis der fruchtbaren Hufengewannflur; glaziofluviale Sande akkumulierten in Rinnen und auf Schüttungsflächen und sind oft nährstoffarm; glaziolimnische Sedimente sind Beckenablagerungen lokaler Stillgewässer; Flugsande bildeten spätglaziale Dünenkomplexe, die als "12-jähriges Roggenland" (ertragsarme Grenzertragsböden) nur extensiv nutzbar waren. Diese geologische Diversität bildet das physische Archiv, welches durch palynologische Befunde in den feuchten Niederungsarchiven der Region biologisch komplementiert wird.</p>
-<p>Die Palynologie stellt die zentrale Methode dar, um die Transformation der Naturlandschaft in eine Kulturlandschaft zu rekonstruieren. Die Untersuchungen an der altslawischen Burg Blankenburg (7. Jahrhundert) erlauben eine präzise Identifikation frühgeschichtlicher Wirtschaftsformen auf der Barnim-Platte. Das Spektrum von Blankenburg zeigt eine Dominanz von <em>Pinus</em> (Kiefer) und <em>Quercus</em> (Eiche), weist jedoch eine regionale Besonderheit auf: Die Werte für <em>Carpinus</em> (Hainbuche) erreichen hier die höchsten bisher für diesen Zeitraum im Gebiet der DDR nachgewiesenen Superlative. Dies deutet auf eine spezifische Zusammensetzung der lokalen Laubmischwälder hin. Der Ackerbau war die primäre ökonomische Basis, wie die hohe Diversität an Kulturpflanzen belegt: Roggen (<em>Secale cereale</em>) war das dominante Hauptgetreide mit dem stärksten Pollennachweis, Weizen (<em>Triticum sp.</em>) ein bedeutendes Brotgetreide, Gerste (<em>Hordeum vulgare</em>) fester Bestandteil der Fruchtfolge, Hafer (<em>Avena sativa</em>) nachgewiesen aber untergeordnet, Hirse (<em>Panicum miliaceum</em>) durch unverkohlte Spelzenreste sicher belegt, und Lein (<em>Linum usitatissimum</em>) aufgrund von Einzelfunden wahrscheinlich angebaut. Das Verhältnis von Getreidepollen zu <em>Plantago lanceolata</em> (Spitzwegerich) dient als Indikator für das Verhältnis von Ackerbau zu Viehzucht. Mit einer Indexzahl von 7,1 zeigt Blankenburg eine extrem starke Fokussierung auf den Getreideanbau. Im Gegensatz zu nördlicheren slawischen Siedlungsgebieten (Index &lt; 3) erlaubten die Geschiebemergel-Böden des Barnim eine hochintensive agrarische Nutzung. Der massive Bedarf an Bauholz für den Burgenbau (ca. 12.000 m&sup3;) führte zu einem signifikanten Eichenschwund (<em>Quercus</em>-Rückgang). Die daraus resultierenden siedlungsbedingten Freiflächen begünstigten lichtliebende Pionierarten. Dies erklärt die Überrepräsentation von <em>Pinus</em> und <em>Betula</em> (Birke) in den Pollenspektren dieser Periode, die nicht zwingend auf eine Bewaldung, sondern auf offene Habitate und Fernflug hindeuten.</p>
-<p>Die Genese des Nordbarnims ist ein dynamischer Prozess, bei dem klimatische Parameter zunehmend durch anthropogene Gestaltungskräfte abgelöst wurden. Die heutige Morphologie ist ein Palimpsest dieser Phasen. Um ~24.000&ndash;19.000 BP (Weichsel-Hochglazial) bildeten sich die Loben-Strukturen der Frankfurt-Phase; diese 1000&ndash;1500 m langen und 6&ndash;10 m hohen Rücken prägen die Oberflächengestalt, wobei diskursiv OSL-Daten (24&ndash;20 ka) gegen SED-Daten (~19 ka) stehen. Im Spätglazial kam es zu periglaziärer Überformung und zur Entstehung von Dünenkomplexen (z. B. Baumberge bei Heiligensee) durch äolische Dynamik. Im 7. Jahrhundert n. Chr. wurde die slawische Burg Blankenburg etabliert, mit selektiver Entnahme von <em>Quercus</em> und Beginn intensiven Getreidebaus auf den fruchtbaren Hochflächen. Im 13. Jahrhundert (Deutsche Ostsiedlung) erfolgte die Gründung von Angerdörfern wie Heiligensee und Französisch Buchholz (ca. 1230), begleitet von einem rapiden Anstieg von Roggenpollen und dem Auftreten von <em>Centaurea cyanus</em> (Kornblume). Während die slawische Landnutzung durch punktuelle Intensität (Burgenbau) charakterisiert war, markiert das 13. Jahrhundert den Übergang zur flächigen Extensivierung. Das System der Dreifelderwirtschaft und die Einführung der Wölbacker-Kultur führten zu einer dauerhaften Umgestaltung der Bodenprofile.</p>
-<p>Die anthropogene Erschließung der Panke-Niederung und der angrenzenden Barnim-Hochflächen induzierte irreversible ökologische Sukzessionen und sedimentologische Veränderungen. Die ursprüngliche Leitgesellschaft war der subkontinental geprägte Traubeneichen-Buchenwald. Der entscheidende anthropogene Eingriff war die gezielte Verdrängung der Rotbuche (<em>Fagus sylvatica</em>). Durch Holzentnahme und Waldweide entwickelte sich zunächst ein Eichen-Birken-Kiefernwald. Die kontinuierliche Beeinflussung führte schließlich zur Herausbildung des heutigen Traubeneichen-Linden-Hainbuchenwaldes, in dem die Buche weitgehend fehlt. Die Anlage von Wölbäckern aktivierte massive Denudationsprozesse. Durch die starre Pflugschar wurde Oberboden zur Ackermitte verlagert, was die Kuppen erhöhte und die Furchen bis in den Bv-Horizont kappte. Ein signifikanter Beleg hierfür ist der zunehmende Sandgehalt in der Kalkmudde des Heiligensee-Bohrungskerns (Fiege &amp; Böse 2021), der die anthropogen induzierte Bodenerosion hochauflösend dokumentiert. Die Analysen von Lange und Brande destillieren drei Kernerkenntnisse: die agrarische Dominanz auf dem Barnim ist direkt an das Substrat des Geschiebemergels gekoppelt; der Burgenbau war der Hauptkatalysator für den selektiven Rückgang von <em>Quercus</em>; und die heutige Vorherrschaft des Traubeneichen-Linden-Hainbuchenwaldes ist das direkte Resultat der menschlich induzierten Verdrängung von <em>Fagus sylvatica</em>. Zusammenfassend lässt sich konstatieren, dass die Region zwischen Französisch Buchholz und Blankenburg ihre Identität aus der Symbiose von weichselzeitlicher Reliefvorgabe &ndash; insbesondere den rezessiven Loben-Strukturen &ndash; und einer jahrtausendealten agrarischen Transformation bezieht. Die Landschaft ist kein statisches Erbe, sondern ein dynamisches Resultat anthropogener Denudation und vegetationsgeschichtlicher Steuerung.</p>
+
+<p>Das Untersuchungsgebiet zwischen Französisch Buchholz, der Panke-Niederung und Blankenburg nimmt innerhalb der Berliner Quartärgeologie eine Schlüsselrolle ein. Als Bestandteil der Barnim-Platte ist die Landschaft das Resultat glazialer und glaziofluvialer Prozesse, die das Relief sowie über die Substratverteilung auch die spätere slawische und mittelalterliche Besiedlung prägten. Die morphologische Basis entstand während der Weichsel-Kaltzeit: Während die <em>Brandenburg-Phase (W1B)</em> den maximalen Eisvorstoß markiert, gilt die nachfolgende <em>Frankfurt-Phase (W1F)</em> heute als rezessives Haltestadium des Eisrückzugs. Aktuelle LiDAR-Analysen (Hardt et al. 2015) zeigen, dass die W1F hier nicht durch eine klassische Endmoräne, sondern durch rund zehn bogenförmige <em>Loben-Strukturen</em> aus Geschiebemergel über glaziofluvialen Sanden repräsentiert wird &ndash; wobei OSL-Datierungen (24.000&ndash;20.000 BP) und jüngere SED-Datierungen (~19.000 BP) diskursiv nebeneinanderstehen. Die Panke selbst bildet eine tief eingeschnittene Schmelzwasserrinne, die die fruchtbaren Hochflächen von Blankenburg und Französisch Buchholz trennt und eine feuchte ökologische Nische schuf. Entscheidend für die historische Landnutzung war die <em>Bodenmatrix</em>: nährstoffreicher <em>Geschiebemergel</em> bildete die Basis der fruchtbaren Ackerflur, während glaziofluviale Sande, glaziolimnische Sedimente und spätglaziale Flugsanddünen überwiegend nährstoffarm und nur extensiv nutzbar waren.</p>
+
+<p>Die <em>Palynologie</em> ist die zentrale Methode zur Rekonstruktion des Übergangs von Natur- zu Kulturlandschaft. Die Pollenbefunde der altslawischen Burg Blankenburg (7. Jahrhundert) zeigen eine Dominanz von <em>Pinus</em> und <em>Quercus</em>, mit regional außergewöhnlich hohen <em>Carpinus</em>-Werten. Der Ackerbau bildete die wirtschaftliche Basis: <em>Roggen (Secale cereale)</em> dominierte klar vor Weizen, Gerste, Hafer, Hirse und Lein. Mit einem Getreide-Plantago-Index von 7,1 zeigt Blankenburg eine außergewöhnlich starke Fokussierung auf Getreideanbau &ndash; deutlich stärker als in nördlicheren slawischen Siedlungsgebieten (Index &lt; 3) &ndash;, ermöglicht durch die fruchtbaren Geschiebemergel-Böden. Der hohe Holzbedarf für den Burgenbau (ca. 12.000 m&sup3;) führte zu einem signifikanten <em>Eichenschwund</em>, dessen entstandene Freiflächen lichtliebende Pionierarten wie <em>Pinus</em> und <em>Betula</em> begünstigten.</p>
+
+<p>Die Genese des Nordbarnims zeigt einen Übergang von klimatischen zu zunehmend anthropogenen Steuerungskräften. Im Weichsel-Hochglazial (~24.000&ndash;19.000 BP) entstanden die charakteristischen <em>Loben-Strukturen</em> der Frankfurt-Phase; im Spätglazial folgten periglaziäre Überformung und äolische Dünenbildung. Im 7. Jahrhundert etablierte sich die slawische Burg Blankenburg mit selektiver Eichennutzung und intensivem Getreidebau. Die deutsche Ostsiedlung im 13. Jahrhundert brachte mit der Gründung von Angerdörfern wie Französisch Buchholz (ca. 1230) einen deutlichen Anstieg der Roggenpollen sowie die <em>Dreifelderwirtschaft</em> und <em>Wölbacker-Kultur</em>, die die Bodenprofile dauerhaft veränderten.</p>
+
+<p>Die anthropogene Erschließung induzierte irreversible ökologische und sedimentologische Veränderungen. Die ursprüngliche Waldgesellschaft, ein <em>Traubeneichen-Buchenwald</em>, wurde durch gezielte Verdrängung der <em>Rotbuche (Fagus sylvatica)</em> zunächst zu einem Eichen-Birken-Kiefernwald und schließlich zum heutigen <em>Traubeneichen-Linden-Hainbuchenwald</em> umgeformt. Die Wölbacker-Anlage aktivierte massive Denudationsprozesse, dokumentiert durch steigenden Sandgehalt in der Kalkmudde des Heiligensee-Bohrkerns (Fiege &amp; Böse 2021). Zusammenfassend resultiert die Identität der Region aus der Symbiose von weichselzeitlicher Reliefvorgabe &ndash; insbesondere den rezessiven Loben-Strukturen &ndash; und einer jahrtausendealten agrarischen Transformation: Die Landschaft ist kein statisches Erbe, sondern das dynamische Resultat anthropogener Denudation und vegetationsgeschichtlicher Steuerung.</p>
 </div>
 
 <div class="sheet" id="s6">

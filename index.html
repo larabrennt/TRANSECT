@@ -76,6 +76,18 @@ h1 {
   line-height: 1.6;
 }
 
+figure {
+  margin: 0;
+  display: block;
+}
+figcaption {
+  font: 9pt Arial;
+  font-style: italic;
+  color: #555;
+  margin-top: 6px;
+  line-height: 1.4;
+}
+
 .text-row {
   display: flex;
   flex-direction: row;
@@ -126,6 +138,25 @@ h1 {
   object-fit: contain;
 }
 
+.photo-row figure {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: 100%;
+}
+.photo-row figure img,
+.photo-row figure video {
+  height: auto;
+  width: auto;
+  max-height: calc(100% - 20px);
+  object-fit: contain;
+}
+.photo-row figure figcaption {
+  text-align: center;
+}
+
 .comp-wrap {
   position: relative;
   cursor: pointer;
@@ -142,7 +173,7 @@ h1 {
 .row-s2-photos { height: 280px; }
 .row-s2-maps { height: 800px; }
 .row-s5-videos { height: 480px; }
-.row-s5-photos { height: 1500px; }
+.row-s5-photos { height: 900px; }
 
 .pb {
   position: absolute;
@@ -192,10 +223,10 @@ table.events tr.section-head td {
   <div id="sidebar-header">SPACE TIME TRANSECT<br>Project by <br>Eliott Croubalian and <br>Lara Luise Brenner<br>under Porf. Silvan Linden</div>
   <button class="tab" onclick="goToSheet('s1')">Erosion led to Entropy</button>
   <button class="tab" onclick="goToSheet('s2')">Space Time State</button>
-  <button class="tab" onclick="goToSheet('s3')"> State <br>+ Space <br>= Map</button>
-  <button class="tab" onclick="goToSheet('s4')"> Space <br>+ Time <br>= Compression</button>
-  <button class="tab" onclick="goToSheet('s5')"> Time <br>+ State <br>= Sequence</button>
-  <button class="tab" onclick="goToSheet('s6')"> Map <br>+ Compression <br>+ Sequence <br>= Overlay Overload</button>
+  <button class="tab" onclick="goToSheet('s3')">  State <br>+ Space <br>= Map</button>
+  <button class="tab" onclick="goToSheet('s4')">  Space <br>+ Time <br>= Compression</button>
+  <button class="tab" onclick="goToSheet('s5')">  Time <br>+ State <br>= Sequence</button>
+  <button class="tab" onclick="goToSheet('s6')">  Map <br>+ Compression <br>+ Sequence <br>= Overlay Overload</button>
   <button class="tab" onclick="goToSheet('s7')">Space Time Transect</button>
   <button class="tab" onclick="goToSheet('s8')">References</button>
 </div>
@@ -205,32 +236,68 @@ table.events tr.section-head td {
 <div class="sheet" id="s1">
 <h1>Erosion led to Entropy</h1>
 <div class="photo-row row-s2-videos" style="margin-bottom: none;">
-  <video autoplay loop muted playsinline><source src="01_Amazon.mp4" type="video/mp4"></video>
-  <video autoplay loop muted playsinline><source src="02_Havel.mp4" type="video/mp4"></video>
-  <video autoplay loop muted playsinline><source src="03_panke.mp4" type="video/mp4"></video>
-  <video autoplay loop muted playsinline><source src="04_Spree.mp4" type="video/mp4"></video>
-  <video autoplay loop muted playsinline><source src="05_spreewald.mp4" type="video/mp4"></video>
-  <video autoplay loop muted playsinline><source src="06_ganges.mp4" type="video/mp4"></video>
+  <figure>
+    <video autoplay loop muted playsinline><source src="01_Amazon.mp4" type="video/mp4"></video>
+    <figcaption></figcaption>
+  </figure>
+  <figure>
+    <video autoplay loop muted playsinline><source src="02_Havel.mp4" type="video/mp4"></video>
+    <figcaption></figcaption>
+  </figure>
+  <figure>
+    <video autoplay loop muted playsinline><source src="03_panke.mp4" type="video/mp4"></video>
+    <figcaption></figcaption>
+  </figure>
+  <figure>
+    <video autoplay loop muted playsinline><source src="04_Spree.mp4" type="video/mp4"></video>
+    <figcaption></figcaption>
+  </figure>
+  <figure>
+    <video autoplay loop muted playsinline><source src="05_spreewald.mp4" type="video/mp4"></video>
+    <figcaption></figcaption>
+  </figure>
+  <figure>
+    <video autoplay loop muted playsinline><source src="06_ganges.mp4" type="video/mp4"></video>
+    <figcaption></figcaption>
+  </figure>
 </div>
 
 <p class="note">In our research, the Panke River serves as a primary example of a territory in constant transformation. Shaped first by glacial melt, the landscape remains in motion and the river would slowly erode its own path, were it not for our anthropological impact. We observed that human attempts to freeze these meanders in time, in the name of efficiency, often backfire, because the landscape resists static control. This led us to a shift in perspective: we no longer see the territory as a fixed state, but as an entropic mixture. To map this entropy, we have to understand time as an active physical force, one that produces both change and compression.</p>
-<img src="coupes_1.jpg" alt="Panke drawing">
+<figure>
+  <img src="coupes_1.jpg" alt="Panke drawing">
+  <figcaption></figcaption>
+</figure>
 </div>
 
 <div class="sheet" id="s2">
 <h1>Space Time State</h1>
 
 <p class="note">To make this process legible, we first organized the terrain through a 3-dimensional matrix of SPACE, TIME and STATE.</p>
-<img src="Matrix.png" style="width:600px;" alt="insert Diagramm SPACE TIME STATE">
+<figure>
+  <img src="Matrix.png" style="width:600px;" alt="insert Diagramm SPACE TIME STATE">
+  <figcaption></figcaption>
+</figure>
 
 <div class="photo-row row-s5-videos" style="margin-bottom: none;">
-  <img src="IMG_6909.jpeg" alt="Field survey Panke">
-  <img src="BF39C335-6EBB-41ED-AF19-46555667780D-2.JPG" alt="Infrastructure">
-  <img src="361A5F8C-AA9B-47CB-9034-93A739BD99F6-3.JPG" alt="Field specimens">
-  <video autoplay loop muted playsinline><source src="THEMES.mp4" type="video/mp4"></video>
+  <figure>
+    <img src="IMG_6909.jpeg" alt="Field survey Panke">
+    <figcaption></figcaption>
+  </figure>
+  <figure>
+    <img src="BF39C335-6EBB-41ED-AF19-46555667780D-2.JPG" alt="Infrastructure">
+    <figcaption></figcaption>
+  </figure>
+  <figure>
+    <img src="361A5F8C-AA9B-47CB-9034-93A739BD99F6-3.JPG" alt="Field specimens">
+    <figcaption></figcaption>
+  </figure>
+  <figure>
+    <video autoplay loop muted playsinline><source src="THEMES.mp4" type="video/mp4"></video>
+    <figcaption></figcaption>
+  </figure>
 </div>
-  
-<div class="comp-wrap" onclick="toggleCompVideo(this)>
+
+<div class="comp-wrap" onclick="toggleCompVideo(this)">
     <video>
       <source src="comp.mp4" type="video/mp4">
     </video>
@@ -243,15 +310,24 @@ table.events tr.section-head td {
 <h1>State + Space = Map</h1>
 <p style="font-size:10pt; font-style: italic; margin-bottom:none">resulting in single Layers</p>
   <div class="photo-row row-s2-maps" style="margin-bottom: none;">
-  <video autoplay loop muted playsinline><source src="time_maps.mp4" type="video/mp4"></video>
-  <video autoplay loop muted playsinline><source src="info_Maps.mp4" type="video/mp4"></video>
+  <figure>
+    <video autoplay loop muted playsinline><source src="time_maps.mp4" type="video/mp4"></video>
+    <figcaption></figcaption>
+  </figure>
+  <figure>
+    <video autoplay loop muted playsinline><source src="info_Maps.mp4" type="video/mp4"></video>
+    <figcaption></figcaption>
+  </figure>
 </div>
 </div>
 
 <div class="sheet" id="s4">
 <h1>Space + Time = Compression</h1>
 <p style="font-size:10pt; font-style: italic; margin-bottom:none">resulting in Palimpseste</p>
-<img src="Palimpsest.png" alt="Drawing Palimpseste">
+<figure>
+  <img src="Palimpsest.png" alt="Drawing Palimpseste">
+  <figcaption></figcaption>
+</figure>
 <p class="note">@Eliott: Maybe not only Palimpseste, but also the Geological Cut, which Exchanges the x with z, but somehow z also = t in a Geological cut? But hard to read for amateurs</p>
 </div>
 
@@ -259,8 +335,14 @@ table.events tr.section-head td {
 <h1>Time + State = Sequence</h1>
 <p style="font-size:10pt; font-style: italic; margin-bottom:none">resulting in TIMELINE</p>
 <div class="photo-row row-s5-photos" style="margin-bottom: 20px;">
-  <img src="Timeline_Page_1.png" alt="Timeline Document">
-  <img src="Pollenanalysis.png" alt="Pollenanalysis">
+  <figure>
+    <img src="Timeline_Page_1.png" alt="Timeline Document">
+    <figcaption>Part of Timechart of events</figcaption>
+  </figure>
+  <figure>
+    <img src="Pollenanalysis.png" alt="Pollenanalysis">
+    <figcaption>Pollenanalyse des 7. Jhd. Burg Blankenburg</figcaption>
+  </figure>
 </div>
 <p>Das Untersuchungsgebiet zwischen Französisch Buchholz, der Panke-Niederung und Blankenburg nimmt innerhalb der Berliner Quartärgeologie eine Schlüsselrolle ein. Als integraler Bestandteil der Barnim-Platte ist die Landschaft das Resultat hocheffizienter glazialer und glaziofluvialer Prozesse, die nicht nur das Relief vorgaben, sondern durch die spezifische Substratverteilung auch die ökonomischen Dispositions-Expositions-Muster für die spätere slawische und mittelalterliche Besiedlung determinierten. Die morphologische Basis wurde während der Weichsel-Kaltzeit geschaffen. Während die Brandenburg-Phase (W1B) den maximalen Eisvorstoß markiert, wird die nachfolgende Frankfurt-Phase (W1F) im Untersuchungsraum heute als rezessives Stadium bzw. Haltephase während des Eisrückzugs interpretiert. Aktuelle LiDAR-Analysen nach Hardt et al. (2015) belegen, dass die W1F hier nicht durch eine klassische Endmoräne, sondern durch eine Serie von etwa zehn charakteristischen, bogenförmigen Wallformen (Loben-Strukturen) repräsentiert wird. Diese bestehen vorwiegend aus Geschiebemergel, der über glaziofluvialen Sanden abgelagert wurde. In der Geochronologie besteht ein Diskurs zwischen OSL-Datierungen (24.000&ndash;20.000 BP) und SED-Datierungen an Erratika, die ein jüngeres Alter von ca. 19.000 BP nahelegen. Die Panke bildet eine tief in die Grundmoräne eingeschnittene Schmelzwasserrinne, die während der Abschmelzphasen als Entwässerungsbahn fungierte. Sie trennt die heute landwirtschaftlich und siedlungsgeschichtlich bedeutsamen Hochflächen von Blankenburg und Französisch Buchholz und schuf eine ökologische Nische mit hohem Feuchtpotenzial. Die Bodenmatrix bestimmt die historische Landnutzungsintensität: Geschiebemergel ist ein nährstoffreiches, kalkhaltiges Substrat der Grundmoräne und Basis der fruchtbaren Hufengewannflur; glaziofluviale Sande akkumulierten in Rinnen und auf Schüttungsflächen und sind oft nährstoffarm; glaziolimnische Sedimente sind Beckenablagerungen lokaler Stillgewässer; Flugsande bildeten spätglaziale Dünenkomplexe, die als "12-jähriges Roggenland" (ertragsarme Grenzertragsböden) nur extensiv nutzbar waren. Diese geologische Diversität bildet das physische Archiv, welches durch palynologische Befunde in den feuchten Niederungsarchiven der Region biologisch komplementiert wird.</p>
 <p>Die Palynologie stellt die zentrale Methode dar, um die Transformation der Naturlandschaft in eine Kulturlandschaft zu rekonstruieren. Die Untersuchungen an der altslawischen Burg Blankenburg (7. Jahrhundert) erlauben eine präzise Identifikation frühgeschichtlicher Wirtschaftsformen auf der Barnim-Platte. Das Spektrum von Blankenburg zeigt eine Dominanz von <em>Pinus</em> (Kiefer) und <em>Quercus</em> (Eiche), weist jedoch eine regionale Besonderheit auf: Die Werte für <em>Carpinus</em> (Hainbuche) erreichen hier die höchsten bisher für diesen Zeitraum im Gebiet der DDR nachgewiesenen Superlative. Dies deutet auf eine spezifische Zusammensetzung der lokalen Laubmischwälder hin. Der Ackerbau war die primäre ökonomische Basis, wie die hohe Diversität an Kulturpflanzen belegt: Roggen (<em>Secale cereale</em>) war das dominante Hauptgetreide mit dem stärksten Pollennachweis, Weizen (<em>Triticum sp.</em>) ein bedeutendes Brotgetreide, Gerste (<em>Hordeum vulgare</em>) fester Bestandteil der Fruchtfolge, Hafer (<em>Avena sativa</em>) nachgewiesen aber untergeordnet, Hirse (<em>Panicum miliaceum</em>) durch unverkohlte Spelzenreste sicher belegt, und Lein (<em>Linum usitatissimum</em>) aufgrund von Einzelfunden wahrscheinlich angebaut. Das Verhältnis von Getreidepollen zu <em>Plantago lanceolata</em> (Spitzwegerich) dient als Indikator für das Verhältnis von Ackerbau zu Viehzucht. Mit einer Indexzahl von 7,1 zeigt Blankenburg eine extrem starke Fokussierung auf den Getreideanbau. Im Gegensatz zu nördlicheren slawischen Siedlungsgebieten (Index &lt; 3) erlaubten die Geschiebemergel-Böden des Barnim eine hochintensive agrarische Nutzung. Der massive Bedarf an Bauholz für den Burgenbau (ca. 12.000 m&sup3;) führte zu einem signifikanten Eichenschwund (<em>Quercus</em>-Rückgang). Die daraus resultierenden siedlungsbedingten Freiflächen begünstigten lichtliebende Pionierarten. Dies erklärt die Überrepräsentation von <em>Pinus</em> und <em>Betula</em> (Birke) in den Pollenspektren dieser Periode, die nicht zwingend auf eine Bewaldung, sondern auf offene Habitate und Fernflug hindeuten.</p>
@@ -271,14 +353,20 @@ table.events tr.section-head td {
 <div class="sheet" id="s6">
 <h1>Overlay Overload</h1>
 <p>But when all three axes were combined, the center of the matrix collapsed into a void. The result was what we came to call an "overlay overload," in which too many layers rendered the drawing unreadable.</p>
-<img src="overlay_overload.png">
+<figure>
+  <img src="overlay_overload.png">
+  <figcaption></figcaption>
+</figure>
 </div>
 
 <div class="sheet" id="s7">
 <h1>Space Time Transect</h1>
 <p class="note">To address this problem, we developed the space-time transect. This instrument rests on two conceptual operations. First, we flatten spatial depth: the vertical space of a traditional map is compressed until geography becomes a single horizontal line of distance, <em>x</em>. Then we replace the vertical axis with time, <em>t</em>. In this way, we give up spatial depth in order to gain temporal depth. The result is a map that allows historical events and material conditions to be grasped with an intuitive understanding of what we are already used to from reading space-dimensional maps. We imagine Geological strata, ownership patterns, and hydrological traces along a timeline can then be understood and made accessible.</p>
 
-<img src="TRANSECT.png" alt="Space-Time Transect drawing" style="width:100%; margin: 20px 0;">
+<figure>
+  <img src="TRANSECT.png" alt="Space-Time Transect drawing" style="width:100%; margin: 20px 0;">
+  <figcaption></figcaption>
+</figure>
 
 </div>
 
@@ -287,13 +375,34 @@ table.events tr.section-head td {
 <p class="note">accompanying literature:</p>
 
 <div class="photo-row row-s2-videos" style="margin-bottom: 20px;">
-  <img src="IMG_7728.JPG">
-  <img src="IMG_7726.jpg">
-  <img src="IMG_7725.JPG">
-  <img src="IMG_7723.jpeg">
-  <img src="IMG_7722.JPG">
-  <img src="IMG_7721.JPG">
-  <img src="IMG_7724.JPG">
+  <figure>
+    <img src="IMG_7728.JPG">
+    <figcaption></figcaption>
+  </figure>
+  <figure>
+    <img src="IMG_7726.jpg">
+    <figcaption></figcaption>
+  </figure>
+  <figure>
+    <img src="IMG_7725.JPG">
+    <figcaption></figcaption>
+  </figure>
+  <figure>
+    <img src="IMG_7723.jpeg">
+    <figcaption></figcaption>
+  </figure>
+  <figure>
+    <img src="IMG_7722.JPG">
+    <figcaption></figcaption>
+  </figure>
+  <figure>
+    <img src="IMG_7721.JPG">
+    <figcaption></figcaption>
+  </figure>
+  <figure>
+    <img src="IMG_7724.JPG">
+    <figcaption></figcaption>
+  </figure>
 </div>
 
 <p>References:</p>

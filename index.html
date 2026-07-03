@@ -50,6 +50,10 @@ img, video { display:block; max-width:100%; height:auto; }
   margin-left: 220px;
   width: calc(100% - 220px);
 }
+  
+.indent-hide {
+  visibility: hidden;
+}
 
 .sheet {
   display: block;
@@ -230,10 +234,10 @@ table.events tr.section-head td {
   <div id="sidebar-header">SPACE TIME TRANSECT<br>Project by <br>Eliott Croubalian and <br>Lara Luise Brenner<br>under Porf. Silvan Linden</div>
   <button class="tab" onclick="goToSheet('s1')">Erosion led to Entropy</button>
   <button class="tab" onclick="goToSheet('s2')">Space Time State</button>
-  <button class="tab" onclick="goToSheet('s3')">State <br>+ Space <br>= Map</button>
-  <button class="tab" onclick="goToSheet('s4')">Space <br>+ Time <br>= Compression</button>
-  <button class="tab" onclick="goToSheet('s5')">Time <br>+ State <br>= Sequence</button>
-  <button class="tab" onclick="goToSheet('s6')">Map <br>+ Compression <br>+ Sequence <br>= Overlay Overload</button>
+  <button class="tab" onclick="goToSheet('s3')"><span class="indent-hide">+ </span>State<br>+ Space<br>= Map</button>
+  <button class="tab" onclick="goToSheet('s4')"><span class="indent-hide">+ </span>Space<br>+ Time<br>= Compression</button>
+  <button class="tab" onclick="goToSheet('s5')"><span class="indent-hide">+ </span>Time<br>+ State<br>= Sequence</button>
+  <button class="tab" onclick="goToSheet('s6')"><span class="indent-hide">+ </span>Map<br>+ Compression<br>+ Sequence<br>= Overlay Overload</button>
   <button class="tab" onclick="goToSheet('s7')">Space Time Transect</button>
   <button class="tab" onclick="goToSheet('s8')">References</button>
 </div>

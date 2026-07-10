@@ -878,16 +878,6 @@
 
       if (!svgElement || !scrollyTriggers.length) return;
 
-      // Which step each group first becomes visible at (and stays visible from then on)
-      const revealAtStep = {
-        "group-1": 1,
-        "group-2": 2,
-        "group-3": 3,
-        "group-4": 4,
-        "group-5": 5,
-        "group-6": 5,
-        "group-7": 5,
-        "group-8": 6
       };
 
       const scrollyLayers = Object.keys(revealAtStep).map((id) =>
@@ -897,12 +887,12 @@
       // One camera frame per data-step value (1 through 6).
       // Adjust scale/x/y per group position inside your SVG viewBox.
       const cameraFrames = [
-        { scale: 2.5, x: 0, y: 80 },  // step 1 - group-1
-        { scale: 2.5, x: 0, y: 40 },   // step 2 - group-2
-        { scale: 2.5, x: 0, y: 10 }, // step 3 - group-3
-        { scale: 3, x: 0, y: -10 },   // step 4 - group-4
-        { scale: 3, x: 0, y: -40}, // step 5 - group-5,6,7
-        { scale: 3, x: 0, y: -80 }      // step 6 - group-8
+        { scale: 5, x: 0, y: 80 },  // step 1 - group-1
+        { scale: 5, x: 0, y: 40 },   // step 2 - group-2
+        { scale: 5, x: 0, y: 10 }, // step 3 - group-3
+        { scale: 5, x: 0, y: -10 },   // step 4 - group-4
+        { scale: 5, x: 0, y: -40}, // step 5 - group-5,6,7
+        { scale: 5, x: 0, y: -80 }      // step 6 - group-8
       ];
 
       const scrollyObserver = new IntersectionObserver(

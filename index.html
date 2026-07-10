@@ -65,37 +65,35 @@
     }
 
     #sidebar-credits {
-  font: 10pt Arial;
-  line-height: 1.4;
-  color: #5d5555;
-  margin-bottom: 0px;
-  margin-top: 10px;
-  flex: 0 0 auto;
-  opacity: 1;
-  max-height: 150px; /* Safe upper bound for the text height */
-  transition: opacity 0.2s ease-in-out, 
-  overflow: hidden;
-}
+      font: 10pt Arial;
+      line-height: 1.4;
+      color: #5d5555;
+      margin-bottom: 0px;
+      margin-top: 10px;
+      flex: 0 0 auto;
+      opacity: 1;
+      max-height: 150px;
+      transition: opacity 0.2s ease-in-out;
+      overflow: hidden;
+    }
 
-/* When this class is added via JS, the box elegantly vanishes */
-#sidebar-credits.collapsed {
-  max-height: 150px;
-  opacity: 0;
-  margin-bottom: 0px;
-}
+    #sidebar-credits.collapsed {
+      max-height: 150px;
+      opacity: 0;
+      margin-bottom: 0px;
+    }
 
-/* 3. Third Div Reset (Remove old margin-top hacks) */
-.wheel-window {
-  height: 30vh; 
-  flex: 0 0 auto;
-  position: relative;
-  margin-top: -100px;
-  overflow: hidden;
-  perspective: 800px;
-  mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
-  margin-bottom: 20px;
-}
+    .wheel-window {
+      height: 30vh;
+      flex: 0 0 auto;
+      position: relative;
+      margin-top: -100px;
+      overflow: hidden;
+      perspective: 800px;
+      mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
+      margin-bottom: 20px;
+    }
 
     .tab-wheel {
       position: absolute;
@@ -170,15 +168,15 @@
       line-height: 1.4;
     }
 
-    #geography,
-    #history,
-    #condition,
-    #overlays,
-    #overload,
-    #extraction,
-    #transect,
-    #time_dimension,
-    #final_map {
+    /* SVG GROUPS - hidden by default, revealed via .active-layer */
+    #group-1,
+    #group-2,
+    #group-3,
+    #group-4,
+    #group-5,
+    #group-6,
+    #group-7,
+    #group-8 {
       opacity: 0;
       transition: opacity 0.8s ease;
     }
@@ -196,6 +194,7 @@
 
     .sheet {
       display: block;
+      position: relative;
       min-height: 100vh;
       padding: 24px 40px 80px;
     }
@@ -357,17 +356,14 @@
       height: 600px;
     }
 
+    /* Scroll trigger markers - zero footprint, do not affect layout */
     .scrolly-step {
-      display: flex;
-      flex-direction: column;
-      min-height: 50vh;
-      opacity: 0.3;
-      transition: opacity 0.5s ease;
-      justify-content: center;
-    }
-
-    .scrolly-step.active-text {
-      opacity: 1;
+      position: absolute;
+      left: 0;
+      width: 1px;
+      height: 1px;
+      opacity: 0;
+      pointer-events: none;
     }
 
     table.events {
@@ -490,12 +486,12 @@
       <figure>
         <img src="coupes_1.jpg" alt="Panke drawing">
       </figure>
-      
+
     </section>
-    
+
     <section class="sheet" id="s2">
       <h1>Space Time State</h1>
-       
+
       <p class="note">
         To make this process legible, we first organized the terrain through a 3-dimensional matrix of SPACE, TIME and STATE.
       </p>
@@ -525,13 +521,10 @@
         been peripherie, was it countryside before? Condumed by the ever growing Berlin?
       </p>
     </section>
-    
-<div class="scrolly-step" data-step="1"></div>
-    
+
     <section class="sheet" id="s3">
       <h1>State + Space = Map</h1>
       <p style="font-size: 10pt; font-style: italic; margin-bottom: 0;">resulting in single Layers</p>
-       
 
       <div class="photo-row row-s2-maps" style="margin-bottom: 0;">
         <figure><video autoplay loop muted playsinline><source src="time_maps.mp4" type="video/mp4"></video></figure>
@@ -539,9 +532,8 @@
       </div>
     </section>
 
-<div class="scrolly-step" data-step="3"></div>
-
     <section class="sheet" id="s4">
+      <div class="scrolly-step" data-step="1"></div>
       <h1>Space + Time = Superposition</h1>
       <p style="font-size: 10pt; font-style: italic; margin-bottom: 0;">resulting in Palimpseste</p>
       <p>Paragraph about palimpsetste</p>
@@ -556,10 +548,9 @@
         <img src="Geological_cut.png" alt="Geological cut">
       </figure>
     </section>
-    
-<div class="scrolly-step" data-step="2"></div>
-  
+
     <section class="sheet" id="s5">
+      <div class="scrolly-step" data-step="2"></div>
       <h1>Time + State = Sequence</h1>
       <p style="font-size: 10pt; font-style: italic; margin-bottom: 0;">resulting in TIMELINE</p>
 
@@ -600,12 +591,9 @@
       </iframe>
     </section>
 
-<div class="scrolly-step" data-step="4">
-
     <section class="sheet" id="s6">
+      <div class="scrolly-step" data-step="3"></div>
       <h1>Overlay Overload</h1>
-
-      <div class="scrolly-step" data-step="5"><p class="note">5. Overlay Overload.</p></div>
 
       <p>
         But when all three axes were combined, the center of the matrix collapsed into a void. The result was what we
@@ -616,13 +604,9 @@
         <img src="overlay_overload.png" alt="Overlay overload drawing">
       </figure>
     </section>
-    
-<div class="scrolly-step" data-step="6"></div>
-<div class="scrolly-step" data-step="7"></div>
-<div class="scrolly-step" data-step="8"></div>
-<div class="scrolly-step" data-step="9"></div>
 
     <section class="sheet" id="s7">
+      <div class="scrolly-step" data-step="4"></div>
       <h1>Space Time Transect</h1>
 
       <p class="note">
@@ -634,9 +618,12 @@
       <figure>
         <img src="TRANSECT.png" alt="Space-Time transect drawing" style="width: 100%; margin: 20px 0;">
       </figure>
+
+      <div class="scrolly-step" data-step="5" style="bottom: 0;"></div>
     </section>
-   
+
     <section class="sheet" id="s8">
+      <div class="scrolly-step" data-step="6"></div>
       <h1>Time cut us off</h1>
 
       <p>
@@ -859,7 +846,7 @@
       const container = document.getElementById("svg-container");
 
       try {
-        const response = await fetch("svg export.svg");
+        const response = await fetch("svg-export.svg");
 
         if (!response.ok) {
           throw new Error(`SVG could not be loaded (${response.status})`);
@@ -873,7 +860,7 @@
         container.innerHTML = `
           <p class="svg-error">
             SVG could not load.<br>
-            Check that “svg export.svg” is in the same folder and open this site through Live Server.
+            Check that "svg-export.svg" is in the same folder and open this site through Live Server.
           </p>
         `;
       }
@@ -885,28 +872,31 @@
 
       if (!svgElement || !scrollyTriggers.length) return;
 
-      const scrollyLayers = [
-        document.getElementById("geography"),
-        document.getElementById("history"),
-        document.getElementById("condition"),
-        document.getElementById("overlays"),
-        document.getElementById("overload"),
-        document.getElementById("extraction"),
-        document.getElementById("transect"),
-        document.getElementById("time_dimension"),
-        document.getElementById("final_map")
-      ];
+      // Which step each group first becomes visible at (and stays visible from then on)
+      const revealAtStep = {
+        "group-1": 1,
+        "group-2": 2,
+        "group-3": 3,
+        "group-4": 4,
+        "group-5": 5,
+        "group-6": 5,
+        "group-7": 5,
+        "group-8": 6
+      };
 
+      const scrollyLayers = Object.keys(revealAtStep).map((id) =>
+        document.getElementById(id)
+      );
+
+      // One camera frame per data-step value (1 through 6).
+      // Adjust scale/x/y per group position inside your SVG viewBox.
       const cameraFrames = [
-        { scale: 2.5, x: 20, y: 33 },
-        { scale: 2.5, x: 0, y: 33 },
-        { scale: 2.5, x: -20, y: 33 },
-        { scale: 1.5, x: 0, y: 18 },
-        { scale: 2.5, x: -30, y: 18 },
-        { scale: 2.5, x: 20, y: 8 },
-        { scale: 2.5, x: -10, y: 3 },
-        { scale: 2, x: 5, y: -2 },
-        { scale: 1.8, x: 0, y: -22 }
+        { scale: 2.5, x: 20, y: 33 },  // step 1 - group-1
+        { scale: 2.5, x: 0, y: 33 },   // step 2 - group-2
+        { scale: 2.5, x: -20, y: 33 }, // step 3 - group-3
+        { scale: 1.5, x: 0, y: 18 },   // step 4 - group-4
+        { scale: 2.5, x: -30, y: 18 }, // step 5 - group-5,6,7
+        { scale: 2, x: 5, y: -2 }      // step 6 - group-8
       ];
 
       const scrollyObserver = new IntersectionObserver(
@@ -914,18 +904,16 @@
           entries.forEach((entry) => {
             if (!entry.isIntersecting) return;
 
-            scrollyTriggers.forEach((trigger) => {
-              trigger.classList.remove("active-text");
-            });
-
-            entry.target.classList.add("active-text");
-
             const stepNumber = Number(entry.target.dataset.step);
             const frame = cameraFrames[stepNumber - 1];
 
-            scrollyLayers.forEach((layer, index) => {
+            scrollyLayers.forEach((layer) => {
               if (!layer) return;
-              layer.classList.toggle("active-layer", index < stepNumber);
+              const groupId = layer.id;
+              layer.classList.toggle(
+                "active-layer",
+                stepNumber >= revealAtStep[groupId]
+              );
             });
 
             if (frame) {

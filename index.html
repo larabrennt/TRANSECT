@@ -15,7 +15,7 @@ p { line-height: 1.6; margin-bottom: 10pt; max-width: 100%; }
   position: fixed;
   top: 0;
   left: 0;
-  width: 220px;
+  width: 385px;
   height: 100vh;
   background: #fff;
   border-right: none;
@@ -23,36 +23,130 @@ p { line-height: 1.6; margin-bottom: 10pt; max-width: 100%; }
   flex-direction: column;
   padding: 24px 16px;
   z-index: 1000;
-  overflow-y: auto;
+  overflow: hidden; /* Prevents raw default scrolling */
 }
 
-#sidebar-header {
+/* 2. Second Div Style (With transitional properties) */
+#sidebar-credits {
   font: 10pt Arial;
   line-height: 1.4;
-  margin-bottom: 24px;
-  color: #000;
+  color: #5d5555;
+  margin-bottom: 0px;
+  margin-top: 10px;
+  flex: 0 0 auto;
+  opacity: 1;
+  max-height: 150px; /* Safe upper bound for the text height */
+  transition: opacity 0.2s ease-in-out, 
+  overflow: hidden;
+}
+
+/* When this class is added via JS, the box elegantly vanishes */
+#sidebar-credits.collapsed {
+  max-height: 150px;
+  opacity: 0;
+  margin-bottom: 0px;
+}
+
+/* 3. Third Div Reset (Remove old margin-top hacks) */
+.wheel-window {
+  height: 30vh; 
+  flex: 0 0 auto;
+  position: relative;
+  margin-top: -100px;
+  overflow: hidden;
+  perspective: 800px;
+  mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
+  margin-bottom: 20px;
+}
+
+/* The moving track holding the tabs */
+.tab-wheel {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  width: 100%;
+  top: 0;
+  transform-style: preserve-3d;
+  /* (Transition removed from here) */
 }
 
 .tab {
   font: 10pt Arial;
   color: #000;
-  background: #fff;
+  background: transparent;
   border: none;
   text-align: left;
-  padding: 4px 0;
+  padding: 6px 0; 
   cursor: pointer;
-  user-select: none;
   display: block;
   width: 100%;
-  line-height: 1.5;
+  line-height: 1.2; 
+  transform-origin: center center;
+  backface-visibility: hidden;
+  
+  /* NEW: Prevents text from being highlighted while dragging */
+  -webkit-user-select: none; 
+  user-select: none; 
 }
 
 .tab:hover { color: #555; }
-.tab.active { color: #0000ff; }
+.tab.active { 
+  color: #0000ff;
+}
+
+.sidebar-diagram {
+  flex: 1; 
+  width: 100%;
+  position: relative;
+  display: flex;
+  align-items: flex-start; 
+  justify-content: center;
+  margin-top: 10px;
+  
+  /* 1. The Hard Stop: Physically cuts off anything that bleeds out of the box */
+  overflow: hidden; 
+
+  /* 2. The Dégradé: Creates a smooth fade to transparent at the very top */
+  mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 100%);
+}
+
+.sidebar-diagram svg {
+  width: 100%; 
+  height: 100%;
+  max-height: 55vh; 
+  object-fit: contain;
+  transition: transform 1.5s ease-in-out; 
+  transform-origin: center center;
+}
+
+
+/* 4. NEW: Hiding and fading the SVG layers */
+#geography, #history, #condition, #overlays, #overload, #extraction, #transect, #time_dimension, #final_map {
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+.active-layer {
+  opacity: 1 !important;
+}
+
+/* 5. NEW: Text trigger styling for the main content */
+.scrolly-step {
+  min-height: 50vh; /* Forces distance between text blocks */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  opacity: 0.3;
+  transition: opacity 0.5s ease;
+}
+.scrolly-step.active-text {
+  opacity: 1;
+}
 
 #content {
-  margin-left: 220px;
-  width: calc(100% - 220px);
+  margin-left: 385px;
+  width: calc(100% - 385px);
 }
 
 .indent-hide {
@@ -237,18 +331,36 @@ table.events tr.section-head td {
 </style>
 </head>
 <body>
+<div id="top" style="height: 100vh;"></div>
+
 
 <div id="sidebar">
-  <div id="sidebar-header">SPACE TIME TRANSECT<br>Project by <br>Eliott Croubalian and <br>Lara Luise Brenner<br>under Porf. Silvan Linden</div>
-  <button class="tab" onclick="goToSheet('s1')">Erosion led to Entropy</button>
-  <button class="tab" onclick="goToSheet('s2')">Space Time State</button>
-  <button class="tab" onclick="goToSheet('s3')"><span class="indent-hide">+ </span>State<br>+ Space<br>= Map</button>
-  <button class="tab" onclick="goToSheet('s4')"><span class="indent-hide">+ </span>Space<br>+ Time<br>= Superposition</button>
-  <button class="tab" onclick="goToSheet('s5')"><span class="indent-hide">+ </span>Time<br>+ State<br>= Sequence</button>
-  <button class="tab" onclick="goToSheet('s6')"><span class="indent-hide">+ </span>Map<br>+ Compression<br>+ Sequence<br>= Overlay Overload</button>
-  <button class="tab" onclick="goToSheet('s7')">Space Time Transect</button>
-  <button class="tab" onclick="goToSheet('s8')">Time cut us off</button>
-  <button class="tab" onclick="goToSheet('s9')">References</button>
+  
+  <div id="sidebar-header">SPACE TIME TRANSECT</div>
+
+  <div id="sidebar-credits" id="credits-box">
+    Project by <br>
+    Eliott Croubalian and <br>
+    Lara Luise Brenner<br>
+    under Prof. Silvan Linden
+  </div>
+
+  <div class="wheel-window">
+    <div class="tab-wheel">
+      <button class="tab" onclick="goToSheet('s1')">Erosion led to Entropy</button>
+      <button class="tab" onclick="goToSheet('s2')">Space Time State</button>
+      <button class="tab" onclick="goToSheet('s3')"><span class="indent-hide">+ </span>State<br>+ Space<br>= Map</button>
+      <button class="tab" onclick="goToSheet('s4')"><span class="indent-hide">+ </span>Space<br>+ Time<br>= Superposition</button>
+      <button class="tab" onclick="goToSheet('s5')"><span class="indent-hide">+ </span>Time<br>+ State<br>= Sequence</button>
+      <button class="tab" onclick="goToSheet('s6')"><span class="indent-hide">+ </span>Map<br>+ Compression<br>+ Sequence<br>= Overlay Overload</button>
+      <button class="tab" onclick="goToSheet('s7')">Space Time Transect</button>
+      <button class="tab" onclick="goToSheet('s8')">Time cut us off</button>
+      <button class="tab" onclick="goToSheet('s9')">References</button>
+    </div>
+  </div> 
+
+  <div class="sidebar-diagram" id="svg-container"></div>
+
 </div>
 
 <div id="content">
@@ -307,6 +419,9 @@ table.events tr.section-head td {
 
   <p>ONLY DRAWING NO TEXT NO PHOTOS</p>
 </div>
+
+
+
 
 <div class="sheet" id="s2">
   <h1>Space Time State</h1>
@@ -422,18 +537,20 @@ table.events tr.section-head td {
     <img src="overlay_overload.png" alt="Overlay overload drawing">
     <figcaption></figcaption>
   </figure>
-
-  <p>overlay overload needs to be fixed</p>
 </div>
 
 <div class="sheet" id="s7">
   <h1>Space Time Transect</h1>
-  <p class="note">To address this problem, we developed the space-time transect. This instrument rests on two conceptual operations. First, we flatten spatial depth: the vertical space of a traditional map is compressed until geography becomes a single horizontal line of distance, <em>x</em>. Then we replace the vertical axis with time, <em>t</em>. In this way, we give up spatial depth in order to gain temporal depth. The result is a map that allows historical events and material conditions to be grasped with an intuitive understanding of what we are already used to from reading space-dimensional maps. We imagine Geological strata, ownership patterns, and hydrological traces along a timeline can then be understood and made accessible.</p>
-
-  <figure>
-    <img src="TRANSECT.png" alt="Space-Time transect drawing" style="width: 100%; margin: 20px 0;">
-    <figcaption></figcaption>
-  </figure>
+  
+  <div class="scrolly-step" data-step="1"><p class="note">1. Geography (x, y, z).</p></div>
+  <div class="scrolly-step" data-step="2"><p class="note">2. History and mappable changes.</p></div>
+  <div class="scrolly-step" data-step="3"><p class="note">3. Specific Condition events.</p></div>
+  <div class="scrolly-step" data-step="4"><p class="note">4. Combined Overlays.</p></div>
+  <div class="scrolly-step" data-step="5"><p class="note">5. Overlay Overload.</p></div>
+  <div class="scrolly-step" data-step="6"><p class="note">6. Extraction of the line.</p></div>
+  <div class="scrolly-step" data-step="7"><p class="note">7. The Transect.</p></div>
+  <div class="scrolly-step" data-step="8"><p class="note">8. Adding the Time Dimension.</p></div>
+  <div class="scrolly-step" data-step="9"><p class="note">9. The Final Space-Time Map.</p></div>
 </div>
 
 <div class="sheet" id="s8">
@@ -556,13 +673,201 @@ const observer = new IntersectionObserver((entries) => {
 
 document.querySelectorAll('.sheet').forEach(s => observer.observe(s));
 
-function setActive(id) {
-  document.querySelectorAll('.tab').forEach((t, i) => {
-    t.classList.toggle('active', sheetIds[i] === id);
-  });
+// --- SCROLL-ONLY MOMENTUM PHYSICS ENGINE ---
+
+const wheelWindow = document.querySelector('.wheel-window');
+const wheel = document.querySelector('.tab-wheel');
+const tabs = Array.from(document.querySelectorAll('.tab'));
+
+let offset = 0;          
+let targetOffset = 0;    
+let velocity = 0;        
+let activeIndex = -1;
+
+// 1. Keep track of which item is currently bolded
+function updateClasses(index) {
+  if (activeIndex !== index) {
+    activeIndex = index;
+    tabs.forEach((t, i) => t.classList.toggle('active', i === activeIndex));
+  }
 }
 
-setActive('s1');
+// 2. Links the website's regular scrolling/clicking to the wheel
+function setActive(id) {
+  const index = sheetIds.indexOf(id);
+  if (Math.abs(velocity) < 0.1) {
+    targetOffset = index;
+    updateClasses(index);
+  }
+
+  // --- DYNAMIC CREDITS COLLAPSE ---
+  const creditsDiv = document.getElementById('sidebar-credits');
+  if (creditsDiv) {
+    if (id === 's1') {
+      // Keep them fully visible when on Section 1
+      creditsDiv.classList.remove('collapsed');
+    } else {
+      // Collapse them instantly for Section 2 and all sections beyond!
+      creditsDiv.classList.add('collapsed');
+    }
+  }
+}
+
+// 3. Trackpad / Mouse Scroll Wheel Support
+wheelWindow.addEventListener('wheel', (e) => {
+  e.preventDefault();
+  targetOffset += e.deltaY * 0.0025; 
+  velocity = e.deltaY * 0.0025;      
+}, { passive: false });
+
+// 4. THE 60 FPS RENDER LOOP
+function animateWheel() {
+  const maxIndex = sheetIds.length - 1;
+
+  // Apply Momentum & Friction
+  targetOffset += velocity;
+  velocity *= 0.82; 
+
+  // Snap into place when it gets slow enough
+  if (Math.abs(velocity) < 0.015) {
+    velocity = 0;
+    let snapTarget = Math.round(targetOffset);
+    snapTarget = Math.max(0, Math.min(snapTarget, maxIndex)); // Keep inside bounds
+    
+    // Gently pull the target to a perfect integer
+    targetOffset += (snapTarget - targetOffset) * 0.1;
+
+    // Once it fully snaps into place, scroll the main website
+    if (activeIndex !== snapTarget && Math.abs(targetOffset - snapTarget) < 0.05) {
+      updateClasses(snapTarget);
+      goToSheet(sheetIds[snapTarget]);
+    }
+  } else {
+    // Rubber-banding effect if you flick it past the top or bottom
+    if (targetOffset < 0) targetOffset += (0 - targetOffset) * 0.2;
+    if (targetOffset > maxIndex) targetOffset += (maxIndex - targetOffset) * 0.2;
+  }
+
+  // Smoothly blend the physical graphics to the math
+  offset += (targetOffset - offset) * 0.25;
+
+  // --- DRAW THE GRAPHICS ---
+  
+  const prevIdx = Math.max(0, Math.floor(offset));
+  const nextIdx = Math.min(maxIndex, Math.ceil(offset));
+  const percent = offset - Math.floor(offset);
+
+  const top1 = tabs[prevIdx] ? tabs[prevIdx].offsetTop + (tabs[prevIdx].clientHeight / 2) : 0;
+  const top2 = tabs[nextIdx] ? tabs[nextIdx].offsetTop + (tabs[nextIdx].clientHeight / 2) : top1;
+  const centerPoint = top1 + (top2 - top1) * percent;
+
+  const windowHeight = wheelWindow.clientHeight || window.innerHeight * 0.45;
+  const wheelTranslateY = (windowHeight / 2) - centerPoint;
+  
+  wheel.style.transform = `translateY(${wheelTranslateY}px)`;
+
+  tabs.forEach((t, i) => {
+    const distance = i - offset; 
+    const angle = distance * 15;
+    const translateZ = -Math.abs(distance) * 12;
+    const opacity = Math.max(0.1, 1 - Math.abs(distance) * 0.25);
+
+    t.style.transform = `rotateX(${angle}deg) translateZ(${translateZ}px)`;
+    t.style.opacity = opacity;
+  });
+
+  // Loop continuously
+  requestAnimationFrame(animateWheel);
+}
+
+// Start the physics loop
+animateWheel();
+
+// --- LOAD THE SVG & START SCROLLYTELLING ---
+
+// 1. Tell JS to go find your external file
+fetch('svg export.svg')
+  .then(response => response.text())
+  .then(svgData => {
+    
+    // 2. Paste the raw SVG code into the empty container
+    document.getElementById('svg-container').innerHTML = svgData;
+
+    // 3. NOW that the SVG exists, start the Scrollytelling!
+    startScrollytelling();
+  })
+  .catch(error => console.error("Could not load SVG:", error));
+
+
+// 4. Wrap all your previous logic inside this function
+function startScrollytelling() {
+  const scrollyTriggers = document.querySelectorAll('.scrolly-step');
+  
+  // We need to grab the actual SVG element so we can move it
+  const svgElement = document.querySelector('.sidebar-diagram svg');
+
+  const scrollyLayers = [
+    document.getElementById('geography'),      // 1
+    document.getElementById('history'),        // 2
+    document.getElementById('condition'),      // 3
+    document.getElementById('overlays'),       // 4
+    document.getElementById('overload'),       // 5
+    document.getElementById('extraction'),     // 6
+    document.getElementById('transect'),       // 7
+    document.getElementById('time_dimension'), // 8
+    document.getElementById('final_map')       // 9
+  ];
+
+  // --- NEW: THE VIRTUAL CAMERA CONTROL PANEL ---
+  // scale: 1 = 100% (zoomed out). 2 = 200% (zoomed in).
+  // x and y: Moves the drawing in percentages to center your target.
+  const cameraFrames = [
+    { scale: 2.5, x: 20, y: 33 },   // Step 1 (Example: Zooms into Top Left)
+    { scale: 2.5, x: 0,  y: 33 },   // Step 2 (Example: Zooms into Top Center)
+    { scale: 2.5, x: -20, y: 33 },  // Step 3 (Example: Zooms into Top Right)
+    { scale: 1.5, x: 0, y: 18 },    // Step 4 (Example: Pulls back slightly to the middle)
+    { scale: 2.5, x: -30, y: 18 },     // Step 5
+    { scale: 2.5, x: 20, y: 8 },   // Step 6 (Example: Moves down the map)
+    { scale: 2.5, x: -10, y: 3 },   // Step 7 
+    { scale: 2, x: 5, y: -2 }, // Step 8 (Example: Bottom Left)
+    { scale: 1.8, x: 0, y: -22 }      // Step 9: Final Map (100% Zoomed out, takes the whole space!)
+  ];
+
+  const scrollyObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        
+        scrollyTriggers.forEach(t => t.classList.remove('active-text'));
+        entry.target.classList.add('active-text');
+
+        const stepNumber = parseInt(entry.target.getAttribute('data-step'));
+
+        // 1. Fade the layers in and out (Your existing logic)
+        scrollyLayers.forEach((layer, index) => {
+          if (!layer) return; 
+          if (index < stepNumber) {
+            layer.classList.add('active-layer');
+          } else {
+            layer.classList.remove('active-layer');
+          }
+        });
+
+        // 2. NEW: Move the camera!
+        if (svgElement && stepNumber >= 1 && stepNumber <= 9) {
+          const frame = cameraFrames[stepNumber - 1]; // -1 because lists start at 0
+          
+          // Applies the zoom and pan from your control panel above
+          svgElement.style.transform = `scale(${frame.scale}) translate(${frame.x}%, ${frame.y}%)`;
+        }
+      }
+    });
+  }, {
+    rootMargin: "-40% 0px -40% 0px"
+  });
+
+  scrollyTriggers.forEach(trigger => scrollyObserver.observe(trigger));
+}
+
 
 document.addEventListener('keydown', e => {
   const visible = [...document.querySelectorAll('.sheet')].reduce((best, s) => {

@@ -65,51 +65,37 @@
     }
 
     #sidebar-credits {
-      flex: 0 0 auto;
-      max-height: 150px;
-      margin-top: 0px;
-      margin-bottom: 0;
-      overflow: hidden;
-      color: #5d5555;
-      font: 10pt Arial, sans-serif;
-      line-height: 1.4;
-      opacity: 1;
-      transition:
-        max-height 0.25s ease-in-out,
-        opacity 0.2s ease-in-out,
-        margin-top 0.25s ease-in-out;
-    }
+  font: 10pt Arial;
+  line-height: 1.4;
+  color: #5d5555;
+  margin-bottom: 0px;
+  margin-top: 10px;
+  flex: 0 0 auto;
+  opacity: 1;
+  max-height: 150px; /* Safe upper bound for the text height */
+  transition: opacity 0.2s ease-in-out, 
+  overflow: hidden;
+}
 
-    #sidebar-credits.collapsed {
-      max-height: 150px;
-      margin-top: 0;
-      opacity: 0;
-    }
+/* When this class is added via JS, the box elegantly vanishes */
+#sidebar-credits.collapsed {
+  max-height: 150px;
+  opacity: 0;
+  margin-bottom: 0px;
+}
 
-    .wheel-window {
-      position: relative;
-      flex: 0 0 auto;
-      height: 30vh;
-      min-height: 210px;
-      margin-top: -20px;
-      margin-bottom: 20px;
-      overflow: hidden;
-      perspective: 800px;
-      mask-image: linear-gradient(
-        to bottom,
-        transparent 0%,
-        black 15%,
-        black 85%,
-        transparent 100%
-      );
-      -webkit-mask-image: linear-gradient(
-        to bottom,
-        transparent 0%,
-        black 15%,
-        black 85%,
-        transparent 100%
-      );
-    }
+/* 3. Third Div Reset (Remove old margin-top hacks) */
+.wheel-window {
+  height: 30vh; 
+  flex: 0 0 auto;
+  position: relative;
+  margin-top: -100px;
+  overflow: hidden;
+  perspective: 800px;
+  mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
+  margin-bottom: 20px;
+}
 
     .tab-wheel {
       position: absolute;

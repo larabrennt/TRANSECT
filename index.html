@@ -10,6 +10,23 @@
       margin: 0;
       padding: 0;
       box-sizing: border-box;
+      scrollbar-width: thin;
+      scrollbar-color: #000 #fff;
+    }
+
+    *::-webkit-scrollbar {
+      width: 10px;
+      height: 10px;
+    }
+
+    *::-webkit-scrollbar-thumb {
+      background: #000;
+      border-radius: 0;
+    }
+
+    *::-webkit-scrollbar-track {
+      background: #fff;
+      border-radius: 0;
     }
 
     html {
@@ -309,6 +326,38 @@
       object-fit: contain;
     }
 
+    .pano-container {
+      position: relative;
+      height: 40vh;
+      width: 100%;
+      overflow-x: auto;
+      overflow-y: hidden;
+      white-space: nowrap;
+    }
+
+    .pano-container img {
+      height: 100%;
+      width: auto;
+      max-width: none;
+      display: block;
+    }
+
+    .scroll-hint {
+      position: sticky;
+      left: 20px;
+      top: 0;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #f00;
+      font: bold 20pt Arial, sans-serif;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      pointer-events: none;
+      z-index: 10;
+    }
+
     .pb {
       position: absolute;
       top: 50%;
@@ -537,10 +586,10 @@
       <h1>Time + State = Sequence</h1>
       <p style="font-size: 10pt; font-style: italic; margin-bottom: 0;">resulting in TIMELINE</p>
 
-      <figure>
+      <div class="pano-container">
         <img src="Pollenanalysis.png" alt="Pollen analysis">
-        <figcaption>Pollenanalyse des 7. Jhd. Burg Blankenburg</figcaption>
-      </figure>
+        <div class="scroll-hint">SCROLL &rarr;</div>
+      </div>
 
       <p>Pollenanalyse zur Frühgeschichte unserer Gegend</p>
 
@@ -649,9 +698,8 @@
 
       <p>References:</p>
       <p>to be continued</p>
-     
+
       <p>Project by Eliott Croubalian and Lara Luise Brenner under Prof. Silvan Linden</p>
-    </div>
     </section>
   </main>
 

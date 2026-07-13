@@ -196,9 +196,29 @@
       transition: opacity 0.35s ease-in-out;
     }
 
-    /* Nur die Gruppe, die aktiv zugewiesen wird, blendet weich ein */
+    /* Nur die aktive Gruppe blendet weich ein */
     .sidebar-diagram svg [id^="group-"].visible-group {
       opacity: 1;
+    }
+
+    /* NEU: HIER FÄRBEN WIR DIE AKTIVE GRUPPE IN DEINEM AKTIVEN BLAUTON */
+    /* Betrifft sowohl ausgefüllte Formen (fill) als auch Linien (stroke) */
+    .sidebar-diagram svg [id^="group-"].visible-group * {
+      /* Falls im SVG Linien gezeichnet sind */
+      stroke: #0000ff !important;
+      /* Falls im SVG ausgefüllte Pfade/Formen existieren */
+      fill: #0000ff !important;
+      /* Ein sanfter Übergang für den Farbwechsel */
+      transition: stroke 0.3s ease, fill 0.3s ease;
+    }
+
+    /* Ausnahme: Falls einige unsichtbare Pfade/Hintergründe im SVG transparente Füllungen haben sollen, */
+    /* verhindern wir, dass diese ungewollt komplett blau gefüllt werden */
+    .sidebar-diagram svg [id^="group-"].visible-group *[fill="none"] {
+      fill: none !important;
+    }
+    .sidebar-diagram svg [id^="group-"].visible-group *[stroke="none"] {
+      stroke: none !important;
     }
 
     .svg-error {
@@ -890,8 +910,6 @@
         svgElement.style.transform = `translateX(calc(${-currentPercent}% + 50vw))`;
 
         // Gruppen ein-/ausblenden (group-1 bis group-7)
-        // Wir ermitteln die Nummer der Gruppe, die zum aktuellen Sektionsindex gehört.
-        // Index 1 (s2) entspricht group-1, Index 2 (s3) group-2, etc.
         const currentGroupNumber = Math.round(offset); 
         
         const allSvgGroups = svgElement.querySelectorAll('[id^="group-"]');
@@ -899,7 +917,6 @@
           const groupId = group.getAttribute("id");
           const targetId = `group-${currentGroupNumber}`;
           
-          // Setzt das aktive Element auf visible, wenn wir nicht auf s1 (0) oder s9 (8) sind
           if (groupId === targetId && offset >= 0.5 && offset <= 7.5) {
             group.classList.add("visible-group");
           } else {

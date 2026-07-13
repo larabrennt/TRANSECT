@@ -621,6 +621,1052 @@
       <iframe
         src="weichselian_to_present.html"
         title="Weichselian Ice Age to present timeline"
+        style="width: 100%; height: 955px; border: 0;">
+      </iframe>
+    </section>
+
+    <section class="sheet" id="s6">
+      <div class="scrolly-step" data-position="52"></div>
+
+      <h1>Overlay Overload</h1>
+
+      <p>
+        But when all three axes were combined, the center of the matrix collapsed into a void. The result was what we
+        came to call an "overlay overload," in which too many layers rendered the drawing unreadable.
+      </p>
+
+      <figure>
+        <img src="overlay_overload.png" alt="Overlay overload drawing">
+      </figure>
+    </section>
+
+    <section class="sheet" id="s7">
+      <div class="scrolly-step" data-position="82"></div>
+
+      <h1>Space Time Transect</h1>
+
+      <p class="note">
+        To address this problem, we developed the space-time transect. This instrument rests on two conceptual operations.
+        First, we flatten spatial depth: the vertical space of a traditional map is compressed until geography becomes a
+        single horizontal line of distance, <em>x</em>. Then we replace the vertical axis with time, <em>t</em>.
+      </p>
+      <div class="pano-container">
+        <img src="TRANSECT.png" alt="Space-Time transect drawing">
+        <div class="scroll-hint">SCROLL &rarr;</div>
+      </div>
+
+      <div class="scrolly-step" data-position="100"></div>
+    </section>
+
+    <section class="sheet" id="s8">
+
+      <h1>Time cut us off</h1>
+
+      <p>
+        Between the Randstreifen of the A114 and the Randstreifen of the straightened Panke lies a small detached piece
+        of settlement, which proves how little the GDR cared about whatever stood in the way of its infrastructure prestige.
+      </p>
+
+      <div class="photo-row row-s2-videos" style="margin-bottom: 20px;">
+        <figure><img src="image.JPG" alt="Photo Mavericks"></figure>
+        <figure><img src="image.jpg" alt="Photo Mavericks"></figure>
+        <figure><img src="image.JPG" alt="Photo Mavericks"></figure>
+        <figure><img src="image.jpeg" alt="Photo Mavericks"></figure>
+        <figure><img src="image.JPG" alt="Photo Mavericks"></figure>
+        <figure><img src="image.JPG" alt="Photo Mavericks"></figure>
+        <figure><img src="image.JPG" alt="Photo Mavericks"></figure>
+      </div>
+
+      <video controls autoplay loop muted playsinline>
+        <source src="Intervention.mp4" type="video/mp4">
+      </video>
+    </section>
+
+    <section class="sheet" id="s9">
+      <h1>References</h1>
+      <p class="note">accompanying literature:</p>
+
+      <div class="photo-row row-s2-videos" style="margin-bottom: 20px;">
+        <figure><img src="IMG_7728.JPG" alt="Reference image 1"></figure>
+        <figure><img src="IMG_7726.jpg" alt="Reference image 2"></figure>
+        <figure><img src="IMG_7725.JPG" alt="Reference image 3"></figure>
+        <figure><img src="IMG_7723.jpeg" alt="Reference image 4"></figure>
+        <figure><img src="IMG_7722.JPG" alt="Reference image 5"></figure>
+        <figure><img src="IMG_7721.JPG" alt="Reference image 6"></figure>
+        <figure><img src="IMG_7724.JPG" alt="Reference image 7"></figure>
+      </div>
+
+      <p>References:</p>
+      <p>to be continued</p>
+
+      <p>Project by Eliott Croubalian and Lara Luise Brenner under Prof. Silvan Linden</p>
+    </section>
+  </main>
+
+  <script>
+
+
+function perfectlyAlignRows() {
+  document.querySelectorAll('.photo-row').forEach(row => {
+    const figures = Array.from(row.querySelectorAll('figure'));
+    let totalAspectRatio = 0;
+
+    // 1. Calculate the combined aspect ratio of every image in the row
+    figures.forEach(fig => {
+      const media = fig.querySelector('img, video');
+      if (!media) return;
+      // Fallback to 1 if image is somehow broken to prevent math errors
+      const width = media.naturalWidth || media.videoWidth || 1;
+      const height = media.naturalHeight || media.videoHeight || 1;
+      totalAspectRatio += (width / height);
+    });
+
+    if (totalAspectRatio > 0) {
+      // 2. Get the row width, minus the 1vw gaps between the images
+      const rowWidth = row.clientWidth;
+      const gapPx = window.innerWidth * 0.01; 
+      const availableWidth = rowWidth - (gapPx * (figures.length - 1));
+      
+      // 3. The master formula for the perfect height
+      const perfectHeight = availableWidth / totalAspectRatio;
+      
+      // 4. Apply exact dimensions to each box
+      figures.forEach(fig => {
+        const media = fig.querySelector('img, video');
+        const width = media.naturalWidth || media.videoWidth || 1;
+        const height = media.naturalHeight || media.videoHeight || 1;
+        const ratio = width / height;
+        
+        fig.style.height = perfectHeight + 'px';
+        fig.style.width = (perfectHeight * ratio) + 'px';
+        fig.style.flex = 'none'; // Prevents CSS from overriding our math
+      });
+    }
+  });
+}
+
+// Run the math ONLY when all images have fully loaded
+window.addEventListener('load', perfectlyAlignRows);
+
+// Recalculate if the user resizes their browser window
+window.addEventListener('resize', perfectlyAlignRows);
+    const sheetIds = ["s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8", "s9"];
+    const wheelWindow = document.querySelector(".wheel-window");
+    const wheel = document.querySelector(".tab-wheel");
+    const tabs = Array.from(document.querySelectorAll(".tab"));
+
+    let manualScroll = false;
+    let offset = 0;
+    let targetOffset = 0;
+    let velocity = 0;
+    let activeIndex = 0;
+
+    function updateClasses(index) {
+      activeIndex = index;
+      tabs.forEach((tab, tabIndex) => {
+        tab.classList.toggle("active", tabIndex === index);
+      });
+    }
+
+    function setActive(id) {
+      const index = sheetIds.indexOf(id);
+
+      if (index === -1) return;
+
+      if (Math.abs(velocity) < 0.1) {
+        targetOffset = index;
+        updateClasses(index);
+      }
+
+      const credits = document.getElementById("sidebar-credits");
+      if (credits) {
+        credits.classList.toggle("collapsed", id !== "s1");
+      }
+    }
+
+    function goToSheet(id) {
+      const section = document.getElementById(id);
+
+      if (!section) return;
+
+      manualScroll = true;
+      
+      const topBarHeight = 220;
+      const elementPosition = section.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - topBarHeight;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth"
+      });
+
+      setActive(id);
+
+      clearTimeout(window.scrollTimer);
+      window.scrollTimer = setTimeout(() => {
+        manualScroll = false;
+      }, 900);
+    }
+
+    function toggleCompVideo(wrapper) {
+      const video = wrapper.querySelector("video");
+      const overlay = wrapper.querySelector(".pb");
+
+      if (!video) return;
+
+      if (video.paused) {
+        video.play();
+        overlay.style.display = "none";
+      } else {
+        video.pause();
+        overlay.style.display = "flex";
+      }
+    }
+
+    document.querySelectorAll(".comp-wrap").forEach((wrapper) => {
+      wrapper.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          toggleCompVideo(wrapper);
+        }
+      });
+    });
+
+    const sheetObserver = new IntersectionObserver(
+      (entries) => {
+        if (manualScroll) return;
+
+        const visibleEntries = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+
+        if (visibleEntries.length) {
+          setActive(visibleEntries[0].target.id);
+        }
+      },
+      {
+        root: null,
+        rootMargin: "-220px 0px 0px 0px", 
+        threshold: [0.2, 0.4, 0.6]
+      }
+    );
+
+    document.querySelectorAll(".sheet").forEach((sheet) => {
+      sheetObserver.observe(sheet);
+    });
+
+    wheelWindow.addEventListener(
+      "wheel",
+      (event) => {
+        event.preventDefault();
+        targetOffset += event.deltaY * 0.0025;
+        velocity = event.deltaY * 0.0025;
+      },
+      { passive: false }
+    );
+
+    function animateWheel() {
+      const maxIndex = sheetIds.length - 1;
+
+      targetOffset += velocity;
+      velocity *= 0.82;
+
+      if (Math.abs(velocity) < 0.015) {
+        velocity = 0;
+
+        const snapTarget = Math.max(
+          0,
+          Math.min(Math.round(targetOffset), maxIndex)
+        );
+
+        targetOffset += (snapTarget - targetOffset) * 0.1;
+
+        if (
+          activeIndex !== snapTarget &&
+          Math.abs(targetOffset - snapTarget) < 0.05
+        ) {
+          updateClasses(snapTarget);
+          goToSheet(sheetIds[snapTarget]);
+        }
+      } else {
+        if (targetOffset < 0) {
+          targetOffset += (0 - targetOffset) * 0.2;
+        }
+
+        if (targetOffset > maxIndex) {
+          targetOffset += (maxIndex - targetOffset) * 0.2;
+        }
+      }
+
+      offset += (targetOffset - offset) * 0.25;
+
+      const previousIndex = Math.max(0, Math.floor(offset));
+      const nextIndex = Math.min(maxIndex, Math.ceil(offset));
+      const progress = offset - Math.floor(offset);
+
+      const previousTab = tabs[previousIndex];
+      const nextTab = tabs[nextIndex];
+
+      const left1 = previousTab
+        ? previousTab.offsetLeft + previousTab.clientWidth / 2
+        : 0;
+
+      const left2 = nextTab
+        ? nextTab.offsetLeft + nextTab.clientWidth / 2
+        : left1;
+
+      const centerPoint = left1 + (left2 - left1) * progress;
+      const windowWidth = wheelWindow.clientWidth || window.innerWidth;
+      const wheelTranslateX = windowWidth / 2 - centerPoint;
+
+      wheel.style.transform = `translateX(${wheelTranslateX}px)`;
+
+      tabs.forEach((tab, index) => {
+        const distance = index - offset;
+        const angle = distance * -15; 
+        const translateZ = -Math.abs(distance) * 12;
+        const opacity = Math.max(0.1, 1 - Math.abs(distance) * 0.25);
+
+        tab.style.transform = `rotateY(${angle}deg) translateZ(${translateZ}px)`;
+        tab.style.opacity = opacity;
+      });
+
+      requestAnimationFrame(animateWheel);
+    }
+
+    async function loadSvg() {
+      const container = document.getElementById("svg-container");
+
+      try {
+        const response = await fetch("svg-export.svg");
+
+        if (!response.ok) {
+          throw new Error(`SVG could not be loaded (${response.status})`);
+        }
+
+        const svgData = await response.text();
+        container.innerHTML = svgData;
+        startScrollytelling();
+      } catch (error) {
+        console.error(error);
+        container.innerHTML = `
+          <p class="svg-error">
+            SVG could not load.<br>
+            Check that "svg-export.svg" is in the same folder and open this site through Live Server.
+          </p>
+        `;
+      }
+    }
+
+    function startScrollytelling() {
+      const scrollyTriggers = Array.from(document.querySelectorAll(".scrolly-step"));
+      const svgElement = document.querySelector(".sidebar-diagram svg");
+
+      if (!svgElement || !scrollyTriggers.length) return;
+
+      const markers = scrollyTriggers
+        .map((el) => ({ el, position: Number(el.dataset.position) }))
+        .sort((a, b) => a.position - b.position);
+
+      let isVisible = false;
+      let ticking = false;
+
+      function computeSvgPosition() {
+        const viewportCenter = window.innerHeight / 2;
+
+        let currentIndex = 0;
+
+        for (let i = 0; i < markers.length; i++) {
+          const rect = markers[i].el.getBoundingClientRect();
+          if (rect.top <= viewportCenter) {
+            currentIndex = i;
+          } else {
+            break;
+          }
+        }
+
+        const curr = markers[currentIndex];
+        const next = markers[Math.min(currentIndex + 1, markers.length - 1)];
+
+        const currRect = curr.el.getBoundingClientRect();
+        const nextRect = next.el.getBoundingClientRect();
+
+        let progress = 0;
+        const span = nextRect.top - currRect.top;
+
+        if (span > 0) {
+          progress = (viewportCenter - currRect.top) / span;
+          progress = Math.min(1, Math.max(0, progress));
+        }
+
+        const interpolated =
+          curr.position + (next.position - curr.position) * progress;
+
+        return interpolated;
+      }
+
+      function checkAnyMarkerNear() {
+        return markers.some((marker) => {
+          const rect = marker.el.getBoundingClientRect();
+          return (
+            rect.top > -window.innerHeight * 0.6 &&
+            rect.top < window.innerHeight * 1.6
+          );
+        });
+      }
+
+      function updateSvg() {
+        ticking = false;
+
+        const percent = computeSvgPosition();
+        const translateX = -percent;
+        svgElement.style.transform = `translateX(${translateX}%)`; 
+
+        const nowVisible = checkAnyMarkerNear();
+        if (nowVisible !== isVisible) {
+          isVisible = nowVisible;
+          svgElement.classList.toggle("visible", isVisible);
+        }
+      }
+
+      function onScroll() {
+        if (!ticking) {
+          ticking = true;
+          requestAnimationFrame(updateSvg);
+        }
+      }
+
+      window.addEventListener("scroll", onScroll, { passive: true });
+      window.addEventListener("resize", onScroll, { passive: true });
+      updateSvg();
+    }
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key !== "ArrowDown" && event.key !== "ArrowUp") return;
+
+      const visible = [...document.querySelectorAll(".sheet")].reduce(
+        (best, section) => {
+          const rect = section.getBoundingClientRect();
+          const visibleHeight =
+            Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, 0);
+
+          return visibleHeight > (best.visibleHeight || 0)
+            ? { element: section, visibleHeight }
+            : best;
+        },
+        {}
+      );
+
+      if (!visible.element) return;
+
+      const index = sheetIds.indexOf(visible.element.id);
+
+      if (event.key === "ArrowDown" && index < sheetIds.length - 1) {
+        goToSheet(sheetIds[index + 1]);
+      }
+
+      if (event.key === "ArrowUp" && index > 0) {
+        goToSheet(sheetIds[index - 1]);
+      }
+    });
+
+    updateClasses(0);
+    animateWheel();
+    loadSvg();
+
+
+
+
+
+  </script>
+</body>
+</html>      font-family: Arial, sans-serif;
+      font-size: 10pt;
+      color: #000;
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+    }
+
+    img,
+    video {
+      display: block;
+      max-width: 100%;
+      height: auto;
+    }
+
+    a {
+      color: #000;
+    }
+
+    p {
+      line-height: 1.6;
+      margin-bottom: 10pt;
+      max-width: 100%;
+    }
+
+    /* FROZEN TOP BAR STYLE CHANGES */
+
+    #sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      height: 220px;
+      padding: 16px;
+      overflow: hidden;
+      background: #fff;
+      border-bottom: 1px solid #000;
+      align-items: center;
+    }
+
+    #sidebar-header {
+      flex: 0 0 auto;
+      font: 10pt Arial, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    #sidebar-credits {
+      font: 10pt Arial;
+      line-height: 1.4;
+      color: #5d5555;
+      margin-bottom: 0px;
+      margin-top: 10px;
+      flex: 0 0 auto;
+      opacity: 1;
+      max-height: 150px;
+      transition: opacity 0.2s ease-in-out;
+      overflow: hidden;
+    }
+
+    #sidebar-credits.collapsed {
+      max-height: 150px;
+      opacity: 0;
+      margin-bottom: 0px;
+    }
+
+    .wheel-window {
+      height: 40px;
+      width: 100%;
+      max-width: 600px;
+      flex: 0 0 auto;
+      position: relative;
+      overflow: hidden;
+      perspective: 800px;
+      mask-image: linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%);
+      margin-bottom: 10px;
+    }
+
+    .tab-wheel {
+      position: absolute;
+      left: 0;
+      height: 100%;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      transform-style: preserve-3d;
+      white-space: nowrap;
+    }
+
+    .tab {
+      display: block;
+      padding: 0 20px;
+      border: 0;
+      background: transparent;
+      color: #000;
+      cursor: pointer;
+      font: 10pt Arial, sans-serif;
+      line-height: 1.2;
+      text-align: center;
+      transform-origin: center center;
+      backface-visibility: hidden;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    .tab:hover {
+      color: #555;
+    }
+
+    .tab.active {
+      color: #0000ff;
+    }
+
+    .sidebar-diagram {
+      position: relative;
+      display: flex;
+      flex: 1;
+      width: 100%;
+      max-width: 600px;
+      height: 60px;
+      overflow: hidden;
+      align-items: center;
+      justify-content: center;
+      mask-image: linear-gradient(
+        to right,
+        transparent 0%,
+        black 15%,
+        black 85%,
+        transparent 100%
+      );
+      -webkit-mask-image: linear-gradient(
+        to right,
+        transparent 0%,
+        black 15%,
+        black 85%,
+        transparent 100%
+      );
+    }
+
+    .sidebar-diagram svg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: auto;
+      opacity: 0;
+      transition: opacity 0.6s ease, transform 0.1s linear;
+    }
+
+    .sidebar-diagram svg.visible {
+      opacity: 1;
+    }
+
+    .svg-error {
+      padding-top: 16px;
+      color: #f00;
+      font: 10pt Arial, sans-serif;
+      line-height: 1.4;
+    }
+
+    /* CONTENT POSITIONING ADJUSTED FOR TOP BAR HEIGHT */
+
+    #content {
+      width: 100%;
+      margin-top: 220px;
+    }
+
+    .sheet {
+      display: block;
+      position: relative;
+      min-height: calc(100vh - 220px);
+      padding: 24px 40px 80px;
+    }
+
+    h1 {
+      margin-bottom: 16pt;
+      font-size: 10pt;
+      font-weight: normal;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .note {
+      max-width: 100%;
+      margin: 16px 0;
+      font-style: italic;
+      line-height: 1.6;
+    }
+
+    figure {
+      display: block;
+      margin: 0;
+    }
+
+    figcaption {
+      margin-top: 6px;
+      color: #555;
+      font: italic 9pt Arial, sans-serif;
+      line-height: 1.4;
+    }
+
+    .indent-hide {
+      visibility: hidden;
+    }
+
+    .text-row {
+      display: flex;
+      flex-direction: row;
+      gap: 1vw;
+      width: 100%;
+      margin: 20px 0;
+      align-items: flex-start;
+    }
+
+    .text-row img {
+      display: block;
+      flex: 0 0 60%;
+      width: 60%;
+      height: auto;
+      object-fit: contain;
+    }
+
+    .text-col {
+      flex: 0 0 40%;
+      width: 40%;
+      min-width: 0;
+    }
+
+    .text-col p {
+      max-width: 100%;
+    }
+
+    .photo-row img,
+    .photo-row video,
+    .comp-wrap {
+      display: block;
+      flex: 0 1 auto;
+      width: auto;
+      min-width: 0;
+      max-width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .photo-row {
+  display: flex;
+  flex-direction: row;
+  gap: 1vw;
+  width: 100%;
+  margin: 20px 0;
+}
+
+.photo-row figure {
+  margin: 0;
+  padding: 0;
+  display: block;
+}
+
+.photo-row figure img,
+.photo-row figure video {
+  width: 100%;
+  height: 100%;
+  display: block;
+  /* Because the script below makes the box the EXACT aspect ratio of the image, 'cover' will fill the box with zero cropping. */
+  object-fit: cover; 
+}
+
+    .photo-row figure figcaption {
+      flex: 0 0 auto;
+      padding-top: 4px;
+      text-align: center;
+    }
+
+    .comp-wrap {
+      position: relative;
+      width: 100%;
+      height: 500px;
+      margin: 20px 0;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .comp-wrap video {
+      width: auto;
+      height: 100%;
+      margin: 0 auto;
+      object-fit: contain;
+    }
+
+    .pano-container {
+      position: relative;
+      height: 100vh;
+      width: 100%;
+      overflow-x: auto;
+      overflow-y: hidden;
+      white-space: nowrap;
+    }
+
+    .pano-container img {
+      height: 100%;
+      width: auto;
+      max-width: none;
+      display: block;
+    }
+
+    .scroll-hint {
+      position: sticky;
+      left: 20px;
+      top: 0;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #f00;
+      font: bold 20pt Arial, sans-serif;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    .pb {
+      position: absolute;
+      top: 50%;
+      left: 30%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transform: translate(-50%, -50%);
+      color: #f00;
+      pointer-events: none;
+      font: bold 26pt Arial, sans-serif;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .row-s2-videos {
+      height: auto;
+    }
+
+    .row-s2-photos {
+      height: auto;
+    }
+
+    .row-s2-maps {
+      height: auto;
+    }
+
+    .row-s5-videos {
+      height: auto;
+    }
+
+    .row-s5-photos {
+      height: auto;
+    }
+
+    /* Scroll trigger markers - zero footprint, do not affect layout */
+    .scrolly-step {
+      position: absolute;
+      left: 0;
+      width: 1px;
+      height: 1px;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    table.events {
+      max-width: 820px;
+      margin-bottom: 10pt;
+      border-collapse: collapse;
+      font: 10pt Arial, sans-serif;
+    }
+
+    table.events td {
+      padding: 4px 16px 4px 0;
+      vertical-align: top;
+      font-size: 10pt;
+    }
+
+    table.events td:first-child {
+      width: 160px;
+      font-size: 10pt;
+      white-space: nowrap;
+    }
+
+    table.events tr.section-head td {
+      padding-top: 14px;
+      font-size: 10pt;
+      font-weight: normal;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 850px) {
+      body {
+        display: block;
+      }
+
+      #sidebar {
+        position: fixed;
+        width: 100%;
+        height: 220px;
+      }
+
+      #content {
+        width: 100%;
+        margin-top: 220px;
+      }
+
+      .sheet {
+        padding: 24px 16px 60px;
+      }
+
+      .photo-row {
+        flex-wrap: wrap;
+        height: auto;
+      }
+
+      .photo-row figure {
+        width: 48%;
+        height: auto;
+      }
+
+      .row-s2-maps,
+      .row-s5-videos,
+      .row-s2-videos {
+        height: auto;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="sidebar">
+    <div id="sidebar-header">A TIMETRAVELLERS GUIDE THROUGH SPACE TIME</div>
+
+    <div class="wheel-window" aria-label="Section navigation">
+      <div class="tab-wheel">
+        <button class="tab" type="button" onclick="goToSheet('s1')">Erosion</button>
+        <button class="tab" type="button" onclick="goToSheet('s2')">Space Time State</button>
+        <button class="tab" type="button" onclick="goToSheet('s3')"><span class="indent-hide">+ </span>State<br>+ Space<br>= Map</button>
+        <button class="tab" type="button" onclick="goToSheet('s4')"><span class="indent-hide">+ </span>Space<br>+ Time<br>= Superposition</button>
+        <button class="tab" type="button" onclick="goToSheet('s5')"><span class="indent-hide">+ </span>Time<br>+ State<br>= Sequence</button>
+        <button class="tab" type="button" onclick="goToSheet('s6')"><span class="indent-hide">+ </span>Map<br>+ Superposition<br>+ Sequence<br>= Overlay Overload</button>
+        <button class="tab" type="button" onclick="goToSheet('s7')">Space Time Transect</button>
+        <button class="tab" type="button" onclick="goToSheet('s8')">Time cut us off</button>
+        <button class="tab" type="button" onclick="goToSheet('s9')">References</button>
+      </div>
+    </div>
+
+    <div class="sidebar-diagram" id="svg-container" aria-label="Diagram"></div>
+  </div>
+
+  <main id="content">
+    <section class="sheet" id="s1">
+      <h1>Erosion led to Entropy</h1>
+
+      <div class="photo-row row-s2-videos" style="margin-bottom: 0;">
+        <figure><video autoplay loop muted playsinline><source src="01_Amazon.mp4" type="video/mp4"></video></figure>
+        <figure><video autoplay loop muted playsinline><source src="02_Havel.mp4" type="video/mp4"></video></figure>
+        <figure><video autoplay loop muted playsinline><source src="03_panke.mp4" type="video/mp4"></video></figure>
+        <figure><video autoplay loop muted playsinline><source src="04_Spree.mp4" type="video/mp4"></video></figure>
+        <figure><video autoplay loop muted playsinline><source src="05_spreewald.mp4" type="video/mp4"></video></figure>
+        <figure><video autoplay loop muted playsinline><source src="06_ganges.mp4" type="video/mp4"></video></figure>
+      </div>
+
+      <p class="note">
+        In our research, the Panke River serves as a primary example of a territory in constant transformation.
+        Shaped first by glacial melt, the landscape remains in motion and the river would slowly erode its own path,
+        were it not for our anthropological impact. We observed that human attempts to freeze these meanders in time,
+        in the name of efficiency, often backfire, because the landscape resists static control. This led us to a shift
+        in perspective: we no longer see the territory as a fixed state, but as an entropic mixture. To map this entropy,
+        we have to understand time as an active physical force, one that produces both change and superposition.
+      </p>
+
+      <figure>
+        <img src="coupes_1.jpg" alt="Panke drawing">
+      </figure>
+
+    </section>
+
+    <section class="sheet" id="s2">
+      <h1>Space Time State</h1>
+
+      <p class="note">
+        To make this process legible, we first organized the terrain through a 3-dimensional matrix of SPACE, TIME and STATE.
+      </p>
+
+      <figure>
+        <img src="Matrix.png" style="width: 600px;" alt="Diagram SPACE TIME STATE">
+      </figure>
+
+      <div class="photo-row row-s5-videos" style="margin-bottom: 0;">
+        <figure><img src="IMG_6909.jpeg" alt="Field survey Panke"></figure>
+        <figure><img src="BF39C335-6EBB-41ED-AF19-46555667780D-2.JPG" alt="Infrastructure"></figure>
+        <figure><img src="361A5F8C-AA9B-47CB-9034-93A739BD99F6-3.JPG" alt="Field specimens"></figure>
+        <figure><video autoplay loop muted playsinline><source src="THEMES.mp4" type="video/mp4"></video></figure>
+      </div>
+
+      <div class="comp-wrap" onclick="toggleCompVideo(this)" role="button" tabindex="0">
+        <video>
+          <source src="comp.mp4" type="video/mp4">
+        </video>
+        <div class="pb">PRESS HERE TO PLAY</div>
+      </div>
+
+      <p style="font-size: 10pt; margin-top: 20px;">
+        We drew the line of our transect at the fringe of the city, with the Panke in the middle, a strip of autobahn
+        running left and train tracks right of it. As we meandered around our line we saw ourselves walking through time
+        and space, only experiencing the state of our environment at the exact time of our observation. Had this always
+        been peripherie, was it countryside before? Condumed by the ever growing Berlin?
+      </p>
+    </section>
+
+    <section class="sheet" id="s3">
+      <h1>State + Space = Map</h1>
+      <p style="font-size: 10pt; font-style: italic; margin-bottom: 0;">resulting in single Layers</p>
+
+      <div class="photo-row row-s2-maps" style="margin-bottom: 0;">
+        <figure><video autoplay loop muted playsinline><source src="time_maps.mp4" type="video/mp4"></video></figure>
+        <figure><video autoplay loop muted playsinline><source src="info_Maps.mp4" type="video/mp4"></video></figure>
+      </div>
+    </section>
+
+    <section class="sheet" id="s4">
+      <div class="scrolly-step" data-position="0"></div>
+
+      <h1>Space + Time = Superposition</h1>
+      <p style="font-size: 10pt; font-style: italic; margin-bottom: 0;">resulting in Palimpseste</p>
+      <p>Paragraph about palimpsetste</p>
+
+      <figure>
+        <img src="Palimpsest.png" alt="Drawing Palimpseste">
+      </figure>
+
+      <p>Paragraph about Geological cut</p>
+
+      <figure>
+        <img src="Geological_cut.png" alt="Geological cut">
+      </figure>
+    </section>
+
+    <section class="sheet" id="s5">
+      <div class="scrolly-step" data-position="15"></div>
+
+      <h1>Time + State = Sequence</h1>
+      <p style="font-size: 10pt; font-style: italic; margin-bottom: 0;">resulting in TIMELINE</p>
+
+      <div class="pano-container">
+        <img src="Pollenanalysis.png" alt="Pollen analysis">
+        <div class="scroll-hint">SCROLL &rarr;</div>
+      </div>
+
+      <p>Pollenanalyse zur Frühgeschichte unserer Gegend</p>
+
+      <p>
+        Das Untersuchungsgebiet zwischen Französisch Buchholz, der Panke-Niederung und Blankenburg nimmt innerhalb der
+        Berliner Quartärgeologie eine Schlüsselrolle ein. Als Bestandteil der Barnim-Platte ist die Landschaft das
+        Resultat glazialer und glaziofluvialer Prozesse, die das Relief sowie über die Substratverteilung auch die spätere
+        slawische und mittelalterliche Besiedlung prägten.
+      </p>
+
+      <p>
+        Die <em>Palynologie</em> ist die zentrale Methode zur Rekonstruktion des Übergangs von Natur- zu Kulturlandschaft.
+        Die Pollenbefunde der altslawischen Burg Blankenburg zeigen eine Dominanz von <em>Pinus</em> und <em>Quercus</em>.
+      </p>
+
+      <p>
+        Die Genese des Nordbarnims zeigt einen Übergang von klimatischen zu zunehmend anthropogenen Steuerungskräften.
+        Im 7. Jahrhundert etablierte sich die slawische Burg Blankenburg mit selektiver Eichennutzung und intensivem
+        Getreidebau.
+      </p>
+
+      <p>
+        Die Landschaft ist kein statisches Erbe, sondern das dynamische Resultat anthropogener Denudation und
+        vegetationsgeschichtlicher Steuerung.
+      </p>
+
+      <iframe
+        src="weichselian_to_present.html"
+        title="Weichselian Ice Age to present timeline"
         style="width: 100%; height: 1600px; border: 0;">
       </iframe>
     </section>

@@ -683,10 +683,13 @@
         <figure><img src="image.JPG" alt="Photo Mavericks"></figure>
         <figure><img src="image.JPG" alt="Photo Mavericks"></figure>
       </div>
-
-      <video controls autoplay loop muted playsinline>
-        <source src="Intervention.mp4" type="video/mp4">
-      </video>
+      
+      <div class="comp-wrap" onclick="toggleCompVideo(this)" role="button" tabindex="0">
+        <video>
+          <source src="Intervention.mp4" type="video/mp4">
+        </video>
+        <div class="pb">PRESS HERE TO PLAY</div>
+      </div>
     </section>
 
     <section class="sheet" id="s9">

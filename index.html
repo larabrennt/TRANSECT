@@ -68,7 +68,7 @@
       display: flex;
       flex-direction: column;
       width: 100%;
-      height: 80px;
+      height: 140px;
       padding: 16px;
       overflow: hidden;
       background: #fff;
@@ -159,18 +159,20 @@
       overflow: hidden;
       align-items: center;
       justify-content: center;
+
+      /* DYNAMISCHER FADE EFFEKT (STANDARD FÜR GROSSE BILDSCHIRME: Schmaler Fokus) */
       mask-image: linear-gradient(
         to right,
         transparent 0%,
-        black 15%,
-        black 85%,
+        black 35%,
+        black 65%,
         transparent 100%
       );
       -webkit-mask-image: linear-gradient(
         to right,
         transparent 0%,
-        black 15%,
-        black 85%,
+        black 35%,
+        black 65%,
         transparent 100%
       );
     }
@@ -189,37 +191,8 @@
       opacity: 1;
     }
 
-    /* BINDUNG AN DEINE FUNKTIONSGRUPPEN (group-1 bis group-7) IM SVG */
-    /* Standardmäßig sind alle nummerierten Funktionsgruppen im SVG unsichtbar */
-    .sidebar-diagram svg [id^="group-"] {
-      opacity: 0;
-      transition: opacity 0.35s ease-in-out;
-    }
-
-    /* Nur die aktive Gruppe blendet weich ein */
-    .sidebar-diagram svg [id^="group-"].visible-group {
-      opacity: 1;
-    }
-
-    /* NEU: HIER FÄRBEN WIR DIE AKTIVE GRUPPE IN DEINEM AKTIVEN BLAUTON */
-    /* Betrifft sowohl ausgefüllte Formen (fill) als auch Linien (stroke) */
-    .sidebar-diagram svg [id^="group-"].visible-group * {
-      /* Falls im SVG Linien gezeichnet sind */
-      stroke: #0000ff !important;
-      /* Falls im SVG ausgefüllte Pfade/Formen existieren */
-      fill: #0000ff !important;
-      /* Ein sanfter Übergang für den Farbwechsel */
-      transition: stroke 0.3s ease, fill 0.3s ease;
-    }
-
-    /* Ausnahme: Falls einige unsichtbare Pfade/Hintergründe im SVG transparente Füllungen haben sollen, */
-    /* verhindern wir, dass diese ungewollt komplett blau gefüllt werden */
-    .sidebar-diagram svg [id^="group-"].visible-group *[fill="none"] {
-      fill: none !important;
-    }
-    .sidebar-diagram svg [id^="group-"].visible-group *[stroke="none"] {
-      stroke: none !important;
-    }
+    /* RÜCKGÄNGIG GEMACHT: Keine Selektoren mehr für group-Färbung oder group-Opacity-Wechsel */
+    /* Alle SVG-Elemente behalten ihre ursprünglichen Farben und Standard-Sichtbarkeiten aus dem Export. */
 
     .svg-error {
       color: #f00;
@@ -423,6 +396,7 @@
       height: auto;
     }
 
+    /* MEDIENANFRAGE: FÜR MOBILE BILDSCHIRME WIRD DER SICHTBARE AUSSCHNITT DEUTLICH GRÖSSER */
     @media (max-width: 850px) {
       body {
         display: block;
@@ -464,6 +438,24 @@
       .row-s5-videos,
       .row-s2-videos {
         height: auto;
+      }
+
+      /* Neuer Fade für mobile Geräte: lässt wesentlich mehr Inhalt links und rechts durchschimmern (Fokus-Fenster 10% bis 90%) */
+      .sidebar-diagram {
+        mask-image: linear-gradient(
+          to right,
+          transparent 0%,
+          black 10%,
+          black 90%,
+          transparent 100%
+        );
+        -webkit-mask-image: linear-gradient(
+          to right,
+          transparent 0%,
+          black 10%,
+          black 90%,
+          transparent 100%
+        );
       }
     }
   </style>
@@ -724,13 +716,13 @@
     // DEFINITION DER SVG-MARKER PRO TAB (Index 0 bis 8)
     const svgPositions = [
       0,   // index 0: s1 (WELCOME) -> ausgeblendet
-      5,   // index 1: s2 (Space Time State) -> group-1 -> 5%
-      15,  // index 2: s3 (State + Space= Map) -> group-2 -> 15%
-      15,  // index 3: s4 (Space + Time = Superposition) -> group-3 -> 15%
-      45,  // index 4: s5 (Time + State = Sequence) -> group-4 -> 45%
-      60,  // index 5: s6 (Map + Superposition + Sequence) -> group-5 -> 60%
-      77,  // index 6: s7 (Space Time Transect) -> group-6 -> 77%
-      95,  // index 7: s8 (Time cut us off) -> group-7 -> 95%
+      5,   // index 1: s2 (Space Time State) -> 5%
+      15,  // index 2: s3 (State + Space= Map) -> 15%
+      15,  // index 3: s4 (Space + Time = Superposition) -> 15%
+      45,  // index 4: s5 (Time + State = Sequence) -> 45%
+      60,  // index 5: s6 (Map + Superposition + Sequence) -> 60%
+      77,  // index 6: s7 (Space Time Transect) -> 77%
+      95,  // index 7: s8 (Time cut us off) -> 95%
       100  // index 8: s9 (References) -> ausgeblendet
     ];
 
@@ -899,7 +891,7 @@
         tab.style.opacity = opacity;
       });
 
-      // --- 2. BOTTOM BAR SVG & GROUP TRANSFORMS ---
+      // --- 2. BOTTOM BAR SVG TRANSFORMS (RÜCKGÄNGIG GEMACHT / RESET) ---
       const svgElement = document.querySelector(".sidebar-diagram svg");
       if (svgElement) {
         const p1 = svgPositions[previousIndex];
@@ -908,21 +900,6 @@
 
         // Verschiebt das SVG auf der X-Achse
         svgElement.style.transform = `translateX(calc(${-currentPercent}% + 50vw))`;
-
-        // Gruppen ein-/ausblenden (group-1 bis group-7)
-        const currentGroupNumber = Math.round(offset); 
-        
-        const allSvgGroups = svgElement.querySelectorAll('[id^="group-"]');
-        allSvgGroups.forEach(group => {
-          const groupId = group.getAttribute("id");
-          const targetId = `group-${currentGroupNumber}`;
-          
-          if (groupId === targetId && offset >= 0.5 && offset <= 7.5) {
-            group.classList.add("visible-group");
-          } else {
-            group.classList.remove("visible-group");
-          }
-        });
 
         // Gesamtes SVG ein- bzw. ausblenden bei den Endpunkten s1 und s9
         const shouldHide = offset < 0.2 || offset > 7.8;

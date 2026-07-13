@@ -68,7 +68,7 @@
       display: flex;
       flex-direction: column;
       width: 100%;
-      height: 80px;
+      height: 140px;
       padding: 16px;
       overflow: hidden;
       background: #fff;
@@ -159,8 +159,6 @@
       overflow: hidden;
       align-items: center;
       justify-content: center;
-
-      /* DYNAMISCHER FADE EFFEKT (STANDARD FÜR GROSSE BILDSCHIRME: Schmaler Fokus) */
       mask-image: linear-gradient(
         to right,
         transparent 0%,
@@ -191,8 +189,17 @@
       opacity: 1;
     }
 
-    /* RÜCKGÄNGIG GEMACHT: Keine Selektoren mehr für group-Färbung oder group-Opacity-Wechsel */
-    /* Alle SVG-Elemente behalten ihre ursprünglichen Farben und Standard-Sichtbarkeiten aus dem Export. */
+    /* --- DIE ABSOLUT BULLETPROOF STEUERUNG DER INHALTSGRUPPEN --- */
+    /* !important erzwingt die Opacity, selbst wenn das SVG harte Inline-Styles mitbringt */
+    .sidebar-diagram svg [id^="group-"] {
+      opacity: 0.05 !important;
+      transition: opacity 0.4s ease-in-out;
+    }
+
+    /* Schaltet die aktive Gruppe unerbittlich auf sichtbar */
+    .sidebar-diagram svg [id^="group-"].visible-group {
+      opacity: 1 !important;
+    }
 
     .svg-error {
       color: #f00;
@@ -201,7 +208,7 @@
       text-align: center;
     }
 
-    /* CONTENT POSITIONIERUNG ANGEPASST AN OBEN (140px) UND UNTEN (80px) */
+    /* CONTENT POSITIONIERUNG */
     #content {
       width: 100%;
       margin-top: 140px;
@@ -396,7 +403,6 @@
       height: auto;
     }
 
-    /* MEDIENANFRAGE: FÜR MOBILE BILDSCHIRME WIRD DER SICHTBARE AUSSCHNITT DEUTLICH GRÖSSER */
     @media (max-width: 850px) {
       body {
         display: block;
@@ -440,7 +446,6 @@
         height: auto;
       }
 
-      /* Neuer Fade für mobile Geräte: lässt wesentlich mehr Inhalt links und rechts durchschimmern (Fokus-Fenster 10% bis 90%) */
       .sidebar-diagram {
         mask-image: linear-gradient(
           to right,
@@ -716,13 +721,13 @@
     // DEFINITION DER SVG-MARKER PRO TAB (Index 0 bis 8)
     const svgPositions = [
       0,   // index 0: s1 (WELCOME) -> ausgeblendet
-      5,   // index 1: s2 (Space Time State) -> 5%
-      15,  // index 2: s3 (State + Space= Map) -> 15%
-      15,  // index 3: s4 (Space + Time = Superposition) -> 15%
-      45,  // index 4: s5 (Time + State = Sequence) -> 45%
-      60,  // index 5: s6 (Map + Superposition + Sequence) -> 60%
-      77,  // index 6: s7 (Space Time Transect) -> 77%
-      95,  // index 7: s8 (Time cut us off) -> 95%
+      5,   // index 1: s2 (Space Time State) -> group-1 -> 5%
+      15,  // index 2: s3 (State + Space= Map) -> group-2 -> 15%
+      15,  // index 3: s4 (Space + Time = Superposition) -> group-3 -> 15%
+      45,  // index 4: s5 (Time + State = Sequence) -> group-4 -> 45%
+      60,  // index 5: s6 (Map + Superposition + Sequence) -> group-5 -> 60%
+      77,  // index 6: s7 (Space Time Transect) -> group-6 -> 77%
+      95,  // index 7: s8 (Time cut us off) -> group-7 -> 95%
       100  // index 8: s9 (References) -> ausgeblendet
     ];
 
@@ -891,7 +896,7 @@
         tab.style.opacity = opacity;
       });
 
-      // --- 2. BOTTOM BAR SVG TRANSFORMS (RÜCKGÄNGIG GEMACHT / RESET) ---
+      // --- 2. BOTTOM BAR SVG & GROUP TRANSFORMS ---
       const svgElement = document.querySelector(".sidebar-diagram svg");
       if (svgElement) {
         const p1 = svgPositions[previousIndex];
@@ -900,6 +905,24 @@
 
         // Verschiebt das SVG auf der X-Achse
         svgElement.style.transform = `translateX(calc(${-currentPercent}% + 50vw))`;
+
+        // Robustere Gruppensuche: Wir runden den Offset auf die exakte ID
+        const currentGroupNumber = Math.round(offset); 
+        
+        // Wir holen uns alle Gruppen, deren ID mit "group-" anfängt
+        const allSvgGroups = svgElement.querySelectorAll('[id^="group-"]');
+        allSvgGroups.forEach(group => {
+          const groupId = group.getAttribute("id");
+          
+          // Hier vergleichen wir flexibel, um auch IDs wie "group-1_1_" oder "group-1-copy" abzufangen!
+          const regex = new RegExp(`^group-${currentGroupNumber}\\b|_|-`);
+          
+          if (regex.test(groupId) && offset >= 0.5 && offset <= 7.5) {
+            group.classList.add("visible-group");
+          } else {
+            group.classList.remove("visible-group");
+          }
+        });
 
         // Gesamtes SVG ein- bzw. ausblenden bei den Endpunkten s1 und s9
         const shouldHide = offset < 0.2 || offset > 7.8;

@@ -68,7 +68,7 @@
       display: flex;
       flex-direction: column;
       width: 100%;
-      height: 140px; /* Höhe verringert, da das SVG nun unten ist */
+      height: 140px;
       padding: 16px;
       overflow: hidden;
       background: #fff;
@@ -133,7 +133,7 @@
       color: #0000ff;
     }
 
-    /* NEUER FIXIERTER BOTTOM BAR FÜR DAS SVG */
+    /* FIXIERTER BOTTOM BAR FÜR DAS SVG */
     #bottom-bar {
       position: fixed;
       bottom: 0;
@@ -141,7 +141,7 @@
       z-index: 1000;
       display: flex;
       width: 100%;
-      height: 80px; /* Angenehme Höhe für das Diagramm am Boden */
+      height: 80px;
       background: #fff;
       border-top: 1px solid #000;
       align-items: center;
@@ -155,7 +155,7 @@
       flex: 1;
       width: 100%;
       max-width: 100%;
-      height: 60px; /* SVG-Höhe bleibt konsistent */
+      height: 60px;
       overflow: hidden;
       align-items: center;
       justify-content: center;
@@ -189,6 +189,18 @@
       opacity: 1;
     }
 
+    /* BINDUNG AN DEINE FUNKTIONSGRUPPEN (group-1 bis group-7) IM SVG */
+    /* Standardmäßig sind alle nummerierten Funktionsgruppen im SVG unsichtbar */
+    .sidebar-diagram svg [id^="group-"] {
+      opacity: 0;
+      transition: opacity 0.35s ease-in-out;
+    }
+
+    /* Nur die Gruppe, die aktiv zugewiesen wird, blendet weich ein */
+    .sidebar-diagram svg [id^="group-"].visible-group {
+      opacity: 1;
+    }
+
     .svg-error {
       color: #f00;
       font: 10pt Arial, sans-serif;
@@ -199,14 +211,14 @@
     /* CONTENT POSITIONIERUNG ANGEPASST AN OBEN (140px) UND UNTEN (80px) */
     #content {
       width: 100%;
-      margin-top: 140px; /* Platz für Top-Bar */
-      margin-bottom: 80px; /* Verhindert, dass Inhalt hinter der Bottom-Bar verschwindet */
+      margin-top: 140px;
+      margin-bottom: 80px;
     }
 
     .sheet {
       display: block;
       position: relative;
-      min-height: calc(100vh - 220px); /* 140px oben + 80px unten */
+      min-height: calc(100vh - 220px);
       padding: 24px 40px 80px;
     }
 
@@ -692,13 +704,13 @@
     // DEFINITION DER SVG-MARKER PRO TAB (Index 0 bis 8)
     const svgPositions = [
       0,   // index 0: s1 (WELCOME) -> ausgeblendet
-      5,   // index 1: s2 (Space Time State) -> 5%
-      15,  // index 2: s3 (State + Space= Map) -> 15%
-      15,  // index 3: s4 (Space + Time = Superposition) -> 15%
-      45,  // index 4: s5 (Time + State = Sequence) -> 45%
-      60,  // index 5: s6 (Map + Superposition + Sequence) -> 60%
-      77,  // index 6: s7 (Space Time Transect) -> 77%
-      95,  // index 7: s8 (Time cut us off) -> 95%
+      5,   // index 1: s2 (Space Time State) -> group-1 -> 5%
+      15,  // index 2: s3 (State + Space= Map) -> group-2 -> 15%
+      15,  // index 3: s4 (Space + Time = Superposition) -> group-3 -> 15%
+      45,  // index 4: s5 (Time + State = Sequence) -> group-4 -> 45%
+      60,  // index 5: s6 (Map + Superposition + Sequence) -> group-5 -> 60%
+      77,  // index 6: s7 (Space Time Transect) -> group-6 -> 77%
+      95,  // index 7: s8 (Time cut us off) -> group-7 -> 95%
       100  // index 8: s9 (References) -> ausgeblendet
     ];
 
@@ -739,7 +751,7 @@
       if (!section) return;
 
       manualScroll = true;
-      const topBarHeight = 140; // Höhe an neuen reduzierten Header angepasst
+      const topBarHeight = 140; 
       const elementPosition = section.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.pageYOffset - topBarHeight;
 
@@ -801,7 +813,7 @@
       },
       {
         root: null,
-        rootMargin: "-140px 0px 0px 0px", // Margin an verringerten Top-Bar angepasst
+        rootMargin: "-140px 0px 0px 0px", 
         threshold: [0.2, 0.4, 0.6]
       }
     );
@@ -867,17 +879,35 @@
         tab.style.opacity = opacity;
       });
 
-      // --- 2. BOTTOM BAR SVG TRANSFORMS ---
+      // --- 2. BOTTOM BAR SVG & GROUP TRANSFORMS ---
       const svgElement = document.querySelector(".sidebar-diagram svg");
       if (svgElement) {
         const p1 = svgPositions[previousIndex];
         const p2 = svgPositions[nextIndex];
         const currentPercent = p1 + (p2 - p1) * progress;
 
-        // Verschiebung des SVGs im neuen Bottom Bar Container
+        // Verschiebt das SVG auf der X-Achse
         svgElement.style.transform = `translateX(calc(${-currentPercent}% + 50vw))`;
 
-        // Ausblenden bei Welcome (Index 0) und References (Index 8)
+        // Gruppen ein-/ausblenden (group-1 bis group-7)
+        // Wir ermitteln die Nummer der Gruppe, die zum aktuellen Sektionsindex gehört.
+        // Index 1 (s2) entspricht group-1, Index 2 (s3) group-2, etc.
+        const currentGroupNumber = Math.round(offset); 
+        
+        const allSvgGroups = svgElement.querySelectorAll('[id^="group-"]');
+        allSvgGroups.forEach(group => {
+          const groupId = group.getAttribute("id");
+          const targetId = `group-${currentGroupNumber}`;
+          
+          // Setzt das aktive Element auf visible, wenn wir nicht auf s1 (0) oder s9 (8) sind
+          if (groupId === targetId && offset >= 0.5 && offset <= 7.5) {
+            group.classList.add("visible-group");
+          } else {
+            group.classList.remove("visible-group");
+          }
+        });
+
+        // Gesamtes SVG ein- bzw. ausblenden bei den Endpunkten s1 und s9
         const shouldHide = offset < 0.2 || offset > 7.8;
         svgElement.classList.toggle("visible", !shouldHide);
       }

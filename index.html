@@ -186,7 +186,7 @@
       height: 100%;
       width: auto;
       opacity: 0;
-      /* transform-Lag entfernt für 1:1 direktes Ansprechverhalten. Nur opacity fadet soft. */
+      /* Softes Ein-/Ausblenden der Opacity. Keine Transform-Transition für 100% direktes, lag-freies Rendern! */
       transition: opacity 0.4s ease;
     }
 
@@ -522,11 +522,8 @@
     </section>
 
     <section class="sheet" id="s2">
-      <div class="scrolly-step" data-position="7"></div>
-      
       <h1>Space Time State</h1>
     
-
       <p class="note">
         To make this process legible, we first organized the terrain through a 3-dimensional matrix of SPACE, TIME and STATE.
       </p>
@@ -551,12 +548,9 @@
         and space, only experiencing the state of our environment at the exact time of our observation. Had this always
         been peripherie, was it countryside before? Condumed by the ever growing Berlin?
       </p>
-      <div class="scrolly-step" data-position="7"></div>
     </section>
 
     <section class="sheet" id="s3">
-      <div class="scrolly-step" data-position="15"></div>
-      
       <h1>State + Space = Map</h1>
       <p style="font-size: 10pt; font-style: italic; margin-bottom: 0;">resulting in single Layers</p>
       
@@ -568,8 +562,6 @@
     </section>
 
     <section class="sheet" id="s4">
-      <div class="scrolly-step" data-position="30"></div>
-
       <h1>Space + Time = Superposition</h1>
       <p style="font-size: 10pt; font-style: italic; margin-bottom: 0;">resulting in Palimpseste</p>
       <p>Paragraph about palimpseste</p>
@@ -583,12 +575,9 @@
       <figure>
         <img src="Geological_cut.png" alt="Geological cut">
       </figure>
-      <div class="scrolly-step" data-position="30"></div>
     </section>
 
     <section class="sheet" id="s5">
-      <div class="scrolly-step" data-position="45"></div>
-
       <h1>Time + State = Sequence</h1>
       <p style="font-size: 10pt; font-style: italic; margin-bottom: 0;">resulting in TIMELINE</p>
 
@@ -627,12 +616,9 @@
         title="Weichselian Ice Age to present timeline"
         style="width: 100%; height: 955px; border: 0;">
       </iframe>
-      <div class="scrolly-step" data-position="45"></div>
     </section>
 
     <section class="sheet" id="s6">
-      <div class="scrolly-step" data-position="60"></div>
-
       <h1>Overlay Overload</h1>
 
       <p>
@@ -643,12 +629,9 @@
       <figure>
         <img src="overlay_overload.png" alt="Overlay overload drawing">
       </figure>
-      <div class="scrolly-step" data-position="60"></div>
     </section>
 
     <section class="sheet" id="s7">
-      <div class="scrolly-step" data-position="77"></div>
-
       <h1>Space Time Transect</h1>
 
       <p class="note">
@@ -660,13 +643,10 @@
         <img src="TRANSECT.png" alt="Space-Time transect drawing">
         <div class="scroll-hint">SCROLL &rarr;</div>
       </div>
-      <div class="scrolly-step" data-position="77"></div>
      
     </section>
 
     <section class="sheet" id="s8">
-      <div class="scrolly-step" data-position="97"></div>
-
       <h1>Time cut us off</h1>
 
       <p>
@@ -680,7 +660,6 @@
         </video>
         <div class="pb">PRESS HERE TO PLAY</div>
       </div>
-      <div class="scrolly-step" data-position="97"></div>
     </section>
 
     <section class="sheet" id="s9">
@@ -742,6 +721,21 @@
     window.addEventListener('resize', perfectlyAlignRows);
     
     const sheetIds = ["s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8", "s9"];
+    
+    // DEFINITION DER SVG-MARKER PRO TAB (Index 0 bis 8)
+    // Ändere diese Zahlen nach Belieben, um die Bildmitte für jeden Tab neu zu justieren!
+    const svgPositions = [
+      0,   // index 0: s1 (Welcome) - ausgeblendet
+      5,   // index 1: s2 (Space Time State) -> Fokus auf 5%
+      15,  // index 2: s3 (State + Space = Map) -> Fokus auf 15%
+      15,  // index 3: s4 (Space + Time = Superposition) -> Fokus auf 15%
+      45,  // index 4: s5 (Time + State = Sequence) -> Fokus auf 45%
+      60,  // index 5: s6 (Map + Superposition + Sequence) -> Fokus auf 60%
+      77,  // index 6: s7 (Space Time Transect) -> Fokus auf 77%
+      95,  // index 7: s8 (Time cut us off) -> Fokus auf 95%
+      100  // index 8: s9 (References) - ausgeblendet
+    ];
+
     const wheelWindow = document.querySelector(".wheel-window");
     const wheel = document.querySelector(".tab-wheel");
     const tabs = Array.from(document.querySelectorAll(".tab"));
@@ -860,6 +854,8 @@
       { passive: false }
     );
 
+    // Diese Funktion wird kontinuierlich (jeden Frame) ausgeführt. Sie kümmert sich um die geschmeidige
+    // 3D-Rollen-Animation der Tabs UND verschiebt das SVG synchron mit exakt demselben Trägheitswert!
     function animateWheel() {
       const maxIndex = sheetIds.length - 1;
       targetOffset += velocity;
@@ -879,12 +875,14 @@
         if (targetOffset > maxIndex) targetOffset += (maxIndex - targetOffset) * 0.2;
       }
 
+      // 'offset' ist die weich animierte Gleitkommazahl (z. B. 2.45), die sich synchron bewegt
       offset += (targetOffset - offset) * 0.25;
 
       const previousIndex = Math.max(0, Math.floor(offset));
       const nextIndex = Math.min(maxIndex, Math.ceil(offset));
       const progress = offset - Math.floor(offset);
 
+      // --- 1. TABS ANIMIEREN ---
       const previousTab = tabs[previousIndex];
       const nextTab = tabs[nextIndex];
 
@@ -906,6 +904,23 @@
         tab.style.opacity = opacity;
       });
 
+      // --- 2. SVG DIREKT AN DIE TAB-BEWEGUNG KOPPELN ---
+      const svgElement = document.querySelector(".sidebar-diagram svg");
+      if (svgElement) {
+        // Interpoliert den Prozentwert zwischen den beiden benachbarten Tabs flüssig
+        const p1 = svgPositions[previousIndex];
+        const p2 = svgPositions[nextIndex];
+        const currentPercent = p1 + (p2 - p1) * progress;
+
+        // Verschiebt das SVG absolut ruckelfrei mit calc() analog zur Tab-Position
+        svgElement.style.transform = `translateX(calc(${-currentPercent}% + 50vw))`;
+
+        // Ausblenden auf Welcome (Index 0) und References (Index 8)
+        // Sobald offset nah an die Enden rutscht (z. B. < 0.1 oder > 7.9), blenden wir sanft aus.
+        const shouldHide = offset < 0.2 || offset > 7.8;
+        svgElement.classList.toggle("visible", !shouldHide);
+      }
+
       requestAnimationFrame(animateWheel);
     }
 
@@ -917,7 +932,15 @@
 
         const svgData = await response.text();
         container.innerHTML = svgData;
-        startScrollytelling();
+        
+        // Kurzes Timeout, damit der Browser die SVG-Breite korrekt initialisiert
+        setTimeout(() => {
+          const svgElement = document.querySelector(".sidebar-diagram svg");
+          if (svgElement && offset > 0.2 && offset < 7.8) {
+            svgElement.classList.add("visible");
+          }
+        }, 100);
+
       } catch (error) {
         console.error(error);
         container.innerHTML = `
@@ -927,83 +950,6 @@
           </p>
         `;
       }
-    }
-
-    function startScrollytelling() {
-      const scrollyTriggers = Array.from(document.querySelectorAll(".scrolly-step"));
-      const svgElement = document.querySelector(".sidebar-diagram svg");
-      if (!svgElement || !scrollyTriggers.length) return;
-
-      const markers = scrollyTriggers
-        .map((el) => ({ el, position: Number(el.dataset.position) }))
-        .sort((a, b) => a.position - b.position);
-
-      let isVisible = false;
-      let ticking = false;
-
-      function computeSvgPosition() {
-        const viewportCenter = window.innerHeight / 2;
-        let currentIndex = 0;
-
-        for (let i = 0; i < markers.length; i++) {
-          const rect = markers[i].el.getBoundingClientRect();
-          if (rect.top <= viewportCenter) {
-            currentIndex = i;
-          } else {
-            break;
-          }
-        }
-
-        const curr = markers[currentIndex];
-        const next = markers[Math.min(currentIndex + 1, markers.length - 1)];
-        const currRect = curr.el.getBoundingClientRect();
-        const nextRect = next.el.getBoundingClientRect();
-
-        let progress = 0;
-        const span = nextRect.top - currRect.top;
-        if (span > 0) {
-          progress = (viewportCenter - currRect.top) / span;
-          progress = Math.min(1, Math.max(0, progress));
-        }
-
-        return curr.position + (next.position - curr.position) * progress;
-      }
-
-      function checkAnyMarkerNear() {
-        return markers.some((marker) => {
-          const rect = marker.el.getBoundingClientRect();
-          return (rect.top > -window.innerHeight * 0.6 && rect.top < window.innerHeight * 1.6);
-        });
-      }
-
-      function updateSvg() {
-        ticking = false;
-        const percent = computeSvgPosition();
-        
-        // Verschiebt das SVG pixelgenau anhand des Berechnungs-Fokuspunkts
-        svgElement.style.transform = `translateX(calc(${-percent}% + 50vw))`; 
-      
-        // AUSBLEND-LOGIK ANHAND DER AKTUELLEN SEKTIONS-ID:
-        // Wir prüfen das global verwaltete activeIndex (0 = s1/Welcome, 8 = s9/References)
-        const shouldHide = activeIndex === 0 || activeIndex === 8;
-        const nowVisible = checkAnyMarkerNear() && !shouldHide;
-
-        if (nowVisible !== isVisible) {
-          isVisible = nowVisible;
-          svgElement.classList.toggle("visible", isVisible);
-        }
-      }
-
-      function onScroll() {
-        if (!ticking) {
-          ticking = true;
-          requestAnimationFrame(updateSvg);
-        }
-      }
-
-      window.addEventListener("scroll", onScroll, { passive: true });
-      window.addEventListener("resize", onScroll, { passive: true });
-      updateSvg();
     }
 
     document.addEventListener("keydown", (event) => {
@@ -1023,7 +969,7 @@
     });
 
     updateClasses(0);
-    animateWheel();
+    animateWheel(); // Beinhaltet jetzt die gesamte synchronisierte Tab + SVG Animation
     loadSvg();
   </script>
 </body>

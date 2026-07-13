@@ -39,6 +39,7 @@
       color: #000;
       background: #fff;
       display: flex;
+      flex-direction: column;
     }
 
     img,
@@ -58,7 +59,7 @@
       max-width: 100%;
     }
 
-    /* SIDEBAR */
+    /* FROZEN TOP BAR STYLE CHANGES */
 
     #sidebar {
       position: fixed;
@@ -67,11 +68,13 @@
       z-index: 1000;
       display: flex;
       flex-direction: column;
-      width: 385px;
-      height: 100vh;
-      padding: 24px 16px;
+      width: 100%;
+      height: 220px;
+      padding: 16px;
       overflow: hidden;
       background: #fff;
+      border-bottom: 1px solid #000;
+      align-items: center;
     }
 
     #sidebar-header {
@@ -79,6 +82,8 @@
       font: 10pt Arial, sans-serif;
       text-transform: uppercase;
       letter-spacing: 0.08em;
+      text-align: center;
+      margin-bottom: 10px;
     }
 
     #sidebar-credits {
@@ -101,37 +106,39 @@
     }
 
     .wheel-window {
-      height: 30vh;
+      height: 40px;
+      width: 100%;
+      max-width: 600px;
       flex: 0 0 auto;
       position: relative;
-      margin-top: -50px;
       overflow: hidden;
       perspective: 800px;
-      mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
-      -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
-      margin-bottom: 20px;
+      mask-image: linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%);
+      margin-bottom: 10px;
     }
 
     .tab-wheel {
       position: absolute;
-      top: 0;
-      width: 100%;
+      left: 0;
+      height: 100%;
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
+      align-items: center;
       transform-style: preserve-3d;
+      white-space: nowrap;
     }
 
     .tab {
       display: block;
-      width: 100%;
-      padding: 6px 0;
+      padding: 0 20px;
       border: 0;
       background: transparent;
       color: #000;
       cursor: pointer;
       font: 10pt Arial, sans-serif;
       line-height: 1.2;
-      text-align: left;
+      text-align: center;
       transform-origin: center center;
       backface-visibility: hidden;
       -webkit-user-select: none;
@@ -150,22 +157,25 @@
       position: relative;
       display: flex;
       flex: 1;
-      width: 60%;
-      margin-top: 10px;
+      width: 100%;
+      max-width: 600px;
+      height: 60px;
       overflow: hidden;
-      align-items: flex-start;
+      align-items: center;
       justify-content: center;
       mask-image: linear-gradient(
-        to bottom,
+        to right,
         transparent 0%,
         black 15%,
-        black 100%
+        black 85%,
+        transparent 100%
       );
       -webkit-mask-image: linear-gradient(
-        to bottom,
+        to right,
         transparent 0%,
         black 15%,
-        black 100%
+        black 85%,
+        transparent 100%
       );
     }
 
@@ -173,8 +183,8 @@
       position: absolute;
       top: 0;
       left: 0;
-      width: 100%;
-      height: auto;
+      height: 100%;
+      width: auto;
       opacity: 0;
       transition: opacity 0.6s ease, transform 0.1s linear;
     }
@@ -190,17 +200,17 @@
       line-height: 1.4;
     }
 
-    /* CONTENT */
+    /* CONTENT POSITIONING ADJUSTED FOR TOP BAR HEIGHT */
 
     #content {
-      width: calc(100% - 385px);
-      margin-left: 385px;
+      width: 100%;
+      margin-top: 220px;
     }
 
     .sheet {
       display: block;
       position: relative;
-      min-height: 100vh;
+      min-height: calc(100vh - 220px);
       padding: 24px 40px 80px;
     }
 
@@ -436,15 +446,14 @@
       }
 
       #sidebar {
-        position: relative;
+        position: fixed;
         width: 100%;
-        height: auto;
-        min-height: 420px;
+        height: 220px;
       }
 
       #content {
         width: 100%;
-        margin-left: 0;
+        margin-top: 220px;
       }
 
       .sheet {
@@ -731,7 +740,9 @@
       }
 
       const credits = document.getElementById("sidebar-credits");
-      credits.classList.toggle("collapsed", id !== "s1");
+      if (credits) {
+        credits.classList.toggle("collapsed", id !== "s1");
+      }
     }
 
     function goToSheet(id) {
@@ -740,9 +751,14 @@
       if (!section) return;
 
       manualScroll = true;
-      section.scrollIntoView({
-        behavior: "smooth",
-        block: "start"
+      
+      const topBarHeight = 220;
+      const elementPosition = section.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - topBarHeight;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth"
       });
 
       setActive(id);
@@ -791,6 +807,7 @@
       },
       {
         root: null,
+        rootMargin: "-220px 0px 0px 0px", 
         threshold: [0.2, 0.4, 0.6]
       }
     );
@@ -851,27 +868,27 @@
       const previousTab = tabs[previousIndex];
       const nextTab = tabs[nextIndex];
 
-      const top1 = previousTab
-        ? previousTab.offsetTop + previousTab.clientHeight / 2
+      const left1 = previousTab
+        ? previousTab.offsetLeft + previousTab.clientWidth / 2
         : 0;
 
-      const top2 = nextTab
-        ? nextTab.offsetTop + nextTab.clientHeight / 2
-        : top1;
+      const left2 = nextTab
+        ? nextTab.offsetLeft + nextTab.clientWidth / 2
+        : left1;
 
-      const centerPoint = top1 + (top2 - top1) * progress;
-      const windowHeight = wheelWindow.clientHeight || window.innerHeight * 0.45;
-      const wheelTranslateY = windowHeight / 2 - centerPoint;
+      const centerPoint = left1 + (left2 - left1) * progress;
+      const windowWidth = wheelWindow.clientWidth || window.innerWidth;
+      const wheelTranslateX = windowWidth / 2 - centerPoint;
 
-      wheel.style.transform = `translateY(${wheelTranslateY}px)`;
+      wheel.style.transform = `translateX(${wheelTranslateX}px)`;
 
       tabs.forEach((tab, index) => {
         const distance = index - offset;
-        const angle = distance * 15;
+        const angle = distance * -15; 
         const translateZ = -Math.abs(distance) * 12;
         const opacity = Math.max(0.1, 1 - Math.abs(distance) * 0.25);
 
-        tab.style.transform = `rotateX(${angle}deg) translateZ(${translateZ}px)`;
+        tab.style.transform = `rotateY(${angle}deg) translateZ(${translateZ}px)`;
         tab.style.opacity = opacity;
       });
 
@@ -963,8 +980,8 @@
         ticking = false;
 
         const percent = computeSvgPosition();
-        const translateY = -percent;
-        svgElement.style.transform = `translateY(${translateY}%)`;
+        const translateX = -percent;
+        svgElement.style.transform = `translateX(${translateX}%)`; 
 
         const nowVisible = checkAnyMarkerNear();
         if (nowVisible !== isVisible) {

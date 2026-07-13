@@ -39,6 +39,7 @@
       color: #000;
       background: #fff;
       display: flex;
+      flex-direction: column;
     }
 
     img,
@@ -58,80 +59,68 @@
       max-width: 100%;
     }
 
-    /* SIDEBAR */
-
+    /* FROZEN TOP BAR CONTAINER - Stacks everything vertically and centers it */
     #sidebar {
       position: fixed;
       top: 0;
       left: 0;
+      right: 0;
       z-index: 1000;
       display: flex;
-      flex-direction: column;
-      width: 385px;
-      height: 100vh;
-      padding: 24px 16px;
+      flex-direction: column; 
+      align-items: center;    /* Centered horizontally */
+      justify-content: center; /* Centered vertically */
+      width: 100%;
+      height: 160px; /* Comfortable height to frame all 3 stacked components */
+      padding: 12px 24px;
       overflow: hidden;
       background: #fff;
+      border-bottom: 1px solid #000;
+      gap: 10px;
     }
 
+    /* 1. HEADER (Top row) */
     #sidebar-header {
-      flex: 0 0 auto;
       font: 10pt Arial, sans-serif;
       text-transform: uppercase;
       letter-spacing: 0.08em;
+      text-align: center;
+      width: 100%;
     }
 
-    #sidebar-credits {
-      font: 10pt Arial;
-      line-height: 1.4;
-      color: #5d5555;
-      margin-bottom: 0px;
-      margin-top: 10px;
-      flex: 0 0 auto;
-      opacity: 1;
-      max-height: 150px;
-      transition: opacity 0.2s ease-in-out;
-      overflow: hidden;
-    }
-
-    #sidebar-credits.collapsed {
-      max-height: 150px;
-      opacity: 0;
-      margin-bottom: 0px;
-    }
-
+    /* 2. HORIZONTAL SCROLLY WHEEL (Middle row) */
     .wheel-window {
-      height: 30vh;
-      flex: 0 0 auto;
+      width: 100%;
+      max-width: 800px; /* Caps width so carousel effect feels compact and centered */
+      height: 35px;
       position: relative;
-      margin-top: -50px;
       overflow: hidden;
-      perspective: 800px;
-      mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
-      -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
-      margin-bottom: 20px;
+      perspective: 1000px;
+      mask-image: linear-gradient(to right, transparent 0%, black 20%, black 80%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to right, transparent 0%, black 20%, black 80%, transparent 100%);
     }
 
     .tab-wheel {
       position: absolute;
-      top: 0;
-      width: 100%;
+      left: 0;
+      height: 100%;
       display: flex;
-      flex-direction: column;
+      flex-direction: row; /* Horizontal alignment */
+      align-items: center;
       transform-style: preserve-3d;
     }
 
     .tab {
       display: block;
-      width: 100%;
-      padding: 6px 0;
+      white-space: nowrap;
+      padding: 0 16px;
       border: 0;
       background: transparent;
       color: #000;
       cursor: pointer;
-      font: 10pt Arial, sans-serif;
+      font: 9.5pt Arial, sans-serif;
       line-height: 1.2;
-      text-align: left;
+      text-align: center;
       transform-origin: center center;
       backface-visibility: hidden;
       -webkit-user-select: none;
@@ -146,35 +135,25 @@
       color: #0000ff;
     }
 
+    /* 3. HORIZONTAL SCROLLING SVG (Bottom row) */
     .sidebar-diagram {
       position: relative;
-      display: flex;
-      flex: 1;
-      width: 60%;
-      margin-top: 10px;
+      width: 100%;
+      max-width: 1000px; /* Matches layout proportions nicely */
+      height: 60px;
       overflow: hidden;
-      align-items: flex-start;
-      justify-content: center;
-      mask-image: linear-gradient(
-        to bottom,
-        transparent 0%,
-        black 15%,
-        black 100%
-      );
-      -webkit-mask-image: linear-gradient(
-        to bottom,
-        transparent 0%,
-        black 15%,
-        black 100%
-      );
+      display: flex;
+      align-items: center;
+      mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
     }
 
     .sidebar-diagram svg {
       position: absolute;
       top: 0;
       left: 0;
-      width: 100%;
-      height: auto;
+      height: 100%;
+      width: auto;
       opacity: 0;
       transition: opacity 0.6s ease, transform 0.1s linear;
     }
@@ -184,24 +163,24 @@
     }
 
     .svg-error {
-      padding-top: 16px;
+      width: 100%;
+      text-align: center;
       color: #f00;
-      font: 10pt Arial, sans-serif;
-      line-height: 1.4;
+      font: 9pt Arial, sans-serif;
     }
 
-    /* CONTENT */
-
+    /* MAIN CONTENT */
     #content {
-      width: calc(100% - 385px);
-      margin-left: 385px;
+      width: 100%;
+      margin-left: 0;
+      padding-top: 160px; /* Offsets content beautifully below the deep top bar */
     }
 
     .sheet {
       display: block;
       position: relative;
       min-height: 100vh;
-      padding: 24px 40px 80px;
+      padding: 40px 40px 80px;
     }
 
     h1 {
@@ -231,37 +210,6 @@
       line-height: 1.4;
     }
 
-    .indent-hide {
-      visibility: hidden;
-    }
-
-    .text-row {
-      display: flex;
-      flex-direction: row;
-      gap: 1vw;
-      width: 100%;
-      margin: 20px 0;
-      align-items: flex-start;
-    }
-
-    .text-row img {
-      display: block;
-      flex: 0 0 60%;
-      width: 60%;
-      height: auto;
-      object-fit: contain;
-    }
-
-    .text-col {
-      flex: 0 0 40%;
-      width: 40%;
-      min-width: 0;
-    }
-
-    .text-col p {
-      max-width: 100%;
-    }
-
     .photo-row {
       display: flex;
       flex-direction: row;
@@ -280,7 +228,6 @@
       display: block;
       flex: 0 1 auto;
       width: auto;
-      min-width: 0;
       max-width: 100%;
       height: 100%;
       object-fit: contain;
@@ -290,7 +237,6 @@
       display: flex;
       flex: 0 1 auto;
       flex-direction: column;
-      min-width: 0;
       max-width: 100%;
       height: 100%;
     }
@@ -299,15 +245,8 @@
     .photo-row figure video {
       flex: 1 1 auto;
       width: auto;
-      min-height: 0;
       height: auto;
       object-fit: contain;
-    }
-
-    .photo-row figure figcaption {
-      flex: 0 0 auto;
-      padding-top: 4px;
-      text-align: center;
     }
 
     .comp-wrap {
@@ -369,31 +308,13 @@
       color: #f00;
       pointer-events: none;
       font: bold 26pt Arial, sans-serif;
-      letter-spacing: 0.08em;
       text-transform: uppercase;
     }
 
-    .row-s2-videos {
-      height: 280px;
-    }
+    .row-s2-videos { height: 280px; }
+    .row-s2-maps { height: 800px; }
+    .row-s5-videos { height: 480px; }
 
-    .row-s2-photos {
-      height: 280px;
-    }
-
-    .row-s2-maps {
-      height: 800px;
-    }
-
-    .row-s5-videos {
-      height: 480px;
-    }
-
-    .row-s5-photos {
-      height: 600px;
-    }
-
-    /* Scroll trigger markers - zero footprint, do not affect layout */
     .scrolly-step {
       position: absolute;
       left: 0;
@@ -403,68 +324,30 @@
       pointer-events: none;
     }
 
-    table.events {
-      max-width: 820px;
-      margin-bottom: 10pt;
-      border-collapse: collapse;
-      font: 10pt Arial, sans-serif;
-    }
-
-    table.events td {
-      padding: 4px 16px 4px 0;
-      vertical-align: top;
-      font-size: 10pt;
-    }
-
-    table.events td:first-child {
-      width: 160px;
-      font-size: 10pt;
-      white-space: nowrap;
-    }
-
-    table.events tr.section-head td {
-      padding-top: 14px;
-      font-size: 10pt;
-      font-weight: normal;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-    }
-
+    /* PHONE LAYOUT OPTIMIZATIONS */
     @media (max-width: 850px) {
-      body {
-        display: block;
-      }
-
       #sidebar {
-        position: relative;
-        width: 100%;
-        height: auto;
-        min-height: 420px;
+        height: 140px;
+        padding: 8px 16px;
+        gap: 6px;
       }
-
+      #sidebar-header {
+        font-size: 8.5pt;
+      }
+      .wheel-window {
+        height: 30px;
+      }
+      .sidebar-diagram {
+        height: 45px;
+      }
       #content {
-        width: 100%;
-        margin-left: 0;
+        padding-top: 140px;
       }
-
-      .sheet {
-        padding: 24px 16px 60px;
-      }
-
       .photo-row {
         flex-wrap: wrap;
-        height: auto;
       }
-
       .photo-row figure {
-        width: 48%;
-        height: auto;
-      }
-
-      .row-s2-maps,
-      .row-s5-videos,
-      .row-s2-videos {
-        height: auto;
+        width: 100%;
       }
     }
   </style>
@@ -478,10 +361,10 @@
       <div class="tab-wheel">
         <button class="tab" type="button" onclick="goToSheet('s1')">Erosion</button>
         <button class="tab" type="button" onclick="goToSheet('s2')">Space Time State</button>
-        <button class="tab" type="button" onclick="goToSheet('s3')"><span class="indent-hide">+ </span>State<br>+ Space<br>= Map</button>
-        <button class="tab" type="button" onclick="goToSheet('s4')"><span class="indent-hide">+ </span>Space<br>+ Time<br>= Superposition</button>
-        <button class="tab" type="button" onclick="goToSheet('s5')"><span class="indent-hide">+ </span>Time<br>+ State<br>= Sequence</button>
-        <button class="tab" type="button" onclick="goToSheet('s6')"><span class="indent-hide">+ </span>Map<br>+ Superposition<br>+ Sequence<br>= Overlay Overload</button>
+        <button class="tab" type="button" onclick="goToSheet('s3')">State + Space = Map</button>
+        <button class="tab" type="button" onclick="goToSheet('s4')">Space + Time = Superposition</button>
+        <button class="tab" type="button" onclick="goToSheet('s5')">Time + State = Sequence</button>
+        <button class="tab" type="button" onclick="goToSheet('s6')">Overlay Overload</button>
         <button class="tab" type="button" onclick="goToSheet('s7')">Space Time Transect</button>
         <button class="tab" type="button" onclick="goToSheet('s8')">Time cut us off</button>
         <button class="tab" type="button" onclick="goToSheet('s9')">References</button>
@@ -494,7 +377,6 @@
   <main id="content">
     <section class="sheet" id="s1">
       <h1>Erosion led to Entropy</h1>
-
       <div class="photo-row row-s2-videos" style="margin-bottom: 0;">
         <figure><video autoplay loop muted playsinline><source src="01_Amazon.mp4" type="video/mp4"></video></figure>
         <figure><video autoplay loop muted playsinline><source src="02_Havel.mp4" type="video/mp4"></video></figure>
@@ -503,59 +385,24 @@
         <figure><video autoplay loop muted playsinline><source src="05_spreewald.mp4" type="video/mp4"></video></figure>
         <figure><video autoplay loop muted playsinline><source src="06_ganges.mp4" type="video/mp4"></video></figure>
       </div>
-
       <p class="note">
-        In our research, the Panke River serves as a primary example of a territory in constant transformation.
-        Shaped first by glacial melt, the landscape remains in motion and the river would slowly erode its own path,
-        were it not for our anthropological impact. We observed that human attempts to freeze these meanders in time,
-        in the name of efficiency, often backfire, because the landscape resists static control. This led us to a shift
-        in perspective: we no longer see the territory as a fixed state, but as an entropic mixture. To map this entropy,
-        we have to understand time as an active physical force, one that produces both change and superposition.
+        In our research, the Panke River serves as a primary example of a territory in constant transformation...
       </p>
-
       <figure>
         <img src="coupes_1.jpg" alt="Panke drawing">
       </figure>
-
     </section>
 
     <section class="sheet" id="s2">
       <h1>Space Time State</h1>
-
-      <p class="note">
-        To make this process legible, we first organized the terrain through a 3-dimensional matrix of SPACE, TIME and STATE.
-      </p>
-
+      <p class="note">To make this process legible, we first organized the terrain through a 3-dimensional matrix...</p>
       <figure>
         <img src="Matrix.png" style="width: 600px;" alt="Diagram SPACE TIME STATE">
       </figure>
-
-      <div class="photo-row row-s5-videos" style="margin-bottom: 0;">
-        <figure><img src="IMG_6909.jpeg" alt="Field survey Panke"></figure>
-        <figure><img src="BF39C335-6EBB-41ED-AF19-46555667780D-2.JPG" alt="Infrastructure"></figure>
-        <figure><img src="361A5F8C-AA9B-47CB-9034-93A739BD99F6-3.JPG" alt="Field specimens"></figure>
-        <figure><video autoplay loop muted playsinline><source src="THEMES.mp4" type="video/mp4"></video></figure>
-      </div>
-
-      <div class="comp-wrap" onclick="toggleCompVideo(this)" role="button" tabindex="0">
-        <video>
-          <source src="comp.mp4" type="video/mp4">
-        </video>
-        <div class="pb">PRESS HERE TO PLAY</div>
-      </div>
-
-      <p style="font-size: 10pt; margin-top: 20px;">
-        We drew the line of our transect at the fringe of the city, with the Panke in the middle, a strip of autobahn
-        running left and train tracks right of it. As we meandered around our line we saw ourselves walking through time
-        and space, only experiencing the state of our environment at the exact time of our observation. Had this always
-        been peripherie, was it countryside before? Condumed by the ever growing Berlin?
-      </p>
     </section>
 
     <section class="sheet" id="s3">
       <h1>State + Space = Map</h1>
-      <p style="font-size: 10pt; font-style: italic; margin-bottom: 0;">resulting in single Layers</p>
-
       <div class="photo-row row-s2-maps" style="margin-bottom: 0;">
         <figure><video autoplay loop muted playsinline><source src="time_maps.mp4" type="video/mp4"></video></figure>
         <figure><video autoplay loop muted playsinline><source src="info_Maps.mp4" type="video/mp4"></video></figure>
@@ -564,140 +411,40 @@
 
     <section class="sheet" id="s4">
       <div class="scrolly-step" data-position="0"></div>
-
       <h1>Space + Time = Superposition</h1>
-      <p style="font-size: 10pt; font-style: italic; margin-bottom: 0;">resulting in Palimpseste</p>
-      <p>Paragraph about palimpsetste</p>
-
-      <figure>
-        <img src="Palimpsest.png" alt="Drawing Palimpseste">
-      </figure>
-
-      <p>Paragraph about Geological cut</p>
-
-      <figure>
-        <img src="Geological_cut.png" alt="Geological cut">
-      </figure>
+      <figure><img src="Palimpsest.png" alt="Drawing Palimpseste"></figure>
     </section>
 
     <section class="sheet" id="s5">
       <div class="scrolly-step" data-position="15"></div>
-
       <h1>Time + State = Sequence</h1>
-      <p style="font-size: 10pt; font-style: italic; margin-bottom: 0;">resulting in TIMELINE</p>
-
       <div class="pano-container">
         <img src="Pollenanalysis.png" alt="Pollen analysis">
         <div class="scroll-hint">SCROLL &rarr;</div>
       </div>
-
-      <p>Pollenanalyse zur Frühgeschichte unserer Gegend</p>
-
-      <p>
-        Das Untersuchungsgebiet zwischen Französisch Buchholz, der Panke-Niederung und Blankenburg nimmt innerhalb der
-        Berliner Quartärgeologie eine Schlüsselrolle ein. Als Bestandteil der Barnim-Platte ist die Landschaft das
-        Resultat glazialer und glaziofluvialer Prozesse, die das Relief sowie über die Substratverteilung auch die spätere
-        slawische und mittelalterliche Besiedlung prägten.
-      </p>
-
-      <p>
-        Die <em>Palynologie</em> ist die zentrale Methode zur Rekonstruktion des Übergangs von Natur- zu Kulturlandschaft.
-        Die Pollenbefunde der altslawischen Burg Blankenburg zeigen eine Dominanz von <em>Pinus</em> und <em>Quercus</em>.
-      </p>
-
-      <p>
-        Die Genese des Nordbarnims zeigt einen Übergang von klimatischen zu zunehmend anthropogenen Steuerungskräften.
-        Im 7. Jahrhundert etablierte sich die slawische Burg Blankenburg mit selektiver Eichennutzung und intensivem
-        Getreidebau.
-      </p>
-
-      <p>
-        Die Landschaft ist kein statisches Erbe, sondern das dynamische Resultat anthropogener Denudation und
-        vegetationsgeschichtlicher Steuerung.
-      </p>
-
-      <iframe
-        src="weichselian_to_present.html"
-        title="Weichselian Ice Age to present timeline"
-        style="width: 100%; height: 1600px; border: 0;">
-      </iframe>
     </section>
 
     <section class="sheet" id="s6">
       <div class="scrolly-step" data-position="52"></div>
-
       <h1>Overlay Overload</h1>
-
-      <p>
-        But when all three axes were combined, the center of the matrix collapsed into a void. The result was what we
-        came to call an "overlay overload," in which too many layers rendered the drawing unreadable.
-      </p>
-
-      <figure>
-        <img src="overlay_overload.png" alt="Overlay overload drawing">
-      </figure>
+      <figure><img src="overlay_overload.png" alt="Overlay overload drawing"></figure>
     </section>
 
     <section class="sheet" id="s7">
       <div class="scrolly-step" data-position="82"></div>
-
       <h1>Space Time Transect</h1>
-
-      <p class="note">
-        To address this problem, we developed the space-time transect. This instrument rests on two conceptual operations.
-        First, we flatten spatial depth: the vertical space of a traditional map is compressed until geography becomes a
-        single horizontal line of distance, <em>x</em>. Then we replace the vertical axis with time, <em>t</em>.
-      </p>
       <div class="pano-container">
         <img src="TRANSECT.png" alt="Space-Time transect drawing">
-        <div class="scroll-hint">SCROLL &rarr;</div>
       </div>
-
       <div class="scrolly-step" data-position="100"></div>
     </section>
 
     <section class="sheet" id="s8">
-
       <h1>Time cut us off</h1>
-
-      <p>
-        Between the Randstreifen of the A114 and the Randstreifen of the straightened Panke lies a small detached piece
-        of settlement, which proves how little the GDR cared about whatever stood in the way of its infrastructure prestige.
-      </p>
-
-      <div class="photo-row row-s2-videos" style="margin-bottom: 20px;">
-        <figure><img src="image.JPG" alt="Photo Mavericks"></figure>
-        <figure><img src="image.jpg" alt="Photo Mavericks"></figure>
-        <figure><img src="image.JPG" alt="Photo Mavericks"></figure>
-        <figure><img src="image.jpeg" alt="Photo Mavericks"></figure>
-        <figure><img src="image.JPG" alt="Photo Mavericks"></figure>
-        <figure><img src="image.JPG" alt="Photo Mavericks"></figure>
-        <figure><img src="image.JPG" alt="Photo Mavericks"></figure>
-      </div>
-
-      <video controls autoplay loop muted playsinline>
-        <source src="Intervention.mp4" type="video/mp4">
-      </video>
     </section>
 
     <section class="sheet" id="s9">
       <h1>References</h1>
-      <p class="note">accompanying literature:</p>
-
-      <div class="photo-row row-s2-videos" style="margin-bottom: 20px;">
-        <figure><img src="IMG_7728.JPG" alt="Reference image 1"></figure>
-        <figure><img src="IMG_7726.jpg" alt="Reference image 2"></figure>
-        <figure><img src="IMG_7725.JPG" alt="Reference image 3"></figure>
-        <figure><img src="IMG_7723.jpeg" alt="Reference image 4"></figure>
-        <figure><img src="IMG_7722.JPG" alt="Reference image 5"></figure>
-        <figure><img src="IMG_7721.JPG" alt="Reference image 6"></figure>
-        <figure><img src="IMG_7724.JPG" alt="Reference image 7"></figure>
-      </div>
-
-      <p>References:</p>
-      <p>to be continued</p>
-
-      <p>Project by Eliott Croubalian and Lara Luise Brenner under Prof. Silvan Linden</p>
     </section>
   </main>
 
@@ -722,21 +469,16 @@
 
     function setActive(id) {
       const index = sheetIds.indexOf(id);
-
       if (index === -1) return;
 
       if (Math.abs(velocity) < 0.1) {
         targetOffset = index;
         updateClasses(index);
       }
-
-      const credits = document.getElementById("sidebar-credits");
-      credits.classList.toggle("collapsed", id !== "s1");
     }
 
     function goToSheet(id) {
       const section = document.getElementById(id);
-
       if (!section) return;
 
       manualScroll = true;
@@ -753,34 +495,9 @@
       }, 900);
     }
 
-    function toggleCompVideo(wrapper) {
-      const video = wrapper.querySelector("video");
-      const overlay = wrapper.querySelector(".pb");
-
-      if (!video) return;
-
-      if (video.paused) {
-        video.play();
-        overlay.style.display = "none";
-      } else {
-        video.pause();
-        overlay.style.display = "flex";
-      }
-    }
-
-    document.querySelectorAll(".comp-wrap").forEach((wrapper) => {
-      wrapper.addEventListener("keydown", (event) => {
-        if (event.key === "Enter" || event.key === " ") {
-          event.preventDefault();
-          toggleCompVideo(wrapper);
-        }
-      });
-    });
-
     const sheetObserver = new IntersectionObserver(
       (entries) => {
         if (manualScroll) return;
-
         const visibleEntries = entries
           .filter((entry) => entry.isIntersecting)
           .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
@@ -789,10 +506,7 @@
           setActive(visibleEntries[0].target.id);
         }
       },
-      {
-        root: null,
-        threshold: [0.2, 0.4, 0.6]
-      }
+      { root: null, threshold: [0.2, 0.4, 0.6] }
     );
 
     document.querySelectorAll(".sheet").forEach((sheet) => {
@@ -809,6 +523,7 @@
       { passive: false }
     );
 
+    // Dynamic horizontal calculation for the 3D tabs
     function animateWheel() {
       const maxIndex = sheetIds.length - 1;
 
@@ -817,29 +532,16 @@
 
       if (Math.abs(velocity) < 0.015) {
         velocity = 0;
-
-        const snapTarget = Math.max(
-          0,
-          Math.min(Math.round(targetOffset), maxIndex)
-        );
-
+        const snapTarget = Math.max(0, Math.min(Math.round(targetOffset), maxIndex));
         targetOffset += (snapTarget - targetOffset) * 0.1;
 
-        if (
-          activeIndex !== snapTarget &&
-          Math.abs(targetOffset - snapTarget) < 0.05
-        ) {
+        if (activeIndex !== snapTarget && Math.abs(targetOffset - snapTarget) < 0.05) {
           updateClasses(snapTarget);
           goToSheet(sheetIds[snapTarget]);
         }
       } else {
-        if (targetOffset < 0) {
-          targetOffset += (0 - targetOffset) * 0.2;
-        }
-
-        if (targetOffset > maxIndex) {
-          targetOffset += (maxIndex - targetOffset) * 0.2;
-        }
+        if (targetOffset < 0) targetOffset += (0 - targetOffset) * 0.2;
+        if (targetOffset > maxIndex) targetOffset += (maxIndex - targetOffset) * 0.2;
       }
 
       offset += (targetOffset - offset) * 0.25;
@@ -851,27 +553,22 @@
       const previousTab = tabs[previousIndex];
       const nextTab = tabs[nextIndex];
 
-      const top1 = previousTab
-        ? previousTab.offsetTop + previousTab.clientHeight / 2
-        : 0;
+      const left1 = previousTab ? previousTab.offsetLeft + previousTab.clientWidth / 2 : 0;
+      const left2 = nextTab ? nextTab.offsetLeft + nextTab.clientWidth / 2 : left1;
 
-      const top2 = nextTab
-        ? nextTab.offsetTop + nextTab.clientHeight / 2
-        : top1;
+      const centerPoint = left1 + (left2 - left1) * progress;
+      const windowWidth = wheelWindow.clientWidth || window.innerWidth * 0.6;
+      const wheelTranslateX = windowWidth / 2 - centerPoint;
 
-      const centerPoint = top1 + (top2 - top1) * progress;
-      const windowHeight = wheelWindow.clientHeight || window.innerHeight * 0.45;
-      const wheelTranslateY = windowHeight / 2 - centerPoint;
-
-      wheel.style.transform = `translateY(${wheelTranslateY}px)`;
+      wheel.style.transform = `translateX(${wheelTranslateX}px)`;
 
       tabs.forEach((tab, index) => {
         const distance = index - offset;
-        const angle = distance * 15;
-        const translateZ = -Math.abs(distance) * 12;
-        const opacity = Math.max(0.1, 1 - Math.abs(distance) * 0.25);
+        const angle = distance * -20;
+        const translateZ = -Math.abs(distance) * 15;
+        const opacity = Math.max(0.1, 1 - Math.abs(distance) * 0.3);
 
-        tab.style.transform = `rotateX(${angle}deg) translateZ(${translateZ}px)`;
+        tab.style.transform = `rotateY(${angle}deg) translateZ(${translateZ}px)`;
         tab.style.opacity = opacity;
       });
 
@@ -880,32 +577,20 @@
 
     async function loadSvg() {
       const container = document.getElementById("svg-container");
-
       try {
         const response = await fetch("svg-export.svg");
-
-        if (!response.ok) {
-          throw new Error(`SVG could not be loaded (${response.status})`);
-        }
-
+        if (!response.ok) throw new Error(`SVG Error`);
         const svgData = await response.text();
         container.innerHTML = svgData;
         startScrollytelling();
       } catch (error) {
-        console.error(error);
-        container.innerHTML = `
-          <p class="svg-error">
-            SVG could not load.<br>
-            Check that "svg-export.svg" is in the same folder and open this site through Live Server.
-          </p>
-        `;
+        container.innerHTML = `<p class="svg-error">SVG Load Error.</p>`;
       }
     }
 
     function startScrollytelling() {
       const scrollyTriggers = Array.from(document.querySelectorAll(".scrolly-step"));
       const svgElement = document.querySelector(".sidebar-diagram svg");
-
       if (!svgElement || !scrollyTriggers.length) return;
 
       const markers = scrollyTriggers
@@ -917,54 +602,40 @@
 
       function computeSvgPosition() {
         const viewportCenter = window.innerHeight / 2;
-
         let currentIndex = 0;
 
         for (let i = 0; i < markers.length; i++) {
           const rect = markers[i].el.getBoundingClientRect();
-          if (rect.top <= viewportCenter) {
-            currentIndex = i;
-          } else {
-            break;
-          }
+          if (rect.top <= viewportCenter) currentIndex = i;
+          else break;
         }
 
         const curr = markers[currentIndex];
         const next = markers[Math.min(currentIndex + 1, markers.length - 1)];
-
         const currRect = curr.el.getBoundingClientRect();
         const nextRect = next.el.getBoundingClientRect();
 
         let progress = 0;
         const span = nextRect.top - currRect.top;
-
         if (span > 0) {
           progress = (viewportCenter - currRect.top) / span;
           progress = Math.min(1, Math.max(0, progress));
         }
 
-        const interpolated =
-          curr.position + (next.position - curr.position) * progress;
-
-        return interpolated;
+        return curr.position + (next.position - curr.position) * progress;
       }
 
       function checkAnyMarkerNear() {
         return markers.some((marker) => {
           const rect = marker.el.getBoundingClientRect();
-          return (
-            rect.top > -window.innerHeight * 0.6 &&
-            rect.top < window.innerHeight * 1.6
-          );
+          return rect.top > -window.innerHeight && rect.top < window.innerHeight * 2;
         });
       }
 
       function updateSvg() {
         ticking = false;
-
         const percent = computeSvgPosition();
-        const translateY = -percent;
-        svgElement.style.transform = `translateY(${translateY}%)`;
+        svgElement.style.transform = `translateX(${-percent}%)`;
 
         const nowVisible = checkAnyMarkerNear();
         if (nowVisible !== isVisible) {
@@ -973,46 +644,11 @@
         }
       }
 
-      function onScroll() {
-        if (!ticking) {
-          ticking = true;
-          requestAnimationFrame(updateSvg);
-        }
-      }
-
-      window.addEventListener("scroll", onScroll, { passive: true });
-      window.addEventListener("resize", onScroll, { passive: true });
+      window.addEventListener("scroll", () => {
+        if (!ticking) { ticking = true; requestAnimationFrame(updateSvg); }
+      }, { passive: true });
       updateSvg();
     }
-
-    document.addEventListener("keydown", (event) => {
-      if (event.key !== "ArrowDown" && event.key !== "ArrowUp") return;
-
-      const visible = [...document.querySelectorAll(".sheet")].reduce(
-        (best, section) => {
-          const rect = section.getBoundingClientRect();
-          const visibleHeight =
-            Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, 0);
-
-          return visibleHeight > (best.visibleHeight || 0)
-            ? { element: section, visibleHeight }
-            : best;
-        },
-        {}
-      );
-
-      if (!visible.element) return;
-
-      const index = sheetIds.indexOf(visible.element.id);
-
-      if (event.key === "ArrowDown" && index < sheetIds.length - 1) {
-        goToSheet(sheetIds[index + 1]);
-      }
-
-      if (event.key === "ArrowUp" && index > 0) {
-        goToSheet(sheetIds[index - 1]);
-      }
-    });
 
     updateClasses(0);
     animateWheel();

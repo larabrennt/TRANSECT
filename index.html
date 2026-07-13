@@ -1035,16 +1035,19 @@ window.addEventListener('resize', perfectlyAlignRows);
 
       function updateSvg() {
         ticking = false;
-
-        const percent = computeSvgPosition();
-        const translateX = -percent;
-        svgElement.style.transform = `translateX(${translateX}%)`; 
-
+      
+        const percent = computeSvgPosition(); // This will pull the '5' from your data-position
+        
+        // 1. Shift the SVG left by the data-position percentage
+        // 2. Shift it back right by 50% of the container window to center it
+        svgElement.style.transform = `translateX(${-percent}%) translateX(50%)`; 
+      
         const nowVisible = checkAnyMarkerNear();
         if (nowVisible !== isVisible) {
           isVisible = nowVisible;
           svgElement.classList.toggle("visible", isVisible);
         }
+      }
       }
 
       function onScroll() {

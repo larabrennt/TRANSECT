@@ -186,7 +186,7 @@
       height: 100%;
       width: auto;
       opacity: 0;
-      /* ENTZÖGERT: transform-Lag entfernt für 1:1 direktes Scroll-Ansprechverhalten. Nur opacity fadet soft. */
+      /* transform-Lag entfernt für 1:1 direktes Ansprechverhalten. Nur opacity fadet soft. */
       transition: opacity 0.4s ease;
     }
 
@@ -980,12 +980,14 @@
         ticking = false;
         const percent = computeSvgPosition();
         
-        // DIE BOMBENSICHERE LÖSUNG MIT CALC:
-        // Wir verschieben das SVG um -X% seiner eigenen Breite (schiebt die Stelle an den linken Rand)
-        // UND fügen dann exakt 50vw (halbe Bildschirmbreite in Pixeln) via CSS calc() hinzu.
+        // Verschiebt das SVG pixelgenau anhand des Berechnungs-Fokuspunkts
         svgElement.style.transform = `translateX(calc(${-percent}% + 50vw))`; 
       
-        const nowVisible = checkAnyMarkerNear();
+        // AUSBLEND-LOGIK ANHAND DER AKTUELLEN SEKTIONS-ID:
+        // Wir prüfen das global verwaltete activeIndex (0 = s1/Welcome, 8 = s9/References)
+        const shouldHide = activeIndex === 0 || activeIndex === 8;
+        const nowVisible = checkAnyMarkerNear() && !shouldHide;
+
         if (nowVisible !== isVisible) {
           isVisible = nowVisible;
           svgElement.classList.toggle("visible", isVisible);

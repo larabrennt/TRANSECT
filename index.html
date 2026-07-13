@@ -59,8 +59,7 @@
       max-width: 100%;
     }
 
-    /* FROZEN TOP BAR STYLE CHANGES */
-
+    /* REDUZIERTER TOP BAR (NUR TITEL & WHEEL) */
     #sidebar {
       position: fixed;
       top: 0;
@@ -69,7 +68,7 @@
       display: flex;
       flex-direction: column;
       width: 100%;
-      height: 220px;
+      height: 140px; /* Höhe verringert, da das SVG nun unten ist */
       padding: 16px;
       overflow: hidden;
       background: #fff;
@@ -84,25 +83,6 @@
       letter-spacing: 0.08em;
       text-align: center;
       margin-bottom: 10px;
-    }
-
-    #sidebar-credits {
-      font: 10pt Arial;
-      line-height: 1.4;
-      color: #5d5555;
-      margin-bottom: 0px;
-      margin-top: 10px;
-      flex: 0 0 auto;
-      opacity: 1;
-      max-height: 150px;
-      transition: opacity 0.2s ease-in-out;
-      overflow: hidden;
-    }
-
-    #sidebar-credits.collapsed {
-      max-height: 150px;
-      opacity: 0;
-      margin-bottom: 0px;
     }
 
     .wheel-window {
@@ -153,13 +133,29 @@
       color: #0000ff;
     }
 
+    /* NEUER FIXIERTER BOTTOM BAR FÜR DAS SVG */
+    #bottom-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      z-index: 1000;
+      display: flex;
+      width: 100%;
+      height: 80px; /* Angenehme Höhe für das Diagramm am Boden */
+      background: #fff;
+      border-top: 1px solid #000;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
     .sidebar-diagram {
       position: relative;
       display: flex;
       flex: 1;
       width: 100%;
       max-width: 100%;
-      height: 60px;
+      height: 60px; /* SVG-Höhe bleibt konsistent */
       overflow: hidden;
       align-items: center;
       justify-content: center;
@@ -186,7 +182,6 @@
       height: 100%;
       width: auto;
       opacity: 0;
-      /* Softes Ein-/Ausblenden der Opacity. Keine Transform-Transition für 100% direktes, lag-freies Rendern! */
       transition: opacity 0.4s ease;
     }
 
@@ -195,23 +190,23 @@
     }
 
     .svg-error {
-      padding-top: 16px;
       color: #f00;
       font: 10pt Arial, sans-serif;
       line-height: 1.4;
+      text-align: center;
     }
 
-    /* CONTENT POSITIONING ADJUSTED FOR TOP BAR HEIGHT */
-
+    /* CONTENT POSITIONIERUNG ANGEPASST AN OBEN (140px) UND UNTEN (80px) */
     #content {
       width: 100%;
-      margin-top: 220px;
+      margin-top: 140px; /* Platz für Top-Bar */
+      margin-bottom: 80px; /* Verhindert, dass Inhalt hinter der Bottom-Bar verschwindet */
     }
 
     .sheet {
       display: block;
       position: relative;
-      min-height: calc(100vh - 220px);
+      min-height: calc(100vh - 220px); /* 140px oben + 80px unten */
       padding: 24px 40px 80px;
     }
 
@@ -396,43 +391,6 @@
       height: auto;
     }
 
-    /* Scroll trigger markers - zero footprint, do not affect layout */
-    .scrolly-step {
-      position: absolute;
-      left: 0;
-      width: 1px;
-      height: 1px;
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    table.events {
-      max-width: 820px;
-      margin-bottom: 10pt;
-      border-collapse: collapse;
-      font: 10pt Arial, sans-serif;
-    }
-
-    table.events td {
-      padding: 4px 16px 4px 0;
-      vertical-align: top;
-      font-size: 10pt;
-    }
-
-    table.events td:first-child {
-      width: 160px;
-      font-size: 10pt;
-      white-space: nowrap;
-    }
-
-    table.events tr.section-head td {
-      padding-top: 14px;
-      font-size: 10pt;
-      font-weight: normal;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-    }
-
     @media (max-width: 850px) {
       body {
         display: block;
@@ -441,12 +399,19 @@
       #sidebar {
         position: fixed;
         width: 100%;
-        height: 220px;
+        height: 140px;
+      }
+
+      #bottom-bar {
+        position: fixed;
+        width: 100%;
+        height: 80px;
       }
 
       #content {
         width: 100%;
-        margin-top: 220px;
+        margin-top: 140px;
+        margin-bottom: 80px;
       }
 
       .sheet {
@@ -489,8 +454,6 @@
         <button class="tab" type="button" onclick="goToSheet('s9')">References</button>
       </div>
     </div>
-
-    <div class="sidebar-diagram" id="svg-container" aria-label="Diagram"></div>
   </div>
 
   <main id="content">
@@ -683,6 +646,10 @@
     </section>
   </main>
 
+  <div id="bottom-bar">
+    <div class="sidebar-diagram" id="svg-container" aria-label="Diagram"></div>
+  </div>
+
   <script>
     function perfectlyAlignRows() {
       document.querySelectorAll('.photo-row').forEach(row => {
@@ -723,17 +690,16 @@
     const sheetIds = ["s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8", "s9"];
     
     // DEFINITION DER SVG-MARKER PRO TAB (Index 0 bis 8)
-    // Ändere diese Zahlen nach Belieben, um die Bildmitte für jeden Tab neu zu justieren!
     const svgPositions = [
-      0,   // index 0: s1 (Welcome) - ausgeblendet
-      5.5,   // index 1: s2 (Space Time State) -> Fokus auf 5%
-      15,  // index 2: s3 (State + Space = Map) -> Fokus auf 15%
-      30,  // index 3: s4 (Space + Time = Superposition) -> Fokus auf 15%
-      45,  // index 4: s5 (Time + State = Sequence) -> Fokus auf 45%
-      60,  // index 5: s6 (Map + Superposition + Sequence) -> Fokus auf 60%
-      77,  // index 6: s7 (Space Time Transect) -> Fokus auf 77%
-      95.5,  // index 7: s8 (Time cut us off) -> Fokus auf 95%
-      100  // index 8: s9 (References) - ausgeblendet
+      0,   // index 0: s1 (WELCOME) -> ausgeblendet
+      5,   // index 1: s2 (Space Time State) -> 5%
+      15,  // index 2: s3 (State + Space= Map) -> 15%
+      15,  // index 3: s4 (Space + Time = Superposition) -> 15%
+      45,  // index 4: s5 (Time + State = Sequence) -> 45%
+      60,  // index 5: s6 (Map + Superposition + Sequence) -> 60%
+      77,  // index 6: s7 (Space Time Transect) -> 77%
+      95,  // index 7: s8 (Time cut us off) -> 95%
+      100  // index 8: s9 (References) -> ausgeblendet
     ];
 
     const wheelWindow = document.querySelector(".wheel-window");
@@ -773,7 +739,7 @@
       if (!section) return;
 
       manualScroll = true;
-      const topBarHeight = 220;
+      const topBarHeight = 140; // Höhe an neuen reduzierten Header angepasst
       const elementPosition = section.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.pageYOffset - topBarHeight;
 
@@ -835,7 +801,7 @@
       },
       {
         root: null,
-        rootMargin: "-220px 0px 0px 0px", 
+        rootMargin: "-140px 0px 0px 0px", // Margin an verringerten Top-Bar angepasst
         threshold: [0.2, 0.4, 0.6]
       }
     );
@@ -854,8 +820,6 @@
       { passive: false }
     );
 
-    // Diese Funktion wird kontinuierlich (jeden Frame) ausgeführt. Sie kümmert sich um die geschmeidige
-    // 3D-Rollen-Animation der Tabs UND verschiebt das SVG synchron mit exakt demselben Trägheitswert!
     function animateWheel() {
       const maxIndex = sheetIds.length - 1;
       targetOffset += velocity;
@@ -875,14 +839,13 @@
         if (targetOffset > maxIndex) targetOffset += (maxIndex - targetOffset) * 0.2;
       }
 
-      // 'offset' ist die weich animierte Gleitkommazahl (z. B. 2.45), die sich synchron bewegt
       offset += (targetOffset - offset) * 0.25;
 
       const previousIndex = Math.max(0, Math.floor(offset));
       const nextIndex = Math.min(maxIndex, Math.ceil(offset));
       const progress = offset - Math.floor(offset);
 
-      // --- 1. TABS ANIMIEREN ---
+      // --- 1. TAB WHEEL TRANSFORMS ---
       const previousTab = tabs[previousIndex];
       const nextTab = tabs[nextIndex];
 
@@ -904,19 +867,17 @@
         tab.style.opacity = opacity;
       });
 
-      // --- 2. SVG DIREKT AN DIE TAB-BEWEGUNG KOPPELN ---
+      // --- 2. BOTTOM BAR SVG TRANSFORMS ---
       const svgElement = document.querySelector(".sidebar-diagram svg");
       if (svgElement) {
-        // Interpoliert den Prozentwert zwischen den beiden benachbarten Tabs flüssig
         const p1 = svgPositions[previousIndex];
         const p2 = svgPositions[nextIndex];
         const currentPercent = p1 + (p2 - p1) * progress;
 
-        // Verschiebt das SVG absolut ruckelfrei mit calc() analog zur Tab-Position
+        // Verschiebung des SVGs im neuen Bottom Bar Container
         svgElement.style.transform = `translateX(calc(${-currentPercent}% + 50vw))`;
 
-        // Ausblenden auf Welcome (Index 0) und References (Index 8)
-        // Sobald offset nah an die Enden rutscht (z. B. < 0.1 oder > 7.9), blenden wir sanft aus.
+        // Ausblenden bei Welcome (Index 0) und References (Index 8)
         const shouldHide = offset < 0.2 || offset > 7.8;
         svgElement.classList.toggle("visible", !shouldHide);
       }
@@ -933,7 +894,6 @@
         const svgData = await response.text();
         container.innerHTML = svgData;
         
-        // Kurzes Timeout, damit der Browser die SVG-Breite korrekt initialisiert
         setTimeout(() => {
           const svgElement = document.querySelector(".sidebar-diagram svg");
           if (svgElement && offset > 0.2 && offset < 7.8) {
@@ -969,7 +929,7 @@
     });
 
     updateClasses(0);
-    animateWheel(); // Beinhaltet jetzt die gesamte synchronisierte Tab + SVG Animation
+    animateWheel();
     loadSvg();
   </script>
 </body>

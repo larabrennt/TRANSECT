@@ -46,7 +46,9 @@
     video {
       display: block;
       max-width: 100%;
+      max-height: calc(100dvh - 240px); /* Constrain to visible window space */
       height: auto;
+      object-fit: contain;
     }
 
     a {
@@ -190,13 +192,11 @@
     }
 
     /* --- DIE ABSOLUT BULLETPROOF STEUERUNG DER INHALTSGRUPPEN --- */
-    /* !important erzwingt die Opacity, selbst wenn das SVG harte Inline-Styles mitbringt */
     .sidebar-diagram svg [id^="group-"] {
       opacity: 0.05 !important;
       transition: opacity 0.4s ease-in-out;
     }
 
-    /* Schaltet die aktive Gruppe unerbittlich auf sichtbar */
     .sidebar-diagram svg [id^="group-"].visible-group {
       opacity: 1 !important;
     }
@@ -266,6 +266,7 @@
       display: block;
       flex: 0 0 60%;
       width: 60%;
+      max-height: calc(100dvh - 240px);
       height: auto;
       object-fit: contain;
     }
@@ -328,7 +329,7 @@
     .comp-wrap {
       position: relative;
       width: 100%;
-      height: 500px;
+      height: calc(100dvh - 240px); /* Dynamic view bounding height bounds */
       margin: 20px 0;
       overflow: hidden;
       cursor: pointer;
@@ -345,7 +346,7 @@
 
     .pano-container {
       position: relative;
-      height: 100vh;
+      height: calc(100dvh - 240px); /* Bounded safely between bars */
       width: 100%;
       overflow-x: auto;
       overflow-y: hidden;
@@ -391,22 +392,10 @@
       text-transform: uppercase;
     }
 
-    .row-s2-videos {
-      height: auto;
-    }
-
-    .row-s2-photos {
-      height: auto;
-    }
-
-    .row-s2-maps {
-      height: auto;
-    }
-
-    .row-s5-videos {
-      height: auto;
-    }
-
+    .row-s2-videos,
+    .row-s2-photos,
+    .row-s2-maps,
+    .row-s5-videos,
     .row-s5-photos {
       height: auto;
     }
@@ -467,8 +456,8 @@
       }
 
       figure {
-      display: block;
-      margin-bottom: 20px; /* Garantiert Abstand zu allem, was danach kommt */
+        display: block;
+        margin-bottom: 20px;
       }
 
       .photo-row {
@@ -546,13 +535,13 @@
         <figure><video autoplay loop muted playsinline><source src="06_ganges.mp4" type="video/mp4"></video></figure>
       </div>
 
-      <p>Dear Chrono-Tourists, 
-        Thank you for taking an interest in this Special Edition on Rivers of the Time Travellers Guide Through Space Time. 
-        This time we welcome you to Section Panke 04, a periurban zone just outside of Berlin. But is it only that? Or is there more to see there? 
-        Travelling here you may observe the shaping of the Panke valley by glacial melt, and as the landscape remains in motion, the slow erosion of the Panke, 
-        until human attempts of freezing its meanders in time. It really is a destination for those fascinated by the slow, grinding physics of the universe.  
-        This Section serves as a primary example of a territory in constant transformation, where human and natural agitation seems to mushily intertwine and slowly but surely changes this place into a mismatched puzzle. 
-        A time traveler must understand Time as an active physical force, the one that’s behind entropy, the natural disorder State in which territory arrange themselves as Time passes.
+      <p>Dear Chrono-Tourists, <br>
+        Thank you for taking an interest in this Special Edition on Rivers of the Time Travellers Guide Through Space Time. <br>
+        This time we welcome you to Section Panke 04, a periurban zone just outside of Berlin. But is it only that? Or is there more to see there? <br>
+        Travelling here you may observe the shaping of the Panke valley by glacial melt, and as the landscape remains in motion, the slow erosion of the Panke, <br>
+        until human attempts of freezing its meanders in time. It really is a destination for those fascinated by the slow, grinding physics of the universe.  <br>
+        This Section serves as a primary example of a territory in constant transformation, where human and natural agitation seems to mushily intertwine and slowly but surely changes this place into a mismatched puzzle. <br>
+        A time traveler must understand Time as an active physical force, the one that’s behind entropy, the natural disorder State in which territory arrange themselves as Time passes. <br>
         Should you wish to navigate this without your brain turning into entropic soup, we suggest adopting the following methodology.</p>
       
       <figure>
@@ -602,10 +591,10 @@
         <figure><video autoplay loop muted playsinline><source src="info_Maps.mp4" type="video/mp4"></video></figure>
       </div>
 
-      <p>A map is a flat snapshot that freezes motion, designed to give humans the comforting illusion that they know where they are, the answer of when they are always being… now of course. 
-        By isolating a single State within a specific Space, a map completely ignores the fact that everything is moving all the time. 
-        It results in a single static layer, the cartographic equivalent of looking at a single frame of a film. Even with digital mapping technic, 
-        where Google Maps attempts for instance updates the map at every political or natural change occurring, seemingly in real time, the past is always erased, as if our navigation in the world is unmediated by past event, 
+      <p>A map is a flat snapshot that freezes motion, designed to give humans the comforting illusion that they know where they are, the answer of when they are always being… now of course. <br>
+        By isolating a single State within a specific Space, a map completely ignores the fact that everything is moving all the time. <br>
+        It results in a single static layer, the cartographic equivalent of looking at a single frame of a film. Even with digital mapping technic, <br>
+        where Google Maps attempts for instance updates the map at every political or natural change occurring, seemingly in real time, the past is always erased, as if our navigation in the world is unmediated by past event, <br>
         furthering the disconnect between cause and effect.</p>
       
     </section>
@@ -613,26 +602,26 @@
     <section class="sheet" id="s4">
       <h1>Space + Time = Superposition</h1>
 
-      <p>When you allow Space and Time to collide, the layers stack into a Superposition. 
-        Events scattered on the map, at the place of their happenings, inform more of less as to why the space is arranged this way. 
+      <p>When you allow Space and Time to collide, the layers stack into a Superposition. <br>
+        Events scattered on the map, at the place of their happenings, inform more of less as to why the space is arranged this way. <br>
         Put simply, It’s the geographical disposition of a timeline. </p>
 
       <figure>
         <img src="Palimpsest.png" alt="Drawing Palimpseste">
       </figure>
-       <p>History, you will find, is never fully erased , but it is written over. Centuries before, writing was itself written over, 
-        as space came to miss for more text, so the text was simply written over now irrelevant text. 
-        The territory is also a physical palimpsest, with new addition being poured over the old. 
-        It is the mapping of the scars of the landscape, and each layer reveals at its end the beginning of the layer under. 
+       <p>History, you will find, is never fully erased , but it is written over. Centuries before, writing was itself written over, <br>
+        as space came to miss for more text, so the text was simply written over now irrelevant text. <br>
+        The territory is also a physical palimpsest, with new addition being poured over the old. <br>
+        It is the mapping of the scars of the landscape, and each layer reveals at its end the beginning of the layer under. <br>
         Yet, it only reveals this Millefeuille in its current state, half-eaten.</p>
 
       <figure>
         <img src="Geological_cut.png" alt="Geological cut">
       </figure>
-      <p>Exchanging y for z axis, the geological cut reveals the deep-time foundation of your destination. 
-        Here, the fine sands, glacial till, and erratic boulders (Findlinge) deposited by ancient ice sheets reveal the State of the Panketal. 
-        The geological layers created difficult conditions for 19th-century engineering. 
-        In his writings, James Hobrecht detailed specific methods to stabilize these unstable soils, to embed the pressurized sewage pipes, 
+      <p>Exchanging y for z axis, the geological cut reveals the deep-time foundation of your destination. <br>
+        Here, the fine sands, glacial till, and erratic boulders (Findlinge) deposited by ancient ice sheets reveal the State of the Panketal. <br>
+        The geological layers created difficult conditions for 19th-century engineering. <br>
+        In his writings, James Hobrecht detailed specific methods to stabilize these unstable soils, to embed the pressurized sewage pipes, <br>
         leading to the Northern Sewage irrigation fields (as seen in The Time Travellers Guide Through Space Time, Special Edition Rivers, Panke, Section Panke 03).</p>
       
     </section>
@@ -655,8 +644,8 @@ The landscape is not a static legacy, but rather the dynamic result of anthropog
         src="weichselian_to_present.html"
         title="Weichselian Ice Age to present timeline"
         style="width: 100%; height: 955px; border: 0;">
-       stratification
-      </iframe>
+        stratification
+      </footer>
     </section>
 
     <section class="sheet" id="s6">
@@ -675,8 +664,8 @@ The landscape is not a static legacy, but rather the dynamic result of anthropog
       <h1>Space Time Transect</h1>
 
       <p class="note">
-        To escape this void and ensure safe time-travels we developed the space-time transect, This instrument rests on two conceptual operations: 
-        first, we flattened the vertical spatial depth of a traditional map into a single horizontal line of distance,  <em>x</em>. 
+        To escape this void and ensure safe time-travels we developed the space-time transect, This instrument rests on two conceptual operations: <br>
+        first, we flattened the vertical spatial depth of a traditional map into a single horizontal line of distance, <em>x</em>. <br>
         Then, we replaced the vertical axis entirely with time, <em>t</em>. <br>
         By sacrificing spatial depth, we gain temporal depth, allowing you to view the the Panke valley through the ages.
         The map is now readable from left to right as what shape our infinitesimal space around the transect line, and from bottom to top as from past to now (and even looking into fantasied futures)
@@ -692,21 +681,20 @@ The landscape is not a static legacy, but rather the dynamic result of anthropog
       <h1>Time cut us off</h1>
 
       <p>
-        What this specially crafted tool offers us to see is not only a tapestry of decrescendo intensity, but also precise understanding of how things came to be. 
-        To experience the urban planning policy of the GDR first hand, adjust your time-dials to 1970 to watch the Autobahn being build right through a preexisting settlement, 
+        What this specially crafted tool offers us to see is not only a tapestry of decrescendo intensity, but also precise understanding of how things came to be. <br>
+        To experience the urban planning policy of the GDR first hand, adjust your time-dials to 1970 to watch the Autobahn being build right through a preexisting settlement, <br>
         trapping a pocket of land between the A114 Autobahn and the straightened, artificially tamed banks of the Panke River. 
       </p>
 
       <p>
-        If you fast-forward to the year 2026, you can chat with the inhabitants of the new island.  
-        The old garden community has disintegrated into a collection of individuals. 
-        The only thing keeping the residents connected to the human beings on the other side of the motorway is a single water pipe running under the asphalt, managed by the "Water Association" (Wassergemeinschaft). 
+        If you fast-forward to the year 2026, you can chat with the inhabitants of the new island.  <br>
+        The old garden community has disintegrated into a collection of individuals. <br>
+        The only thing keeping the residents connected to the human beings on the other side of the motorway is a single water pipe running under the asphalt, managed by the "Water Association" (Wassergemeinschaft). <br>
         The members meet once a year in the purpose of figuring out who is going to pay the water bill.
       </p>
       <p>
-        On the other side of the highway you will find Bernd, a resident who has been writing polite, increasingly ignored emails to different people of Berlins governing apparatus for years. 
-        He remembers when the area was full of bats and lapwings before the concrete slabs arrived in 1970. He describes agitatedly a situation that can only be described as kafkaesque.  
-        <br>  "We simply had to accept it," Bernd tells you.  <br>
+        On the other side of the highway you will find Bernd, a resident who has been writing polite, increasingly ignored emails to different people of Berlins governing apparatus for years. <br>
+        He remembers when the area was full of bats and lapwings before the concrete slabs arrived in 1970. He describes agitatedly a situation that can only be described as kafkaesque.  <br>  "We simply had to accept it," Bernd tells you.  <br>
         Before you leave, you look at the facades of the houses. The vibration of the renovation works on the Autobahn has left visible cracks in the plaster actively eroding the present. It makes you feel something.
       </p>
 
@@ -804,7 +792,14 @@ The landscape is not a static legacy, but rather the dynamic result of anthropog
           const rowWidth = row.clientWidth;
           const gapPx = window.innerWidth * 0.01; 
           const availableWidth = rowWidth - (gapPx * (figures.length - 1));
-          const perfectHeight = availableWidth / totalAspectRatio;
+          
+          let perfectHeight = availableWidth / totalAspectRatio;
+          
+          // CAP THE ROW HEIGHT: Ensure programmatic layout stays safely inside the bars
+          const maxAvailableHeight = window.innerHeight - 240; 
+          if (perfectHeight > maxAvailableHeight) {
+            perfectHeight = maxAvailableHeight;
+          }
           
           figures.forEach(fig => {
             const media = fig.querySelector('img, video');
@@ -1010,18 +1005,13 @@ The landscape is not a static legacy, but rather the dynamic result of anthropog
         const p2 = svgPositions[nextIndex];
         const currentPercent = p1 + (p2 - p1) * progress;
 
-        // Verschiebt das SVG auf der X-Achse
         svgElement.style.transform = `translateX(calc(${-currentPercent}% + 50vw))`;
 
-        // Robustere Gruppensuche: Wir runden den Offset auf die exakte ID
         const currentGroupNumber = Math.round(offset); 
         
-        // Wir holen uns alle Gruppen, deren ID mit "group-" anfängt
         const allSvgGroups = svgElement.querySelectorAll('[id^="group-"]');
         allSvgGroups.forEach(group => {
           const groupId = group.getAttribute("id");
-          
-          // Hier vergleichen wir flexibel, um auch IDs wie "group-1_1_" oder "group-1-copy" abzufangen!
           const regex = new RegExp(`^group-${currentGroupNumber}\\b|_|-`);
           
           if (regex.test(groupId) && offset >= 0.5 && offset <= 7.5) {
@@ -1031,7 +1021,6 @@ The landscape is not a static legacy, but rather the dynamic result of anthropog
           }
         });
 
-        // Gesamtes SVG ein- bzw. ausblenden bei den Endpunkten s1 und s9
         const shouldHide = offset < 0.2 || offset > 7.8;
         svgElement.classList.toggle("visible", !shouldHide);
       }

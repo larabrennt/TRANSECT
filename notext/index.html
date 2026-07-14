@@ -215,7 +215,7 @@
       margin-bottom: 80px;
     }
 
-    /* NEU: Flexbox-Zentrierung für die gesamten Sektionen */
+    /* Flexbox-Zentrierung für alle Sektionen */
     .sheet {
       display: flex;
       flex-direction: column;
@@ -227,7 +227,12 @@
       padding: 24px 40px 80px;
     }
 
-    /* NEU: Überschriften zentrieren */
+    /* Sektion 6 (Overlay Overload) füllt jetzt die gesamte Höhe aus */
+    #s6 {
+      min-height: calc(100vh - 180px);
+    }
+
+    /* Überschriften zentrieren */
     h1 {
       margin-bottom: 16pt;
       font-size: 10pt;
@@ -325,7 +330,7 @@
       margin-bottom: 20px;
     }
 
-    /* GEÄNDERT: object-fit von cover auf contain gesetzt, damit Videos nie beschnitten werden */
+    /* object-fit: contain, damit Videos nie beschnitten werden */
     .photo-row figure img,
     .photo-row figure video {
       width: 100%;
@@ -342,19 +347,15 @@
       margin-bottom: 20px;
     }
 
-    /* Zentrierung für die Press-to-Play-Wrapper */
+    /* Press-to-Play-Wrapper zurückgesetzt */
     .comp-wrap {
       position: relative;
       width: 100%;
-      max-width: 100%;
       height: calc(100dvh - 240px);
-      margin: 20px auto;
+      margin: 20px 0;
       overflow: hidden;
       cursor: pointer;
       margin-bottom: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
     }
 
     .comp-wrap video {
@@ -398,10 +399,11 @@
       z-index: 10;
     }
 
+    /* Positionierung der Play-Schaltfläche (wieder original linksbündig) */
     .pb {
       position: absolute;
       top: 50%;
-      left: 50%; /* Auf 50% geändert für echte Zentrierung */
+      left: 30%; 
       display: flex;
       align-items: center;
       justify-content: center;
@@ -411,6 +413,14 @@
       font: bold 26pt Arial, sans-serif;
       letter-spacing: 0.08em;
       text-transform: uppercase;
+    }
+
+    /* Echte, weite Abstandhalter (Sichtschutz) */
+    .view-gap {
+      display: block;
+      height: 100vh;
+      width: 100%;
+      pointer-events: none;
     }
 
     .row-s2-videos,
@@ -500,7 +510,7 @@
         display: flex;
         flex-direction: row;
         flex-wrap: nowrap;
-        justify-content: flex-start; /* Start-ausgerichtet bei Overflow-Scrollen */
+        justify-content: flex-start;
         overflow-x: auto;
         gap: 1vw;
         width: 100%;
@@ -575,6 +585,8 @@
 <figure><video autoplay="" loop="" muted="" playsinline="" src="../06_ganges.mp4"></video></figure>
 </div>
 
+<div class="view-gap"></div>
+
 <figure>
 <img alt="Panke drawing" src="../coupes_1.jpg"/>
 </figure>
@@ -589,10 +601,15 @@
 <figure><img alt="Field specimens" src="../361A5F8C-AA9B-47CB-9034-93A739BD99F6-3.JPG"/></figure>
 <figure><video autoplay="" loop="" muted="" playsinline="" src="../THEMES.mp4"></video></figure>
 </div>
+
+<div class="view-gap"></div>
+
 <div class="comp-wrap" onclick="toggleCompVideo(this)" role="button" tabindex="0">
 <video loop="" muted="" playsinline="" preload="auto" src="../comp.mp4"></video>
 <div class="pb">PRESS HERE TO PLAY</div>
 </div>
+
+<div class="view-gap"></div>
 
 </section>
 <section class="sheet" id="s3">

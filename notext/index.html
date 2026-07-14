@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
-<title>TIME TRAVELLERS GUIDE</title>
+<title>A TIMETRAVELLERS GUIDE THROUGH SPACE TIME</title>
 <style>
     * {
       margin: 0;
@@ -700,7 +700,7 @@
 </div>
 <script>
     function perfectlyAlignRows() {
-      // Reverted: Custom layout engine calculation runs smoothly everywhere, including mobile.
+      // Custom layout engine calculation runs smoothly everywhere, including mobile.
       document.querySelectorAll('.photo-row').forEach(row => {
         const figures = Array.from(row.querySelectorAll('figure'));
         let totalAspectRatio = 0;
@@ -759,7 +759,7 @@
     ];
 
     const wheelWindow = document.querySelector(".wheel-window");
- Golden wheel = document.querySelector(".tab-wheel");
+    const wheel = document.querySelector(".tab-wheel"); // Repariert: Syntaxfehler "Golden wheel" behoben!
     const tabs = Array.from(document.querySelectorAll(".tab"));
 
     let manualScroll = false;
@@ -937,7 +937,7 @@
         const allSvgGroups = svgElement.querySelectorAll('[id^="group-"]');
         allSvgGroups.forEach(group => {
           const groupId = group.getAttribute("id");
-         const regex = new RegExp(`^group-${currentGroupNumber}\\b|_|-`);
+          const regex = new RegExp(`^group-${currentGroupNumber}\\b|_|-`);
           
           if (regex.test(groupId) && offset >= 0.5 && offset <= 7.5) {
             group.classList.add("visible-group");
@@ -956,7 +956,8 @@
     async function loadSvg() {
       const container = document.getElementById("svg-container");
       try {
-        const response = await fetch("svg-export.svg");
+        // Repariert: Holt die SVG nun korrekt eine Ebene höher
+        const response = await fetch("../svg-export.svg");
         if (!response.ok) throw new Error(`SVG could not be loaded (${response.status})`);
 
         const svgData = await response.text();
@@ -974,7 +975,7 @@
         container.innerHTML = `
           <p class="svg-error">
             SVG could not load.<br>
-            Check that "svg-export.svg" is in the same folder and open this site through Live Server.
+            Check that "svg-export.svg" is in the main folder.
           </p>
         `;
       }

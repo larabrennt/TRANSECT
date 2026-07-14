@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>A TIMETRAVELLERS GUIDE THROUGH SPACE TIME</title>
+<style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      scrollbar-width: thin;
+      scrollbar-color: #000 #fff;
+    }
+
+    *::-webkit-scrollbar {
+      width: 10px;
+      height: 10px;
+    }
+
+    *::-webkit-scrollbar-thumb {
+      background: #000;
+      border-radius: 0;
+    }
+
+    *::-webkit-scrollbar-track {
+      background: #fff;
+      border-radius: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      font-size: 10pt;
+      color: #000;
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+    }
+
+    img,
+    video {
+      display: block;
+      max-width: 100%;
+      max-height: calc(100dvh - 240px);
+      height: auto;
+      object-fit: contain;
+    }
+
+    a {
+      color: #000;
+    }
+
+    p {
+      line-height: 1.6;
+      margin-bottom: 10pt;
+      max-width: 100%;
+    }
+
+    /* REDUZIERTER TOP BAR (NUR TITEL & WHEEL) */
+    #sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      height: 100px;
+      padding: 16px;
+      overflow: hidden;
+      background: #fff;
+      border-bottom: 1px solid #000;
+      align-items: center;
+    }
+
+    #sidebar-header {
+      flex: 0 0 auto;
+      font: 10pt Arial, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .wheel-window {
+      height: 40px;
+      width: 100%;
+      max-width: 100%;
+      flex: 0 0 auto;
+      position: relative;
+      overflow: hidden;
+      perspective: 100%;
+      mask-image: linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%);
+      margin-bottom: 10px;
+    }
+
+    .tab-wheel {
+      position: absolute;
+      left: 0;
+      height: 100%;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      transform-style: preserve-3d;
+      white-space: nowrap;
+    }
+
+    .tab {
+      display: block;
+      padding: 0 20px;
+      border: 0;
+      background: transparent;
+      color: #000;
+      cursor: pointer;
+      font: 10pt Arial, sans-serif;
+      line-height: 1.2;
+      text-align: center;
+      transform-origin: center center;
+      backface-visibility: hidden;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    .tab:hover {
+      color: #555;
+    }
+
+    .tab.active {
+      color: #0000ff;
+    }
+
+    /* FIXIERTER BOTTOM BAR FÜR DAS SVG */
+    #bottom-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      z-index: 1000;
+      display: flex;
+      width: 100%;
+      height: 100px;
+      background: #fff;
+      border-top: 1px solid #000;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .sidebar-diagram {
+      position: relative;
+      display: flex;
+      flex: 1;
+      width: 100%;
+      max-width: 100%;
+      height: 80px;
+      overflow: hidden;
+      align-items: center;
+      justify-content: center;
+      mask-image: linear-gradient(
+        to right,
+        transparent 0%,
+        black 35%,
+        black 65%,
+        transparent 100%
+      );
+      -webkit-mask-image: linear-gradient(
+        to right,
+        transparent 0%,
+        black 35%,
+        black 65%,
+        transparent 100%
+      );
+    }
+
+    .sidebar-diagram svg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: auto;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .sidebar-diagram svg.visible {
+      opacity: 1;
+    }
+
+    /* --- DIE ABSOLUT BULLETPROOF STEUERUNG DER INHALTSGRUPPEN --- */
+    .sidebar-diagram svg [id^="group-"] {
+      opacity: 0.05 !important;
+      transition: opacity 0.4s ease-in-out;
+    }
+
+    .sidebar-diagram svg [id^="group-"].visible-group {
+      opacity: 1 !important;
+    }
+
+    .svg-error {
+      color: #f00;
+      font: 10pt Arial, sans-serif;
+      line-height: 1.4;
+      text-align: center;
+    }
+
+    /* CONTENT POSITIONIERUNG */
+    #content {
+      width: 100%;
+      margin-top: 140px;
+      margin-bottom: 80px;
+    }
+
+    .sheet {
+      display: block;
+      position: relative;
+      min-height: calc(100vh - 220px);
+      padding: 24px 40px 80px;
+    }
+
+    h1 {
+      margin-bottom: 16pt;
+      font-size: 10pt;
+      font-weight: normal;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .note {
+      max-width: 100%;
+      margin: 16px 0;
+      font-style: italic;
+      line-height: 1.6;
+    }
+
+    figure {
+      display: block;
+      margin: 0;
+    }
+
+    figcaption {
+      margin-top: 6px;
+      color: #555;
+      font: italic 9pt Arial, sans-serif;
+      line-height: 1.4;
+    }
+
+    .indent-hide {
+      visibility: hidden;
+    }
+
+    .text-row {
+      display: flex;
+      flex-direction: row;
+      gap: 1vw;
+      width: 100%;
+      margin: 20px 0;
+      align-items: flex-start;
+    }
+
+    .text-row img {
+      display: block;
+      flex: 0 0 60%;
+      width: 60%;
+      max-height: calc(100dvh - 240px);
+      height: auto;
+      object-fit: contain;
+    }
+
+    .text-col {
+      flex: 0 0 40%;
+      width: 40%;
+      min-width: 0;
+    }
+
+    .text-col p {
+      max-width: 100%;
+    }
+
+    .photo-row img,
+    .photo-row video,
+    .comp-wrap {
+      display: block;
+      flex: 0 1 auto;
+      width: auto;
+      min-width: 0;
+      max-width: 100%;
+      height: 100%;
+      object-fit: contain;
+      margin-bottom: 20px;
+    }
+
+    .photo-row {
+      display: flex;
+      flex-direction: row;
+      gap: 1vw;
+      width: 100%;
+      margin: 20px 0;
+      margin-bottom: 20px;
+    }
+
+    .photo-row figure {
+      margin: 0;
+      padding: 0;
+      display: block;
+      margin-bottom: 20px;
+    }
+
+    .photo-row figure img,
+    .photo-row figure video {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover; 
+      margin-bottom: 20px;
+    }
+
+    .photo-row figure figcaption {
+      flex: 0 0 auto;
+      padding-top: 4px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .comp-wrap {
+      position: relative;
+      width: 100%;
+      height: calc(100dvh - 240px);
+      margin: 20px 0;
+      overflow: hidden;
+      cursor: pointer;
+      margin-bottom: 20px;
+    }
+
+    .comp-wrap video {
+      width: auto;
+      height: 100%;
+      margin: 0 auto;
+      object-fit: contain;
+      margin-bottom: 20px;
+    }
+
+    .pano-container {
+      position: relative;
+      height: calc(100dvh - 240px);
+      width: 100%;
+      overflow-x: auto;
+      overflow-y: hidden;
+      white-space: nowrap;
+      margin-bottom: 20px;
+    }
+
+    .pano-container img {
+      height: 100%;
+      width: auto;
+      max-width: none;
+      display: block;
+    }
+
+    .scroll-hint {
+      position: sticky;
+      left: 20px;
+      top: 0;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #f00;
+      font: bold 20pt Arial, sans-serif;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    .pb {
+      position: absolute;
+      top: 50%;
+      left: 30%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transform: translate(-50%, -50%);
+      color: #f00;
+      pointer-events: none;
+      font: bold 26pt Arial, sans-serif;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .row-s2-videos,
+    .row-s2-photos,
+    .row-s2-maps,
+    .row-s5-videos,
+    .row-s5-photos {
+      height: auto;
+    }
+
+    /* STYLING FÜR DAS ZWEISPALTIGE LITERATURVERZEICHNIS */
+    .apa-bibliography {
+      column-count: 2;
+      column-gap: 40px;
+      margin-top: 20px;
+      text-align: justify;
+    }
+
+    .apa-item {
+      font-family: Arial, sans-serif;
+      font-size: 10pt;
+      line-height: 1.5;
+      padding-left: 30px;
+      text-indent: -30px;
+      margin-bottom: 12px;
+      break-inside: avoid;
+    }
+
+    .apa-item a {
+      color: #0000ff;
+      text-decoration: none;
+      word-break: break-all;
+    }
+
+    .apa-item a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 850px) {
+      .pb {
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 14pt;
+        text-align: center;
+        width: calc(100% - 24px);
+        max-width: 100%;
+        line-height: 1.2;
+        white-space: normal;
+      }
+    }
+
+    @media (max-width: 850px) {
+      body {
+        display: block;
+      }
+
+      #sidebar {
+        position: fixed;
+        width: 100%;
+        height: 140px;
+      }
+
+      #bottom-bar {
+        position: fixed;
+        width: 100%;
+        height: 80px;
+      }
+
+      #content {
+        width: 100%;
+        margin-top: 140px;
+        margin-bottom: 80px;
+      }
+
+      .sheet {
+        padding: 24px 16px 60px;
+      }
+
+      figure {
+        display: block;
+        margin-bottom: 20px;
+      }
+
+      /* Desktop layout values preserved on mobile rows */
+      .photo-row {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        gap: 1vw;
+        width: 100%;
+        margin: 20px 0;
+        margin-bottom: 20px;
+      }
+
+      .photo-row figure {
+        margin: 0;
+        padding: 0;
+        display: block;
+        margin-bottom: 20px;
+        flex: 0 0 auto;
+      }
+
+      .row-s2-maps,
+      .row-s5-videos,
+      .row-s2-videos {
+        height: auto;
+      }
+
+      .apa-bibliography {
+        column-count: 1;
+        column-gap: 0;
+      }
+
+      .sidebar-diagram {
+        mask-image: linear-gradient(
+          to right,
+          transparent 0%,
+          black 10%,
+          black 90%,
+          transparent 100%
+        );
+        -webkit-mask-image: linear-gradient(
+          to right,
+          transparent 0%,
+          black 10%,
+          black 90%,
+          transparent 100%
+        );
+      }
+    }
+  </style>
+</head>
+<body>
+<div id="sidebar">
+<div id="sidebar-header">A TIMETRAVELLERS GUIDE THROUGH SPACE TIME</div>
+<div aria-label="Section navigation" class="wheel-window">
+<div class="tab-wheel">
+<button class="tab" onclick="goToSheet('s1')" type="button">WELCOME</button>
+<button class="tab" onclick="goToSheet('s2')" type="button">Space Time State</button>
+<button class="tab" onclick="goToSheet('s3')" type="button">State + Space= Map</button>
+<button class="tab" onclick="goToSheet('s4')" type="button">Space + Time = Superposition</button>
+<button class="tab" onclick="goToSheet('s5')" type="button">Time + State = Sequence</button>
+<button class="tab" onclick="goToSheet('s6')" type="button">Map + Superposition + Sequence = OVERLAY OVERLOAD</button>
+<button class="tab" onclick="goToSheet('s7')" type="button">Space Time Transect</button>
+<button class="tab" onclick="goToSheet('s8')" type="button">Time cut us off</button>
+<button class="tab" onclick="goToSheet('s9')" type="button">References</button>
+</div>
+</div>
+</div>
+<main id="content">
+<section class="sheet" id="s1">
+<h1>Welcome to Erosion and Entropy</h1>
+<div class="photo-row row-s2-videos" style="margin-bottom: 0;">
+<figure><video autoplay="" loop="" muted="" playsinline="" src="01_Amazon.mp4"></video></figure>
+<figure><video autoplay="" loop="" muted="" playsinline="" src="02_Havel.mp4"></video></figure>
+<figure><video autoplay="" loop="" muted="" playsinline="" src="03_panke.mp4"></video></figure>
+<figure><video autoplay="" loop="" muted="" playsinline="" src="04_Spree.mp4"></video></figure>
+<figure><video autoplay="" loop="" muted="" playsinline="" src="05_spreewald.mp4"></video></figure>
+<figure><video autoplay="" loop="" muted="" playsinline="" src="06_ganges.mp4"></video></figure>
+</div>
+
+<figure>
+<img alt="Panke drawing" src="coupes_1.jpg"/>
+</figure>
+</section>
+<section class="sheet" id="s2">
+<h1>Space Time State</h1>
+
+
+<div class="photo-row row-s5-videos" style="margin-bottom: 0;">
+<figure><img alt="Field survey Panke" src="IMG_6909.jpeg"/></figure>
+<figure><img alt="Infrastructure" src="BF39C335-6EBB-41ED-AF19-46555667780D-2.JPG"/></figure>
+<figure><img alt="Field specimens" src="361A5F8C-AA9B-47CB-9034-93A739BD99F6-3.JPG"/></figure>
+<figure><video autoplay="" loop="" muted="" playsinline="" src="THEMES.mp4"></video></figure>
+</div>
+<div class="comp-wrap" onclick="toggleCompVideo(this)" role="button" tabindex="0">
+<video loop="" muted="" playsinline="" preload="auto" src="comp.mp4"></video>
+<div class="pb">PRESS HERE TO PLAY</div>
+</div>
+
+</section>
+<section class="sheet" id="s3">
+<h1>State + Space = Map</h1>
+<div class="photo-row row-s2-maps" style="margin-bottom: 0;">
+<figure><video autoplay="" loop="" muted="" playsinline="" src="time_maps.mp4"></video></figure>
+<figure><video autoplay="" loop="" muted="" playsinline="" src="info_Maps.mp4"></video></figure>
+<figure><img alt="Waternetwork Panke" src="Waternetwork_Panke_Region.png"/></figure>
+</div>
+
+</section>
+<section class="sheet" id="s4">
+<h1>Space + Time = Superposition</h1>
+
+<figure>
+<img alt="Drawing Palimpseste" src="Palimpsest.png"/>
+</figure>
+
+<figure>
+<img alt="Geological cut" src="Geological_cut.png"/>
+</figure>
+
+</section>
+<section class="sheet" id="s5">
+<h1>Time + State = Sequence</h1>
+
+<div class="pano-container">
+<img alt="Pollen analysis" src="Pollenanalysis.png"/>
+<div class="scroll-hint">SCROLL →</div>
+</div>
+
+<iframe id="timeline-frame" scrolling="yes" src="Timeline.htm" style="border: none; overflow: auto; display: block; height: calc(100vh - 240px);" width="100%">
+</iframe>
+</section>
+<section class="sheet" id="s6">
+<h1>Overlay Overload</h1>
+<figure>
+<img alt="Overlay overload drawing" src="overlay_overload.png"/>
+</figure>
+
+</section>
+<section class="sheet" id="s7">
+<h1>Space Time Transect</h1>
+
+<div class="pano-container">
+<img alt="Space-Time transect drawing" src="TRANSECT.png"/>
+<div class="scroll-hint">SCROLL →</div>
+</div>
+</section>
+<section class="sheet" id="s8">
+<h1>Time cut us off</h1>
+
+
+
+<div class="comp-wrap" onclick="toggleCompVideo(this)" role="button" tabindex="0">
+<video loop="" muted="" playsinline="" preload="auto" src="intervention.mp4"></video>
+<div class="pb">PRESS HERE TO PLAY</div>
+</div>
+
+</section>
+<section class="sheet" id="s9">
+<h1>References</h1>
+
+<div class="photo-row row-s2-videos" style="margin-bottom: 20px;">
+<figure><img alt="Reference image 1" src="IMG_7728.JPG"/></figure>
+<figure><img alt="Reference image 2" src="IMG_7726.jpg"/></figure>
+<figure><img alt="Reference image 3" src="IMG_7725.JPG"/></figure>
+<figure><img alt="Reference image 4" src="IMG_7723.jpeg"/></figure>
+<figure><img alt="Reference image 5" src="IMG_7722.JPG"/></figure>
+<figure><img alt="Reference image 6" src="IMG_7721.JPG"/></figure>
+<figure><img alt="Reference image 7" src="IMG_7724.JPG"/></figure>
+</div>
+<div class="apa-bibliography">
+<div class="apa-item">Alaily, F. (1980). Bedeutung und Fernerkundung von Frostkeil-Polygonen in Berlin. <em>Berliner Naturschutzblätter</em>, 24, 613-618.</div>
+<div class="apa-item">Alaily, F., Brande, A., Facklam, M., &amp; Renger, M. (2000). Bodengesellschaften und Genese von Kalktuff im Naturschutzgebiet ‘Kalktuffgelände am Tegeler Fließ’ (Berlin-Blankenfelde). <em>Sitzungsber. Ges. Naturforsch. Freunde Berlin N. F.</em>, 38, 111-125.</div>
+<div class="apa-item">Amt für Statistik (2019). <em>Bevölkerungsentwicklung und Bevölkerungsstand im Land Brandenburg, Dezember 2018</em>. Potsdam.</div>
+<div class="apa-item">Assmann, P. (1957). <em>Der geologische Aufbau der Gegend von Berlin</em>. Berlin: SenBauWohn.</div>
+<div class="apa-item">beefland (2021). <em>Berliner-Bahnen.de – Bahnen im Berliner Raum</em>. <a href="https://berliner-bahnen.de/index0.html">https://berliner-bahnen.de/index0.html</a></div>
+<div class="apa-item">Bezirksamt Pankow von Berlin (2011). <em>Beschluss zur Benennung von Privatwegen (Anlage Blankenburg / Anlage Gravenstein)</em>. Berlin-Pankow, Germany.</div>
+<div class="apa-item">Bezirksamt Pankow von Berlin &amp; Garten- und Siedlerfreunde Anlage Blankenburg e.V. (2011). <em>Vereinbarung zur Regelung der Zusammenarbeit in Bezug auf die Anlage Blankenburg in Berlin-Pankow</em>. Berlin-Pankow, Germany.</div>
+<div class="apa-item">Brande, A. (2000). Zur Landschafts-, Vegetations- und Nutzungsgeschichte im Gebiet des Krummen Fenns (Berlin-Zehlendorf). <em>Verhandlungen des Botanischen Vereins von Berlin und Brandenburg</em>, 133, 27-44.</div>
+<div class="apa-item">Bundesgerichtshof (2004). <em>Judgment on Residential Arbour Fees and VKSK Succession (Az: III ZR 331/02 &amp; III ZR 179/04)</em>. Karlsruhe, Germany.</div>
+<div class="apa-item">Deputation für die Verwaltung der Kanalisationswerke (1882). <em>Anlage B. Instruktion für die Rieselmeister und Rieselwärter</em>. Berlin, Germany.</div>
+<div class="apa-item">Ehlert, D. (2011). <em>Die Pankower Rieselfelder (Blankenfelde, Schönerlinde, Hobrechtsfelde) (Umweltblatt 12)</em>. Umweltbüro am Weißen See.</div>
+<div class="apa-item">Garten- und Siedlerfreunde Anlage Blankenburg e.V. (2022). <em>Vorstandsinformation 07/2022 zur finanziellen Lage</em>. <a href="https://anlage-blankenburg.com/">https://anlage-blankenburg.com/</a></div>
+<div class="apa-item">Glaser, R., Hologa, R., Bösmeier, A., Heim, B., Kahle, M., Scholze, N., &amp; Schliermann-Krauss, E. (2020). Klimageschichte der Frühneuzeit als Topos der universitären Forschung und Lehre. In <em>Die kleine Eiszeit (1430-1830) in Unterricht und Lehre</em> (pp. 105–125). <a href="https://www.researchgate.net/publication/349502215">https://www.researchgate.net/publication/349502215</a></div>
+<div class="apa-item">Glaser, R., &amp; Kahle, M. (2020). Reconstructions of Droughts in Germany since 1500 – Combining Hermeneutic Information and Instrumental Records in Historical and Modern Perspectives. <em>Climate of the Past</em>, 16(4), 1207–1222. <a href="https://doi.org/10.5194/cp-16-1207-2020">https://doi.org/10.5194/cp-16-1207-2020</a></div>
+<div class="apa-item">Glaser, R., &amp; Kahle, M. (2024). Klima – Wandel – Wein: Klimawandel und seine Auswirkungen auf den Weinbau in Südwestdeutschlands. <em>Wein und Klima</em>, (207), 53–76. <a href="https://www.researchgate.net/publication/387020704">https://www.researchgate.net/publication/387020704</a></div>
+<div class="apa-item">Glaser, R., Kahle, M., Borel, F., Hologa, R., Rau, O., &amp; Becker, A. (2021). Texte als Bausteine der Umweltforschung : von der analogen Analyse über Datenbanken und virtuelle Forschungsumgebungen zum Crowdsourcing und Maschinellen Lernen. <em>Siedlungsforschung. Archäologie - Geschichte - Geographie</em>, 39, 541–565. <a href="https://doi.org/10.6094/UNIFR/221503">https://doi.org/10.6094/UNIFR/221503</a></div>
+<div class="apa-item">Glaser, R., Kahle, M., Kellersohn, A., &amp; Rau, O. (2020). Dem Klimawandel auf der Spur. Der Weg schriftlicher Quellen aus den Archiven in die virtuelle Forschungsumgebung. <em>Archivnachrichten</em>, 60, 8–14. <a href="https://freidok.uni-freiburg.de/data/194557">https://freidok.uni-freiburg.de/data/194557</a></div>
+<div class="apa-item">Grandke, H. (1892). <em>Die Rieselfelder von Berlin und die Spüljauche</em>. Berlin.</div>
+<div class="apa-item">Grandke, H. (1895). Die Berliner Rieselfelder. <em>Mitteilungen Miscellaneous</em>, X(XIII), 562-596.</div>
+<div class="apa-item">Hasselhorst, C. (2021). <em>Paradies mit Laube. In: Zwischen Schlosspark und Küchengarten</em>. Wiesbaden: Corso Verlag – Verlagshaus Römerweg.</div>
+<div class="apa-item">Helling, J. G. A. L. (1830). <em>Geschichtlich-statistisch-topographisches Taschenbuch von Berlin und seinen naechsten Umgebungen</em>. Berlin: H. A. W. Logier.</div>
+<div class="apa-item">Hirschman, A. O. (1958). <em>The Strategy of Economic Growth</em>. New Haven.</div>
+<div class="apa-item">Hutter, Iris (2021). <em>Wölbäcker: Zeugen einer landwirtschaftlichen Nutzung</em>. Amt für Archäologie Thurgau.</div>
+<div class="apa-item">Jahns, S. (2000). Late-glacial and Holocene woodland dynamics and land-use history of the Lower Oder valley, northeastern Germany. <em>Vegetation History and Archaeobotany</em>, 9, 111–123.</div>
+<div class="apa-item">Jahns, S., et al. (2013). <em>Pollenanalytische Untersuchungen am Rudower See und Rambower Moor zur holozänen Vegetations- und Siedlungsgeschichte in der westlichen Prignitz</em>. Environment and Subsistence / Landschaft, Besiedlung und Siedlung.</div>
+<div class="apa-item">Jahns, S., et al. (2018). Zur Geschichte der nacheiszeitlichen Umwelt und der Kulturpflanzen im Land Brandenburg. <em>Beiträge zur Archäozoologie und Prähistorischen Anthropologie</em>, XI, 9–167.</div>
+<div class="apa-item">Kahle, Michael (2025). <em>Innovative, digitale Verfahren zur maschinellen Erfassung und Klassifizierung von Texten zur historischen und rezenten Klimaanalyse und deren gesellschaftliche Folgen</em>. University of Freiburg.</div>
+<div class="apa-item">Kahle, M., &amp; Glaser, R. (2025). Climatic Conditions and Mobility from 1000 to 1500. Hermeneutic and Statistical Approaches. In L. Sarti &amp; H. Trott zu Stolz (Eds.), <em>Mobility in the Early Middle Ages, and Beyond</em> (Vol. 46). Europa Im Mittelalter. <a href="https://doi.org/10.1515/9783111166698-009">https://doi.org/10.1515/9783111166698-009</a></div>
+<div class="apa-item">Kahle, M., Kempf, M., Martin, B., &amp; Glaser, R. (2022). Classifying the 2021 ‘Ahrtal’ Flood Event Using Hermeneutic Interpretation, Natural Language Processing, and Instrumental Data Analyses. <em>Environmental Research Communications</em>, 4(5), 051002. <a href="https://doi.org/10.1088/2515-7620/ac6657">https://doi.org/10.1088/2515-7620/ac6657</a></div>
+<div class="apa-item">Kaschka, R. (2011). <em>Auf dem falschen Gleis. Infrastrukturpolitik und -entwicklung der DDR am Beispiel der Deutschen Reichsbahn 1949–1989</em>. Frankfurt/Main, New York: Campus Verlag.</div>
+<div class="apa-item">Langeheinecke, U. (1992). <em>Der Wedding als ländliche Ansiedlung 1720 bis 1840</em>. Berlin: Gebr. Mann Verlag.</div>
+<div class="apa-item">Marx, C., Tetzlaff, D., Hinkelmann, R., &amp; Soulsby, C. (2021). Isotope hydrology and water sources in a heavily urbanized stream. <em>Hydrological Processes</em>, 35(10).</div>
+<div class="apa-item">Marx, C., Tetzlaff, D., Hinkelmann, R., &amp; Soulsby, C. (2023). Effects of 66 years of water management and hydroclimatic change on the urban hydrology and water quality of the Panke catchment, Berlin, Germany. <em>Science of The Total Environment</em>.</div>
+<div class="apa-item">Mauruszat, A. (2021). <em>Bahnstrecken im Land Brandenburg</em>. <a href="http://www.bahnstrecken.de/index.htm">http://www.bahnstrecken.de/index.htm</a></div>
+<div class="apa-item">Migge, L. (1913). <em>Die Gartenkultur des 20. Jahrhunderts The Garden Culture of the 20th Century</em>. Jena.</div>
+<div class="apa-item">Migge, L. (1918). <em>Jedermann Selbstversorger Everyone a Self-Provider</em>. Jena.</div>
+<div class="apa-item">Nicolai, F. (1786). <em>Beschreibung der königlichen Residenzstadt Berlin</em>. Berlin, Germany.</div>
+<div class="apa-item">Papenbrock, W. (2025). Historisches und Neues vom Trinkwasser in Berlin-Blankenburg (Guest Post). <em>IG Trinkwasser</em>.</div>
+<div class="apa-item">Redaktion Berlin-Blankenburg (2024). <em>KIEZBUS in Berlin-Blankenburg BVG-Bus-Linie 358 ab 16. Dezember 2024</em>. <a href="https://berlin-blankenburg.de/Kiezbus-Blankenburg.php">https://berlin-blankenburg.de/Kiezbus-Blankenburg.php</a></div>
+<div class="apa-item">Schulze, R., &amp; Eckerl, M. (1987). <em>Archäologische Landesaufnahme der Funde und Fundstellen in Berlin</em>. Archäologisches Landesamt Berlin.</div>
+<div class="apa-item">Senatsverwaltung für Mobilität, Verkehr, Klimaschutz und Umwelt (2025). <em>Schriftliche Anfrage des Abgeordneten Lars Bocian (CDU) vom 12. Februar 2025 zum Thema: Erholungsgrundstücke (Drucksache 19 / 21 647)</em>. Abgeordnetenhaus Berlin.</div>
+<div class="apa-item">Stoetzer, B. (2018). RUDERAL ECOLOGIES: Rethinking Nature, Migration, and the Urban Landscape in Berlin. <em>Cultural Anthropology</em>, 33(2), 295–323.</div>
+<div class="apa-item">Vahrenkamp, R. (2017). Die Verkehrspolitik der DDR – Konflikte zwischen dem communistischen Zentralisierungskonzept und betrieblichen Notwendigkeiten im LKW-Sektor. <em>Working Paper in the History of Mobility No. 20/2017, University of Kassel KOBRA</em>.</div>
+<div class="apa-item">WebArt.media (2011). <em>Panke.guide: Virtual tours and histories of Panke, Blankenburg, Buchholz, and traffic history</em>. <a href="https://www.panke.guide/">https://www.panke.guide/</a></div>
+<div class="apa-item">Wikipedia Contributors (2026). Panke / Kulturgeschichte der Panke / Kleingarten. <em>Wikipedia, The Free Encyclopedia</em>.</div>
+<div class="apa-item">Wolf, A., &amp; Jahns, S. (2024). Vegetationsbedeckung und Landnutzung in Eberswalde, Lkr. Barnim, von der Völkerwanderungs- bis in die Neuzeit. <em>Veröffentlichungen zur brandenburgischen Landesarchäologie</em>, 50, 143–156.</div>
+<div class="apa-item">Zerbe, S., Brande, A., &amp; Gladitz, F. (2000). Kiefer, Eiche und Buche in der Menzer Heide (N-Brandenburg). Veränderungen der Waldvegetation unter dem Einfluss des Menschen. <em>Verhandlungen des Botanischen Vereins von Berlin und Brandenburg</em>, 133, 45-86.</div>
+</div>
+
+</section>
+</main>
+<div id="bottom-bar">
+<div aria-label="Diagram" class="sidebar-diagram" id="svg-container"></div>
+</div>
+<script>
+    function perfectlyAlignRows() {
+      // Reverted: Custom layout engine calculation runs smoothly everywhere, including mobile.
+      document.querySelectorAll('.photo-row').forEach(row => {
+        const figures = Array.from(row.querySelectorAll('figure'));
+        let totalAspectRatio = 0;
+
+        figures.forEach(fig => {
+          const media = fig.querySelector('img, video');
+          if (!media) return;
+          const width = media.naturalWidth || media.videoWidth || 1;
+          const height = media.naturalHeight || media.videoHeight || 1;
+          totalAspectRatio += (width / height);
+        });
+
+        if (totalAspectRatio > 0) {
+          const rowWidth = row.clientWidth;
+          const gapPx = window.innerWidth * 0.01; 
+          const availableWidth = rowWidth - (gapPx * (figures.length - 1));
+          
+          let perfectHeight = availableWidth / totalAspectRatio;
+          
+          // CAP THE ROW HEIGHT: Max dynamic bounding constraint
+          const maxAvailableHeight = window.innerHeight - 240; 
+          if (perfectHeight > maxAvailableHeight) {
+            perfectHeight = maxAvailableHeight;
+          }
+          
+          figures.forEach(fig => {
+            const media = fig.querySelector('img, video');
+            const width = media.naturalWidth || media.videoWidth || 1;
+            const height = media.naturalHeight || media.videoHeight || 1;
+            const ratio = width / height;
+            
+            fig.style.height = perfectHeight + 'px';
+            fig.style.width = (perfectHeight * ratio) + 'px';
+            fig.style.flex = 'none';
+          });
+        }
+      });
+    }
+
+    window.addEventListener('load', perfectlyAlignRows);
+    window.addEventListener('resize', perfectlyAlignRows);
+    
+    const sheetIds = ["s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8", "s9"];
+    
+    // DEFINITION DER SVG-MARKER PRO TAB (Index 0 bis 8)
+    const svgPositions = [
+      0,   // index 0: s1 (WELCOME) -> ausgeblendet
+      5.5,   // index 1: s2 (Space Time State) -> group-1 -> 5%
+      15,  // index 2: s3 (State + Space= Map) -> group-2 -> 15%
+      30,  // index 3: s4 (Space + Time = Superposition) -> group-3 -> 15%
+      45,  // index 4: s5 (Time + State = Sequence) -> group-4 -> 45%
+      60,  // index 5: s6 (Map + Superposition + Sequence) -> group-5 -> 60%
+      77,  // index 6: s7 (Space Time Transect) -> group-6 -> 77%
+      95.5,  // index 7: s8 (Time cut us off) -> group-7 -> 95%
+      100  // index 8: s9 (References) -> ausgeblendet
+    ];
+
+    const wheelWindow = document.querySelector(".wheel-window");
+    const wheel = document.querySelector(".tab-wheel");
+    const tabs = Array.from(document.querySelectorAll(".tab"));
+
+    let manualScroll = false;
+    let offset = 0;
+    let targetOffset = 0;
+    let velocity = 0;
+    let activeIndex = 0;
+
+    function updateClasses(index) {
+      activeIndex = index;
+      tabs.forEach((tab, tabIndex) => {
+        tab.classList.toggle("active", tabIndex === index);
+      });
+    }
+
+    function setActive(id) {
+      const index = sheetIds.indexOf(id);
+      if (index === -1) return;
+
+      if (Math.abs(velocity) < 0.1) {
+        targetOffset = index;
+        updateClasses(index);
+      }
+
+      const credits = document.getElementById("sidebar-credits");
+      if (credits) {
+        credits.classList.toggle("collapsed", id !== "s1");
+      }
+    }
+
+    function goToSheet(id) {
+      const section = document.getElementById(id);
+      if (!section) return;
+
+      manualScroll = true;
+      const topBarHeight = 140; 
+      const elementPosition = section.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - topBarHeight;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth"
+      });
+
+      setActive(id);
+
+      clearTimeout(window.scrollTimer);
+      window.scrollTimer = setTimeout(() => {
+        manualScroll = false;
+      }, 900);
+    }
+
+    function toggleCompVideo(wrapper) {
+      const video = wrapper.querySelector("video");
+      const overlay = wrapper.querySelector(".pb");
+      if (!video) return;
+
+      if (video.paused) {
+        const playPromise = video.play();
+        if (playPromise !== undefined) {
+          playPromise.then(() => {
+            video.muted = false;
+            video.volume = 1.0;
+            overlay.style.display = "none";
+          }).catch(error => {
+            console.error("Browser blocked play:", error);
+            overlay.style.display = "none"; 
+          });
+        }
+      } else {
+        video.pause();
+        overlay.style.display = "flex";
+      }
+    }
+
+    document.querySelectorAll(".comp-wrap").forEach((wrapper) => {
+      wrapper.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          toggleCompVideo(wrapper);
+        }
+      });
+    });
+
+    const sheetObserver = new IntersectionObserver(
+      (entries) => {
+        if (manualScroll) return;
+        const visibleEntries = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+
+        if (visibleEntries.length) {
+          setActive(visibleEntries[0].target.id);
+        }
+      },
+      {
+        root: null,
+        rootMargin: "-140px 0px 0px 0px", 
+        threshold: [0.2, 0.4, 0.6]
+      }
+    );
+
+    document.querySelectorAll(".sheet").forEach((sheet) => {
+      sheetObserver.observe(sheet);
+    });
+
+    wheelWindow.addEventListener(
+      "wheel",
+      (event) => {
+        event.preventDefault();
+        targetOffset += event.deltaY * 0.0025;
+        velocity = event.deltaY * 0.0025;
+      },
+      { passive: false }
+    );
+
+    function animateWheel() {
+      const maxIndex = sheetIds.length - 1;
+      targetOffset += velocity;
+      velocity *= 0.82;
+
+      if (Math.abs(velocity) < 0.015) {
+        velocity = 0;
+        const snapTarget = Math.max(0, Math.min(Math.round(targetOffset), maxIndex));
+        targetOffset += (snapTarget - targetOffset) * 0.1;
+
+        if (activeIndex !== snapTarget && Math.abs(targetOffset - snapTarget) < 0.05) {
+          updateClasses(snapTarget);
+          goToSheet(sheetIds[snapTarget]);
+        }
+      } else {
+        if (targetOffset < 0) targetOffset += (0 - targetOffset) * 0.2;
+        if (targetOffset > maxIndex) targetOffset += (maxIndex - targetOffset) * 0.2;
+      }
+
+      offset += (targetOffset - offset) * 0.25;
+
+      const previousIndex = Math.max(0, Math.floor(offset));
+      const nextIndex = Math.min(maxIndex, Math.ceil(offset));
+      const progress = offset - Math.floor(offset);
+
+      // --- 1. TAB WHEEL TRANSFORMS ---
+      const previousTab = tabs[previousIndex];
+      const nextTab = tabs[nextIndex];
+
+      const left1 = previousTab ? previousTab.offsetLeft + previousTab.clientWidth / 2 : 0;
+      const left2 = nextTab ? nextTab.offsetLeft + nextTab.clientWidth / 2 : left1;
+      const centerPoint = left1 + (left2 - left1) * progress;
+      const windowWidth = wheelWindow.clientWidth || window.innerWidth;
+      const wheelTranslateX = windowWidth / 2 - centerPoint;
+
+      wheel.style.transform = `translateX(${wheelTranslateX}px)`;
+
+      tabs.forEach((tab, index) => {
+        const distance = index - offset;
+        const angle = distance * -15; 
+        const translateZ = -Math.abs(distance) * 12;
+        const opacity = Math.max(0.1, 1 - Math.abs(distance) * 0.25);
+
+        tab.style.transform = `rotateY(${angle}deg) translateZ(${translateZ}px)`;
+        tab.style.opacity = opacity;
+      });
+
+      // --- 2. BOTTOM BAR SVG & GROUP TRANSFORMS ---
+      const svgElement = document.querySelector(".sidebar-diagram svg");
+      if (svgElement) {
+        const p1 = svgPositions[previousIndex];
+        const p2 = svgPositions[nextIndex];
+        const currentPercent = p1 + (p2 - p1) * progress;
+
+        svgElement.style.transform = `translateX(calc(${-currentPercent}% + 50vw))`;
+
+        const currentGroupNumber = Math.round(offset); 
+        
+        const allSvgGroups = svgElement.querySelectorAll('[id^="group-"]');
+        allSvgGroups.forEach(group => {
+          const groupId = group.getAttribute("id");
+          const regex = new RegExp(`^group-${currentGroupNumber}\\b|_|-`);
+          
+          if (regex.test(groupId) && offset >= 0.5 && offset <= 7.5) {
+            group.classList.add("visible-group");
+          } else {
+            group.classList.remove("visible-group");
+          }
+        });
+
+        const shouldHide = offset < 0.2 || offset > 7.8;
+        svgElement.classList.toggle("visible", !shouldHide);
+      }
+
+      requestAnimationFrame(animateWheel);
+    }
+
+    async function loadSvg() {
+      const container = document.getElementById("svg-container");
+      try {
+        const response = await fetch("svg-export.svg");
+        if (!response.ok) throw new Error(`SVG could not be loaded (${response.status})`);
+
+        const svgData = await response.text();
+        container.innerHTML = svgData;
+        
+        setTimeout(() => {
+          const svgElement = document.querySelector(".sidebar-diagram svg");
+          if (svgElement && offset > 0.2 && offset < 7.8) {
+            svgElement.classList.add("visible");
+          }
+        }, 100);
+
+      } catch (error) {
+        console.error(error);
+        container.innerHTML = `
+          <p class="svg-error">
+            SVG could not load.<br>
+            Check that "svg-export.svg" is in the same folder and open this site through Live Server.
+          </p>
+        `;
+      }
+    }
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key !== "ArrowDown" && event.key !== "ArrowUp") return;
+
+      const visible = [...document.querySelectorAll(".sheet")].reduce((best, section) => {
+        const rect = section.getBoundingClientRect();
+        const visibleHeight = Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, 0);
+        return visibleHeight > (best.visibleHeight || 0) ? { element: section, visibleHeight } : best;
+      }, {});
+
+      if (!visible.element) return;
+      const index = sheetIds.indexOf(visible.element.id);
+
+      if (event.key === "ArrowDown" && index < sheetIds.length - 1) goToSheet(sheetIds[index + 1]);
+      if (event.key === "ArrowUp" && index > 0) goToSheet(sheetIds[index - 1]);
+    });
+
+    updateClasses(0);
+    animateWheel();
+    loadSvg();
+  </script>
+</body>
+</html>

@@ -427,21 +427,7 @@
     .apa-item a:hover {
       text-decoration: underline;
     }
-    
-    @media (max-width: 850px) {
-        .pb {
-          left: 50%;
-          top: 50%;
-          transform: translate(-50%, -50%);
-          font-size: 14pt;
-          text-align: center;
-          width: calc(100% - 24px);
-          max-width: 100%;
-          line-height: 1.2;
-          white-space: normal;
-        }
-      }
-    
+
     @media (max-width: 850px) {
       body {
         display: block;
@@ -654,8 +640,8 @@ The landscape is not a static legacy, but rather the dynamic result of anthropog
         id="timeline-frame"
         src="Timeline.htm" 
         width="100%" 
-        style="border: none; overflow: hidden; display: block;"
-        scrolling="no">
+        style="border: none; overflow: auto; display: block; height: calc(100vh - 240px);"
+        scrolling="yes">
       </iframe>
     </section>
 
@@ -693,7 +679,7 @@ The landscape is not a static legacy, but rather the dynamic result of anthropog
       <p>
         What this specially crafted tool offers us to see is not only a tapestry of decrescendo intensity, but also precise understanding of how things came to be.<br>
         To experience the urban planning policy of the GDR first hand, adjust your time-dials to 1970 to watch the Autobahn being build right through a preexisting settlement,<br>
-        traping a pocket of land between the A114 Autobahn and the straightened, artificially tamed banks of the Panke River.
+        trapping a pocket of land between the A114 Autobahn and the straightened, artificially tamed banks of the Panke River.
       </p>
 
       <p>
@@ -831,46 +817,8 @@ The landscape is not a static legacy, but rather the dynamic result of anthropog
       });
     }
 
-    // --- AUTO-HEIGHT IFRAME RESIZER ---
-    function adjustIframeHeight() {
-      const iframe = document.getElementById('timeline-frame');
-      if (iframe && iframe.contentWindow) {
-        try {
-          const body = iframe.contentWindow.document.body;
-          const html = iframe.contentWindow.document.documentElement;
-          
-          // Find the maximum calculated height of the iframe content
-          const height = Math.max(
-            body.scrollHeight, 
-            body.offsetHeight, 
-            html.clientHeight, 
-            html.scrollHeight, 
-            html.offsetHeight
-          );
-          
-          iframe.style.height = height + 'px';
-        } catch (e) {
-          // If the files are run locally without a server (file://), CORS security rules might trigger this.
-          console.warn("Iframe auto-height failed due to CORS restrictions. Run with a local server (like VS Code Live Server) to prevent this.", e);
-        }
-      }
-    }
-
-    // Setup iframe event listener
-    const timelineIframe = document.getElementById('timeline-frame');
-    if (timelineIframe) {
-      timelineIframe.addEventListener('load', adjustIframeHeight);
-    }
-
-    window.addEventListener('load', () => {
-      perfectlyAlignRows();
-      adjustIframeHeight();
-    });
-
-    window.addEventListener('resize', () => {
-      perfectlyAlignRows();
-      adjustIframeHeight();
-    });
+    window.addEventListener('load', perfectlyAlignRows);
+    window.addEventListener('resize', perfectlyAlignRows);
     
     const sheetIds = ["s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8", "s9"];
     

@@ -679,7 +679,7 @@ The landscape is not a static legacy, but rather the dynamic result of anthropog
       <p>
         What this specially crafted tool offers us to see is not only a tapestry of decrescendo intensity, but also precise understanding of how things came to be.<br>
         To experience the urban planning policy of the GDR first hand, adjust your time-dials to 1970 to watch the Autobahn being build right through a preexisting settlement,<br>
-        trapping a pocket of land between the A114 Autobahn and the straightened, artificially tamed banks of the Panke River.
+        traping a pocket of land between the A114 Autobahn and the straightened, artificially tamed banks of the Panke River.
       </p>
 
       <p>
@@ -718,7 +718,6 @@ The landscape is not a static legacy, but rather the dynamic result of anthropog
         <figure><img src="IMG_7724.JPG" alt="Reference image 7"></figure>
       </div>
 
-      <!-- ZWEISPALTIGES LITERATURVERZEICHNIS (PERFEKTES APA 7 STANDARD) -->
       <div class="apa-bibliography">
         <div class="apa-item">Alaily, F. (1980). Bedeutung und Fernerkundung von Frostkeil-Polygonen in Berlin. <em>Berliner Naturschutzblätter</em>, 24, 613-618.</div>
         <div class="apa-item">Alaily, F., Brande, A., Facklam, M., & Renger, M. (2000). Bodengesellschaften und Genese von Kalktuff im Naturschutzgebiet ‘Kalktuffgelände am Tegeler Fließ’ (Berlin-Blankenfelde). <em>Sitzungsber. Ges. Naturforsch. Freunde Berlin N. F.</em>, 38, 111-125.</div>
@@ -818,8 +817,46 @@ The landscape is not a static legacy, but rather the dynamic result of anthropog
       });
     }
 
-    window.addEventListener('load', perfectlyAlignRows);
-    window.addEventListener('resize', perfectlyAlignRows);
+    // --- AUTO-HEIGHT IFRAME RESIZER ---
+    function adjustIframeHeight() {
+      const iframe = document.getElementById('timeline-frame');
+      if (iframe && iframe.contentWindow) {
+        try {
+          const body = iframe.contentWindow.document.body;
+          const html = iframe.contentWindow.document.documentElement;
+          
+          // Find the maximum calculated height of the iframe content
+          const height = Math.max(
+            body.scrollHeight, 
+            body.offsetHeight, 
+            html.clientHeight, 
+            html.scrollHeight, 
+            html.offsetHeight
+          );
+          
+          iframe.style.height = height + 'px';
+        } catch (e) {
+          // If the files are run locally without a server (file://), CORS security rules might trigger this.
+          console.warn("Iframe auto-height failed due to CORS restrictions. Run with a local server (like VS Code Live Server) to prevent this.", e);
+        }
+      }
+    }
+
+    // Setup iframe event listener
+    const timelineIframe = document.getElementById('timeline-frame');
+    if (timelineIframe) {
+      timelineIframe.addEventListener('load', adjustIframeHeight);
+    }
+
+    window.addEventListener('load', () => {
+      perfectlyAlignRows();
+      adjustIframeHeight();
+    });
+
+    window.addEventListener('resize', () => {
+      perfectlyAlignRows();
+      adjustIframeHeight();
+    });
     
     const sheetIds = ["s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8", "s9"];
     

@@ -427,6 +427,7 @@
     .apa-item a:hover {
       text-decoration: underline;
     }
+
     @media (max-width: 850px) {
       .pb {
         left: 50%;
@@ -440,6 +441,7 @@
         white-space: normal;
       }
     }
+
     @media (max-width: 850px) {
       body {
         display: block;
@@ -472,16 +474,24 @@
         margin-bottom: 20px;
       }
 
+      /* Desktop layout values preserved on mobile rows */
       .photo-row {
-        flex-wrap: wrap;
-        height: auto;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        gap: 1vw;
+        width: 100%;
+        margin: 20px 0;
         margin-bottom: 20px;
       }
 
       .photo-row figure {
-        width: 48%;
-        height: auto;
+        margin: 0;
+        padding: 0;
+        display: block;
         margin-bottom: 20px;
+        flex: 0 0 auto;
       }
 
       .row-s2-maps,
@@ -539,12 +549,12 @@
       <h1>Welcome to Erosion and Entropy</h1>
 
       <div class="photo-row row-s2-videos" style="margin-bottom: 0;">
-        <figure><video autoplay loop muted playsinline><source src="01_Amazon.mp4" type="video/mp4"></video></figure>
-        <figure><video autoplay loop muted playsinline><source src="02_Havel.mp4" type="video/mp4"></video></figure>
-        <figure><video autoplay loop muted playsinline><source src="03_panke.mp4" type="video/mp4"></video></figure>
-        <figure><video autoplay loop muted playsinline><source src="04_Spree.mp4" type="video/mp4"></video></figure>
-        <figure><video autoplay loop muted playsinline><source src="05_spreewald.mp4" type="video/mp4"></video></figure>
-        <figure><video autoplay loop muted playsinline><source src="06_ganges.mp4" type="video/mp4"></video></figure>
+        <figure><video autoplay loop muted playsinline src="01_Amazon.mp4"></video></figure>
+        <figure><video autoplay loop muted playsinline src="02_Havel.mp4"></video></figure>
+        <figure><video autoplay loop muted playsinline src="03_panke.mp4"></video></figure>
+        <figure><video autoplay loop muted playsinline src="04_Spree.mp4"></video></figure>
+        <figure><video autoplay loop muted playsinline src="05_spreewald.mp4"></video></figure>
+        <figure><video autoplay loop muted playsinline src="06_ganges.mp4"></video></figure>
       </div>
 
       <p>Dear Chrono-Tourists, <br>
@@ -576,13 +586,11 @@
         <figure><img src="IMG_6909.jpeg" alt="Field survey Panke"></figure>
         <figure><img src="BF39C335-6EBB-41ED-AF19-46555667780D-2.JPG" alt="Infrastructure"></figure>
         <figure><img src="361A5F8C-AA9B-47CB-9034-93A739BD99F6-3.JPG" alt="Field specimens"></figure>
-        <figure><video autoplay loop muted playsinline><source src="THEMES.mp4" type="video/mp4"></video></figure>
+        <figure><video autoplay loop muted playsinline src="THEMES.mp4"></video></figure>
       </div>
 
       <div class="comp-wrap" onclick="toggleCompVideo(this)" role="button" tabindex="0">
-        <video>
-          <source src="comp.mp4" type="video/mp4">
-        </video>
+        <video loop playsinline muted preload="auto" src="comp.mp4"></video>
         <div class="pb">PRESS HERE TO PLAY</div>
       </div>
 
@@ -596,8 +604,8 @@
       <h1>State + Space = Map</h1>
 
       <div class="photo-row row-s2-maps" style="margin-bottom: 0;">
-        <figure><video autoplay loop muted playsinline><source src="time_maps.mp4" type="video/mp4"></video></figure>
-        <figure><video autoplay loop muted playsinline><source src="info_Maps.mp4" type="video/mp4"></video></figure>
+        <figure><video autoplay loop muted playsinline src="time_maps.mp4"></video></figure>
+        <figure><video autoplay loop muted playsinline src="info_Maps.mp4"></video></figure>
         <figure><img src="Waternetwork_Panke_Region.png" alt="Waternetwork Panke"></figure>
       </div>
 
@@ -707,9 +715,7 @@ The landscape is not a static legacy, but rather the dynamic result of anthropog
       </p>
 
       <div class="comp-wrap" onclick="toggleCompVideo(this)" role="button" tabindex="0">
-        <video loop playsinline muted preload="auto">
-          <source src="intervention.mp4" type="video/mp4">
-        </video>
+        <video loop playsinline muted preload="auto" src="intervention.mp4"></video>
         <div class="pb">PRESS HERE TO PLAY</div>
       </div>
 
@@ -790,6 +796,7 @@ The landscape is not a static legacy, but rather the dynamic result of anthropog
 
   <script>
     function perfectlyAlignRows() {
+      // Reverted: Custom layout engine calculation runs smoothly everywhere, including mobile.
       document.querySelectorAll('.photo-row').forEach(row => {
         const figures = Array.from(row.querySelectorAll('figure'));
         let totalAspectRatio = 0;

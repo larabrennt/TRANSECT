@@ -215,19 +215,27 @@
       margin-bottom: 80px;
     }
 
+    /* NEU: Flexbox-Zentrierung für die gesamten Sektionen */
     .sheet {
-      display: block;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
       position: relative;
       min-height: calc(100vh - 220px);
       padding: 24px 40px 80px;
     }
 
+    /* NEU: Überschriften zentrieren */
     h1 {
       margin-bottom: 16pt;
       font-size: 10pt;
       font-weight: normal;
       letter-spacing: 0.08em;
       text-transform: uppercase;
+      text-align: center;
+      width: 100%;
     }
 
     .note {
@@ -238,8 +246,13 @@
     }
 
     figure {
-      display: block;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
       margin: 0;
+      width: auto;
+      max-width: 100%;
     }
 
     figcaption {
@@ -294,9 +307,11 @@
       margin-bottom: 20px;
     }
 
+    /* Reihe horizontal zentrieren */
     .photo-row {
       display: flex;
       flex-direction: row;
+      justify-content: center;
       gap: 1vw;
       width: 100%;
       margin: 20px 0;
@@ -310,12 +325,13 @@
       margin-bottom: 20px;
     }
 
+    /* GEÄNDERT: object-fit von cover auf contain gesetzt, damit Videos nie beschnitten werden */
     .photo-row figure img,
     .photo-row figure video {
       width: 100%;
       height: 100%;
       display: block;
-      object-fit: cover; 
+      object-fit: contain; 
       margin-bottom: 20px;
     }
 
@@ -326,14 +342,19 @@
       margin-bottom: 20px;
     }
 
+    /* Zentrierung für die Press-to-Play-Wrapper */
     .comp-wrap {
       position: relative;
       width: 100%;
+      max-width: 100%;
       height: calc(100dvh - 240px);
-      margin: 20px 0;
+      margin: 20px auto;
       overflow: hidden;
       cursor: pointer;
       margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .comp-wrap video {
@@ -380,7 +401,7 @@
     .pb {
       position: absolute;
       top: 50%;
-      left: 30%;
+      left: 50%; /* Auf 50% geändert für echte Zentrierung */
       display: flex;
       align-items: center;
       justify-content: center;
@@ -470,7 +491,7 @@
       }
 
       figure {
-        display: block;
+        display: flex;
         margin-bottom: 20px;
       }
 
@@ -479,6 +500,7 @@
         display: flex;
         flex-direction: row;
         flex-wrap: nowrap;
+        justify-content: flex-start; /* Start-ausgerichtet bei Overflow-Scrollen */
         overflow-x: auto;
         gap: 1vw;
         width: 100%;
@@ -602,7 +624,7 @@
 <div class="scroll-hint">SCROLL →</div>
 </div>
 
-<iframe id="timeline-frame" scrolling="yes" src="../Timeline.htm" style="border: none; overflow: auto; display: block; height: calc(100vh - 240px);" width="100%">
+<iframe id="timeline-frame" scrolling="yes" src="../Timeline.htm" style="border: none; overflow: auto; display: block; height: calc(100vh - 240px); margin: 0 auto;" width="100%">
 </iframe>
 </section>
 <section class="sheet" id="s6">
@@ -700,7 +722,6 @@
 </div>
 <script>
     function perfectlyAlignRows() {
-      // Custom layout engine calculation runs smoothly everywhere, including mobile.
       document.querySelectorAll('.photo-row').forEach(row => {
         const figures = Array.from(row.querySelectorAll('figure'));
         let totalAspectRatio = 0;
@@ -759,7 +780,7 @@
     ];
 
     const wheelWindow = document.querySelector(".wheel-window");
-    const wheel = document.querySelector(".tab-wheel"); // Repariert: Syntaxfehler "Golden wheel" behoben!
+    const wheel = document.querySelector(".tab-wheel"); 
     const tabs = Array.from(document.querySelectorAll(".tab"));
 
     let manualScroll = false;
@@ -956,7 +977,6 @@
     async function loadSvg() {
       const container = document.getElementById("svg-container");
       try {
-        // Repariert: Holt die SVG nun korrekt eine Ebene höher
         const response = await fetch("../svg-export.svg");
         if (!response.ok) throw new Error(`SVG could not be loaded (${response.status})`);
 

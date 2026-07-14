@@ -427,6 +427,7 @@
     .apa-item a:hover {
       text-decoration: underline;
     }
+
     @media (max-width: 850px) {
       .pb {
         left: 50%;
@@ -440,6 +441,7 @@
         white-space: normal;
       }
     }
+
     @media (max-width: 850px) {
       body {
         display: block;
@@ -482,6 +484,20 @@
         width: 48%;
         height: auto;
         margin-bottom: 20px;
+      }
+
+      /* Bulletproof overrides to ignore layout engine calculations on mobile */
+      .photo-row[class*="row-s"] figure {
+        width: 100% !important;
+        height: auto !important;
+        flex: 1 1 auto !important;
+      }
+
+      .photo-row[class*="row-s"] figure video,
+      .photo-row[class*="row-s"] figure img {
+        width: 100% !important;
+        height: auto !important;
+        object-fit: contain !important;
       }
 
       .row-s2-maps,
@@ -790,6 +806,16 @@ The landscape is not a static legacy, but rather the dynamic result of anthropog
 
   <script>
     function perfectlyAlignRows() {
+      // Avoid modifying layouts dynamically on small viewport configurations 
+      if (window.innerWidth <= 850) {
+        document.querySelectorAll('.photo-row figure').forEach(fig => {
+          fig.style.width = '';
+          fig.style.height = '';
+          fig.style.flex = '';
+        });
+        return;
+      }
+
       document.querySelectorAll('.photo-row').forEach(row => {
         const figures = Array.from(row.querySelectorAll('figure'));
         let totalAspectRatio = 0;

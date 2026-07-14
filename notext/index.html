@@ -227,7 +227,7 @@
       padding: 24px 40px 80px;
     }
 
-    /* Sektion 6 (Overlay Overload) füllt jetzt die gesamte Höhe aus */
+    /* Sektion 6 (Overlay Overload) füllt die gesamte Höhe aus */
     #s6 {
       min-height: calc(100vh - 180px);
     }
@@ -347,7 +347,7 @@
       margin-bottom: 20px;
     }
 
-    /* Press-to-Play-Wrapper zurückgesetzt */
+    /* Press-to-Play-Wrapper */
     .comp-wrap {
       position: relative;
       width: 100%;
@@ -399,7 +399,7 @@
       z-index: 10;
     }
 
-    /* Positionierung der Play-Schaltfläche (wieder original linksbündig) */
+    /* Positionierung der Play-Schaltfläche (linksbündig wie im Original) */
     .pb {
       position: absolute;
       top: 50%;
@@ -415,7 +415,7 @@
       text-transform: uppercase;
     }
 
-    /* Echte, weite Abstandhalter (Sichtschutz) */
+    /* Gleichmäßige, weite Abstandhalter (Sichtschutz) */
     .view-gap {
       display: block;
       height: 100vh;
@@ -594,7 +594,6 @@
 <section class="sheet" id="s2">
 <h1>Space Time State</h1>
 
-
 <div class="photo-row row-s5-videos" style="margin-bottom: 0;">
 <figure><img alt="Field survey Panke" src="../IMG_6909.jpeg"/></figure>
 <figure><img alt="Infrastructure" src="../BF39C335-6EBB-41ED-AF19-46555667780D-2.JPG"/></figure>
@@ -628,6 +627,8 @@
 <img alt="Drawing Palimpseste" src="../Palimpsest.png"/>
 </figure>
 
+<div class="view-gap"></div>
+
 <figure>
 <img alt="Geological cut" src="../Geological_cut.png"/>
 </figure>
@@ -640,6 +641,8 @@
 <img alt="Pollen analysis" src="../Pollenanalysis.png"/>
 <div class="scroll-hint">SCROLL →</div>
 </div>
+
+<div class="view-gap"></div>
 
 <iframe id="timeline-frame" scrolling="yes" src="../Timeline.htm" style="border: none; overflow: auto; display: block; height: calc(100vh - 240px); margin: 0 auto;" width="100%">
 </iframe>
@@ -661,8 +664,6 @@
 </section>
 <section class="sheet" id="s8">
 <h1>Time cut us off</h1>
-
-
 
 <div class="comp-wrap" onclick="toggleCompVideo(this)" role="button" tabindex="0">
 <video loop="" muted="" playsinline="" preload="auto" src="../intervention.mp4"></video>

@@ -242,6 +242,27 @@
       margin: 0;
     }
 
+     /* BREAKOUT ZOOM IMAGE TO FULL WIDTH */
+      figure.full-width-image {
+        width: 100vw;
+        position: relative;
+        left: 50%;
+        right: 50%;
+        margin-left: -50vw;
+        margin-right: -50vw;
+        margin-top: 30px;
+        margin-bottom: 30px;
+      }
+      
+      figure.full-width-image img {
+        width: 100%;
+        max-width: 100vw;
+        /* Removes your global 'max-height: calc(100dvh - 240px)' restriction for this image */
+        max-height: none !important; 
+        object-fit: cover;
+      }
+
+
     figcaption {
       margin-top: 6px;
       color: #555;
@@ -474,26 +495,7 @@
         margin-bottom: 20px;
       }
 
-      /* BREAKOUT ZOOM IMAGE TO FULL WIDTH */
-      figure.full-width-image {
-        width: 100vw;
-        position: relative;
-        left: 50%;
-        right: 50%;
-        margin-left: -50vw;
-        margin-right: -50vw;
-        margin-top: 30px;
-        margin-bottom: 30px;
-      }
-      
-      figure.full-width-image img {
-        width: 100%;
-        max-width: 100vw;
-        /* Removes your global 'max-height: calc(100dvh - 240px)' restriction for this image */
-        max-height: none !important; 
-        object-fit: cover;
-      }
-
+     
       /* Desktop layout values preserved on mobile rows */
       .photo-row {
         display: flex;
